@@ -1,11 +1,12 @@
+
 import 'package:flutter/material.dart';
-import 'package:whatsapp/presentation/auth/view/login_screen.dart';
-import 'package:whatsapp/presentation/auth/view/otp_screen.dart';
-import 'package:whatsapp/presentation/contacts/view/select_contact_screen.dart';
-import 'package:whatsapp/presentation/landing/view/landing_screen.dart';
-import 'package:whatsapp/presentation/landing/view/splash_screen.dart';
-import 'package:whatsapp/presentation/user_information/view/user_info_view.dart';
-import 'package:whatsapp/screens/mobile_chat_screen.dart';
+import 'package:whatsapp/presentation/view/auth/login_screen.dart';
+import 'package:whatsapp/presentation/view/auth/otp_screen.dart';
+import 'package:whatsapp/presentation/view/chat/mobile_chat_screen.dart';
+import 'package:whatsapp/presentation/view/landing/landing_screen.dart';
+import 'package:whatsapp/presentation/view/landing/splash_screen.dart';
+import 'package:whatsapp/presentation/view/user_info/select_contact_screen.dart';
+import 'package:whatsapp/presentation/view/user_info/user_info_view.dart';
 
 class Routes {
   static const String splash = "/";
@@ -27,7 +28,10 @@ class GenerateRoute {
       case Routes.landing:
         return MaterialPageRoute(builder: (_) => const LandingScreen());
       case Routes.mobileChatScreen:
-        return MaterialPageRoute(builder: (_) => const MobileChatScreen());
+      final arguments = settings.arguments as Map<String,dynamic>;
+      final String name = arguments['name'];
+      final String uid = arguments['uid'];
+        return MaterialPageRoute(builder: (_) =>   MobileChatScreen(username: name, uid: uid));
       case Routes.OTPScreen:
         final verificationId = settings.arguments as String;
         return MaterialPageRoute(builder: (_) => OTPScreen(verificationId: verificationId));

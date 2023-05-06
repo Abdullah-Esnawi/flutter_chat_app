@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   cupertino_icons: ^1.0.2
   firebase_core: ^2.1.0
   firebase_auth: ^4.0.2
@@ -21,6 +23,8 @@ dependencies:
   image_picker: ^0.8.6
   json_serializable: ^6.5.4
   flutter_contacts: ^1.1.5+1
+  intl: ^0.17.0
+  shared_preferences: ^2.0.18
 dev_dependencies:
   flutter_test:
     sdk: flutter
