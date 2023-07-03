@@ -69,6 +69,96 @@ class S {
       args: [],
     );
   }
+
+  /// `Message`
+  String get bottomChatFieldHint {
+    return Intl.message(
+      'Message',
+      name: 'bottomChatFieldHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This Number does not exist on this app.`
+  String get numberDoesNotExist {
+    return Intl.message(
+      'This Number does not exist on this app.',
+      name: 'numberDoesNotExist',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The provided phone number is not valid.`
+  String get phoneNumberNotValid {
+    return Intl.message(
+      'The provided phone number is not valid.',
+      name: 'phoneNumberNotValid',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unknown Error`
+  String get unknownErr {
+    return Intl.message(
+      'Unknown Error',
+      name: 'unknownErr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `English`
+  String get changeLanguageScreenEnglish {
+    return Intl.message(
+      'English',
+      name: 'changeLanguageScreenEnglish',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Arabic`
+  String get changeLanguageScreenArabic {
+    return Intl.message(
+      'Arabic',
+      name: 'changeLanguageScreenArabic',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something Went wrong`
+  String get somethingWentWrong {
+    return Intl.message(
+      'Something Went wrong',
+      name: 'somethingWentWrong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You don't have contacts yet`
+  String get youDontHaveContacts {
+    return Intl.message(
+      'You don\'t have contacts yet',
+      name: 'youDontHaveContacts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select Contact`
+  String get selectContact {
+    return Intl.message(
+      'Select Contact',
+      name: 'selectContact',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

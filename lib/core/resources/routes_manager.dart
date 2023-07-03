@@ -1,12 +1,12 @@
-
 import 'package:flutter/material.dart';
-import 'package:whatsapp/presentation/view/auth/login_screen.dart';
-import 'package:whatsapp/presentation/view/auth/otp_screen.dart';
-import 'package:whatsapp/presentation/view/chat/mobile_chat_screen.dart';
-import 'package:whatsapp/presentation/view/landing/landing_screen.dart';
-import 'package:whatsapp/presentation/view/landing/splash_screen.dart';
-import 'package:whatsapp/presentation/view/user_info/select_contact_screen.dart';
-import 'package:whatsapp/presentation/view/user_info/user_info_view.dart';
+import 'package:whatsapp/chat_app/presentation/view/auth/login_screen.dart';
+import 'package:whatsapp/chat_app/presentation/view/auth/otp_screen.dart';
+import 'package:whatsapp/chat_app/presentation/view/chat/mobile_chat_screen.dart';
+import 'package:whatsapp/chat_app/presentation/view/chat/mobile_main_screen.dart';
+import 'package:whatsapp/chat_app/presentation/view/landing/landing_screen.dart';
+import 'package:whatsapp/chat_app/presentation/view/landing/splash_screen.dart';
+import 'package:whatsapp/chat_app/presentation/view/user_info/select_contact_screen.dart';
+import 'package:whatsapp/chat_app/presentation/view/user_info/user_info_view.dart';
 
 class Routes {
   static const String splash = "/";
@@ -15,7 +15,8 @@ class Routes {
   static const String OTPScreen = "/otp-screen";
   static const String userInfoScreen = "/user-information";
   static const String selectContactScreen = "/select-contact";
-  static const String mobileChatScreen = "/mobile-chat-screen";
+  static const String ChatScreen = "/mobile-chat-screen";
+  static const String navigationMainScreen = '/navigation-main-screen';
 }
 
 class GenerateRoute {
@@ -27,16 +28,17 @@ class GenerateRoute {
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case Routes.landing:
         return MaterialPageRoute(builder: (_) => const LandingScreen());
-      case Routes.mobileChatScreen:
-      final arguments = settings.arguments as Map<String,dynamic>;
-      final String name = arguments['name'];
-      final String uid = arguments['uid'];
-        return MaterialPageRoute(builder: (_) =>   MobileChatScreen(username: name, uid: uid));
+      case Routes.ChatScreen:
+        final arguments = settings.arguments as Map<String, dynamic>;
+        final String name = arguments['name'];
+        final String uid = arguments['uid'];
+        return MaterialPageRoute(builder: (_) => ChatScreen(username: name, uid: uid));
       case Routes.OTPScreen:
-        final verificationId = settings.arguments as String;
-        return MaterialPageRoute(builder: (_) => OTPScreen(verificationId: verificationId));
+        return MaterialPageRoute(builder: (_) => const OTPScreen());
       case Routes.userInfoScreen:
         return MaterialPageRoute(builder: (_) => const UserInfoView());
+      case Routes.navigationMainScreen:
+        return MaterialPageRoute(builder: (_) => const MobileLayoutScreen());
       case Routes.selectContactScreen:
         return MaterialPageRoute(builder: (_) => const SelectContactsScreen());
       default:

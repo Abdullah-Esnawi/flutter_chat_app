@@ -2,5 +2,8 @@
     "cSpell.words": [
         "firestore",
         "Viewmodel"
-    ]
+    ],
+    "editor.tabCompletion": "on",
+    "diffEditor.codeLens": true,
+    "MutableAI.upsell": false
 }

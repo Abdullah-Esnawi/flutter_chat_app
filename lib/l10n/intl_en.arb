@@ -1,4 +1,13 @@
 {
   "online": "online",
-  "offline": "offline"
+  "offline": "offline",
+  "bottomChatFieldHint": "Message",
+  "numberDoesNotExist": "This Number does not exist on this app.",
+  "phoneNumberNotValid": "The provided phone number is not valid.",
+  "unknownErr": "Unknown Error",
+  "changeLanguageScreenEnglish": "English",
+  "changeLanguageScreenArabic": "Arabic",
+  "somethingWentWrong": "Something Went wrong",
+  "youDontHaveContacts": "You don't have contacts yet",
+  "selectContact": "Select Contact"
 }

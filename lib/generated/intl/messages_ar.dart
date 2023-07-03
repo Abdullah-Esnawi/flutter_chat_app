@@ -22,7 +22,23 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "bottomChatFieldHint": MessageLookupByLibrary.simpleMessage("رسالة"),
+        "changeLanguageScreenArabic":
+            MessageLookupByLibrary.simpleMessage("العربية"),
+        "changeLanguageScreenEnglish":
+            MessageLookupByLibrary.simpleMessage("الإنجليزية"),
+        "numberDoesNotExist": MessageLookupByLibrary.simpleMessage(
+            "هذا الرقم غير موجود علي التطبيق"),
         "offline": MessageLookupByLibrary.simpleMessage("غير متصل"),
-        "online": MessageLookupByLibrary.simpleMessage("متصل الآن")
+        "online": MessageLookupByLibrary.simpleMessage("متصل الآن"),
+        "phoneNumberNotValid":
+            MessageLookupByLibrary.simpleMessage("الرقم غير صالح"),
+        "selectContact":
+            MessageLookupByLibrary.simpleMessage("اختار جهة الاتصال"),
+        "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
+            "حدث خطأ٫ برجاء اعادة المحاولة"),
+        "unknownErr": MessageLookupByLibrary.simpleMessage("خطأ غير معروف"),
+        "youDontHaveContacts":
+            MessageLookupByLibrary.simpleMessage("ليس لديك جهات اتصال بعد")
       };
 }

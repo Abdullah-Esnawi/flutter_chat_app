@@ -1,4 +1,13 @@
 {
   "online": "متصل الآن",
-  "offline": "غير متصل"
+  "offline": "غير متصل",
+  "bottomChatFieldHint": "رسالة",
+  "numberDoesNotExist": "هذا الرقم غير موجود علي التطبيق",
+  "phoneNumberNotValid": "الرقم غير صالح",
+  "unknownErr": "خطأ غير معروف",
+  "changeLanguageScreenEnglish": "الإنجليزية",
+  "changeLanguageScreenArabic": "العربية",
+  "somethingWentWrong": "حدث خطأ٫ برجاء اعادة المحاولة",
+  "youDontHaveContacts": "ليس لديك جهات اتصال بعد",
+  "selectContact":"اختار جهة الاتصال"
 }
