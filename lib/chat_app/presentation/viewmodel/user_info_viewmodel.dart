@@ -1,12 +1,17 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/chat_app/data/repository/user_info_repository.dart';
+import 'package:whatsapp/chat_app/domain/usecases/auth/save_user_data_use_case.dart';
+import 'package:whatsapp/core/resources/widgets/snackbar.dart';
 
 import '../../domain/entities/user_entity.dart';
 
 final userInfoViewmodelProvider = StateProvider((ref) {
-  return UserInfoViewmodel(ref.watch(userInfoRepositoryProvider), ref);
+  return UserInfoViewmodel(
+    ref.watch(userInfoRepositoryProvider),
+    ref,
+    ref.watch(saveUserDataUseCaseProvider),
+  );
 });
 
 final userInfoProvider = FutureProvider<UserInfoEntity?>((ref) async {
@@ -14,12 +19,23 @@ final userInfoProvider = FutureProvider<UserInfoEntity?>((ref) async {
 });
 
 class UserInfoViewmodel implements UserInfoViewmodelBase {
-  UserInfoViewmodel(this.userInfoRepositoryProvider, this.ref);
+  UserInfoViewmodel(this.userInfoRepositoryProvider, this.ref, this._setUserStateUseCaseProvider);
   final UserInfoRepository userInfoRepositoryProvider;
+  final SaveUserDataToFirebaseUseCase _setUserStateUseCaseProvider;
   final Ref ref;
+
   @override
-  void saveUserInfoToFirebase({required String name, required File? profilePic, required BuildContext context}) {
-    userInfoRepositoryProvider.saveUserInfoToFirebase(name: name, profilePic: profilePic, ref: ref, context: context);
+  Future<void> saveUserInfoToFirebase({required String name, required File? profilePic}) async {
+    final result = await _setUserStateUseCaseProvider(UserDataParams(name: name, profilePic: profilePic));
+
+    result.fold(
+      (fail) {
+        showSnackBar(content: 'Data isn\'t Updated');
+      },
+      (success) {
+        showSnackBar(content: 'Data Updated Successfully');
+      },
+    );
   }
 
   @override
@@ -34,7 +50,7 @@ class UserInfoViewmodel implements UserInfoViewmodelBase {
 }
 
 abstract class UserInfoViewmodelBase {
-  void saveUserInfoToFirebase({required String name, required File? profilePic, required BuildContext context});
+  void saveUserInfoToFirebase({required String name, required File? profilePic});
   Future<UserInfoEntity?> getCurrentUserData();
   Stream<UserInfoEntity> getUserById(String id);
 }

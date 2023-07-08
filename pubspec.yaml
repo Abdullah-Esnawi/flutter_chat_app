@@ -29,6 +29,7 @@ dependencies:
   freezed_annotation: ^2.2.0
   equatable: ^2.0.5
   uuid: ^3.0.7
+  flutter_svg: ^2.0.7
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -40,6 +41,4 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/splash_icon.png
-    - assets/images/meta_logo.png
-    - assets/images/bg.png
+    - lib/core/resources/assets/images/

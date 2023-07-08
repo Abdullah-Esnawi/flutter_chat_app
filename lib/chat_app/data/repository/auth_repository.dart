@@ -3,10 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:whatsapp/chat_app/data/data_source/auth/auth_local_data_source.dart';
 import 'package:whatsapp/chat_app/data/data_source/auth/auth_remote_data_source.dart';
 import 'package:whatsapp/chat_app/data/models/user_model.dart';
-import 'package:whatsapp/chat_app/di_module/module.dart';
 import 'package:whatsapp/chat_app/domain/repository/auth_repository.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/save_user_data_use_case.dart';
-import 'package:whatsapp/chat_app/domain/usecases/auth/signin_with_phone_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/verify_otp_usecase.dart';
 import 'package:whatsapp/core/error_handling/error_handling.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,15 +20,18 @@ class AuthRepositoryImpl extends AuthRepository {
   });
 
   @override
-  Future<Either<Failure, void>> signInWithPhoneNumber(
-    String phone,
-  ) async {
-    final result = await remoteDataSource.signInWithPhoneNumber(phone);
+  Future<Either<Failure, UserInfoModel?>> signInWithPhoneNumber(String phone) async {
+    var user;
     try {
-      return Right(result);
-    } on FirebaseException catch (err) {
-      return Left(ServerFailure(err.message ?? S.current.somethingWentWrong));
+      user = await remoteDataSource.signInWithPhoneNumber(phone);
+      // if (user == null) {
+      //   return Left(ServerFailure(S.current.somethingWentWrong));
+      // }
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.message));
     }
+
+    return Right(user);
   }
 
   @override
@@ -118,6 +119,15 @@ class AuthRepositoryImpl extends AuthRepository {
       return Right(result);
     } on FirebaseAuthException catch (err) {
       return Left(ServerFailure(err.message ?? S.current.somethingWentWrong));
+    }
+  }
+
+  @override
+  Future<Result<Failure, void>> setCurrentUid(Ref ref) async {
+    try {
+      return Right(remoteDataSource.setCurrentUid(ref));
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
     }
   }
 }

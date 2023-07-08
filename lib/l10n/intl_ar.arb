@@ -9,5 +9,8 @@
   "changeLanguageScreenArabic": "العربية",
   "somethingWentWrong": "حدث خطأ٫ برجاء اعادة المحاولة",
   "youDontHaveContacts": "ليس لديك جهات اتصال بعد",
-  "selectContact":"اختار جهة الاتصال"
+  "selectContact": "اختار جهة الاتصال",
+  "chatsTabLabel": "المحادثات",
+  "statusTabLabel": "الحالات",
+  "callsTabLabel": "المكالمات"
 }

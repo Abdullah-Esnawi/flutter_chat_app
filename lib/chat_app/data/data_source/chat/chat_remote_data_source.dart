@@ -1,23 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/chat_app/data/models/chat_contact_model.dart';
 import 'package:uuid/uuid.dart';
 import 'package:whatsapp/chat_app/data/models/message_model.dart';
 import 'package:whatsapp/chat_app/data/models/user_model.dart';
 import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
+import 'package:whatsapp/chat_app/domain/usecases/chat/send_file_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_text_message_usecase.dart';
 import 'package:whatsapp/core/error_handling/error_handling.dart';
+import 'package:whatsapp/core/repositories/firebase_storage_repository.dart';
 import 'package:whatsapp/core/resources/enums.dart';
 
 abstract class BaseChatRemoteDataSource {
   Future<void> sendTextMessage(TextMessageParams params);
+  Stream<List<ChatContactModel>> getChatContacts();
+  Stream<List<MessageModel>> getChatMessages(String receiverId);
+  Future<void> sendFileMessage(FileMessageParams parameters);
 }
 
 class ChatRemoteDataSource implements BaseChatRemoteDataSource {
   final FirebaseFirestore _firestore;
   final FirebaseAuth _auth;
-  const ChatRemoteDataSource(this._firestore, this._auth);
+  final Ref _ref;
+  const ChatRemoteDataSource(this._firestore, this._auth, this._ref);
 
   @override
   Future<void> sendTextMessage(TextMessageParams params) async {
@@ -141,4 +147,142 @@ class ChatRemoteDataSource implements BaseChatRemoteDataSource {
         .doc(messageId)
         .set(message.toMap());
   }
+
+  @override
+  Stream<List<ChatContactModel>> getChatContacts() {
+    return _firestore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .collection('chats')
+        .orderBy('timeSent', descending: true)
+        .snapshots()
+        .asyncMap((event) async {
+      List<ChatContactModel> contacts = [];
+      for (var document in event.docs) {
+        ChatContactModel contactChat = ChatContactModel.fromMap(document.data());
+        var userData = await _firestore.collection('users').doc(contactChat.contactId).get();
+        var user = UserInfoModel.fromMap(userData.data()!);
+        contacts.add(
+          ChatContactModel(
+            name: user.name,
+            profilePic: user.profilePic,
+            contactId: user.uid,
+            lastMessage: contactChat.lastMessage,
+            timeSent: contactChat.timeSent,
+            phoneNumber: contactChat.phoneNumber,
+          ),
+        );
+      }
+      return contacts;
+    });
+  }
+
+  @override
+  Stream<List<MessageModel>> getChatMessages(String receiverId) {
+    return _firestore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .orderBy('timeSent')
+        .snapshots()
+        .map((event) {
+      List<MessageModel> messages = [];
+      for (var document in event.docs) {
+        messages.add(MessageModel.fromMap(document.data()));
+      }
+      return messages;
+    });
+  }
+
+  @override
+  Future<void> sendFileMessage(FileMessageParams parameters) async {
+    DateTime timeSent = DateTime.now();
+    String messageId = const Uuid().v1();
+    UserInfoModel senderUser = await _currentUser();
+    var fileUrl = await _ref.watch(commonFirebaseStorageRepoProvider).storeFileToFirebase(
+          'chat/${parameters.messageType.type}/${senderUser.uid}/${parameters.receiverId}/$messageId}',
+          parameters.file,
+        );
+    UserInfoModel receiverUserData;
+
+    var userDataMap = await _firestore.collection('users').doc(parameters.receiverId).get();
+    receiverUserData = UserInfoModel.fromMap(userDataMap.data()!);
+
+    String contactMessage;
+    switch (parameters.messageType) {
+      case MessageType.image:
+        contactMessage = '📷 Photo';
+        break;
+      case MessageType.video:
+        contactMessage = '🎥 Video';
+        break;
+      case MessageType.audio:
+        contactMessage = '🎙️ Audio';
+        break;
+      case MessageType.gif:
+        contactMessage = 'Gif';
+        break;
+      default:
+        contactMessage = 'Other';
+    }
+
+    _saveDataToContactsSubCollection(
+      senderUser,
+      receiverUserData,
+      contactMessage,
+      timeSent,
+    );
+    _saveMessageToMessageSubCollection(
+        senderId: senderUser.uid,
+        receiverId: parameters.receiverId,
+        text: fileUrl,
+        timeSent: timeSent,
+        messageId: messageId,
+        messageType: parameters.messageType,
+        messageReplay: parameters.messageReplay,
+        senderUserName: senderUser.name);
+  }
+
+  void _saveDataToContactsSubCollection(
+    UserInfoModel senderUserData,
+    UserInfoModel receiverUserData,
+    String text,
+    DateTime timeSent,
+  ) async {
+    // users -> receiver user id => chats -> current user id -> set data
+    ChatContactModel receiverChatContact = ChatContactModel(
+      name: senderUserData.name,
+      profilePic: senderUserData.profilePic,
+      contactId: senderUserData.uid,
+      lastMessage: text,
+      timeSent: timeSent,
+      phoneNumber: senderUserData.phoneNumber,
+    );
+    await _firestore
+        .collection('users')
+        .doc(receiverUserData.uid)
+        .collection('chats')
+        .doc(senderUserData.uid)
+        .set(receiverChatContact.toMap());
+
+    // users -> current user id => chats -> receiver user id -> set data
+    ChatContactModel senderChatContact = ChatContactModel(
+      name: receiverUserData.name,
+      profilePic: receiverUserData.profilePic,
+      contactId: receiverUserData.uid,
+      lastMessage: text,
+      timeSent: timeSent,
+      phoneNumber: receiverUserData.phoneNumber,
+    );
+    await _firestore
+        .collection('users')
+        .doc(senderUserData.uid)
+        .collection('chats')
+        .doc(receiverUserData.uid)
+        .set(senderChatContact.toMap());
+  }
 }
+
+//

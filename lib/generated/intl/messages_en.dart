@@ -23,10 +23,12 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "bottomChatFieldHint": MessageLookupByLibrary.simpleMessage("Message"),
+        "callsTabLabel": MessageLookupByLibrary.simpleMessage("CALLS"),
         "changeLanguageScreenArabic":
             MessageLookupByLibrary.simpleMessage("Arabic"),
         "changeLanguageScreenEnglish":
             MessageLookupByLibrary.simpleMessage("English"),
+        "chatsTabLabel": MessageLookupByLibrary.simpleMessage("CHATS"),
         "numberDoesNotExist": MessageLookupByLibrary.simpleMessage(
             "This Number does not exist on this app."),
         "offline": MessageLookupByLibrary.simpleMessage("offline"),
@@ -36,6 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "selectContact": MessageLookupByLibrary.simpleMessage("Select Contact"),
         "somethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Something Went wrong"),
+        "statusTabLabel": MessageLookupByLibrary.simpleMessage("STATUS"),
         "unknownErr": MessageLookupByLibrary.simpleMessage("Unknown Error"),
         "youDontHaveContacts":
             MessageLookupByLibrary.simpleMessage("You don\'t have contacts yet")

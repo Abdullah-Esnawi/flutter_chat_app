@@ -1,4 +1,3 @@
-import 'package:dartz/dartz.dart';
 import 'package:flutter_contacts/contact.dart';
 import 'package:whatsapp/chat_app/data/models/chat_contact_model.dart';
 import 'package:whatsapp/chat_app/domain/repository/base_select_contact_repository.dart';

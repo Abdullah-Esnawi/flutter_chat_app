@@ -24,7 +24,7 @@ class SelectContactsScreen extends ConsumerWidget {
       body: state.when(
         data: (result) {
           return result.fold(
-              (error) => WidgetError(message: error.toString()),
+              (error) => WidgetError(message: error.toString(), tryAgain: ()=> ref.watch(getAllContactsProvider),),
               (contacts) => contacts.isEmpty
                   ? Center(child: Text(S.of(context).youDontHaveContacts))
                   : ListView.builder(
@@ -66,7 +66,7 @@ class SelectContactsScreen extends ConsumerWidget {
                       },
                     ));
         },
-        error: (Object error, StackTrace stackTrace) => WidgetError(message: error.toString()),
+        error: (Object error, StackTrace stackTrace) => WidgetError(message: error.toString(), tryAgain: ()  => ref.watch(getAllContactsProvider)),
         loading: () => const Loader(),
       ),
     );

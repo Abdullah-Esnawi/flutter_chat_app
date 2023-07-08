@@ -6,7 +6,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 final commonFirebaseStorageRepoProvider = Provider((ref) => CommonFirebaseStorageRepository(FirebaseStorage.instance));
 
 class CommonFirebaseStorageRepository {
-
   final FirebaseStorage firebaseStorage;
   CommonFirebaseStorageRepository(this.firebaseStorage);
 
@@ -15,5 +14,9 @@ class CommonFirebaseStorageRepository {
     TaskSnapshot snap = await uploadTask;
     String downloadUrl = await snap.ref.getDownloadURL();
     return downloadUrl;
+  }
+
+  Future<void> deleteFileFromFirebase(String path) async {
+    return await firebaseStorage.refFromURL(path).delete();
   }
 }

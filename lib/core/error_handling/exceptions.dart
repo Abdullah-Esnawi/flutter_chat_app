@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:whatsapp/core/error_handling/error_handling.dart';
 
 class ServerException extends Equatable implements Exception {
   final String message;

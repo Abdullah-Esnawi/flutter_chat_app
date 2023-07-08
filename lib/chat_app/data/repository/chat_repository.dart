@@ -1,9 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:whatsapp/chat_app/data/data_source/chat/chat_remote_data_source.dart';
-import 'package:whatsapp/chat_app/domain/entities/chat_contact_entity.dart';
+import 'package:whatsapp/chat_app/data/models/chat_contact_model.dart';
 import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
 import 'package:whatsapp/chat_app/domain/repository/chat_repository.dart';
-import 'package:whatsapp/chat_app/domain/usecases/chat/get_chat_messages_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_file_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_gif_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_text_message_usecase.dart';
@@ -26,15 +25,13 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Stream<List<Message>> getChatMessages(GetChatMessagesParams parameters) {
-    // TODO: implement getChatMessages
-    throw UnimplementedError();
+  Stream<List<Message>> getChatMessages(String receiverId) {
+    return _remote.getChatMessages(receiverId);
   }
 
   @override
-  Stream<List<ChatContactEntity>> getContactsChat(Map<String, dynamic> map) {
-    // TODO: implement getContactsChat
-    throw UnimplementedError();
+  Stream<List<ChatContactModel>> getChatContacts() {
+    return _remote.getChatContacts();
   }
 
   @override
@@ -44,9 +41,13 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<Result<Failure, void>> sendFileMessage(FileMessageParams parameters) {
-    // TODO: implement sendFileMessage
-    throw UnimplementedError();
+  Future<Result<Failure, void>> sendFileMessage(FileMessageParams parameters) async {
+    try {
+      await _remote.sendFileMessage(parameters);
+      return const Right(true);
+    } catch (err) {
+      return Left(ServerFailure(err.toString()));
+    }
   }
 
   @override

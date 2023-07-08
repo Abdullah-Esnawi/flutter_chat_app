@@ -1,69 +1,99 @@
 import 'package:flutter/material.dart';
-import 'package:whatsapp/chat_app/presentation/view/chat/mobile_chat_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:whatsapp/chat_app/domain/entities/chat_contact_entity.dart';
+import 'package:whatsapp/chat_app/presentation/view/chat/chat_screen.dart';
+import 'package:whatsapp/chat_app/presentation/viewmodel/chat_viewmodel.dart';
 import 'package:whatsapp/core/resources/colors.dart';
+import 'package:whatsapp/core/resources/widgets/app_images.dart';
+import 'package:whatsapp/core/resources/widgets/error.dart';
+import 'package:whatsapp/core/resources/widgets/loader.dart';
 import 'package:whatsapp/info.dart';
 
-class ContactsList extends StatelessWidget {
+class ContactsList extends ConsumerWidget {
   const ContactsList({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10.0),
-      child: ListView.builder(
-        shrinkWrap: true,
-        itemCount: info.length,
-        itemBuilder: (context, index) {
-          return Column(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const ChatScreen(
-                        username: 'Abdullah',
-                        uid: '123456',
-                      ),
-                    ),
-                  );
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Builder(builder: (context) {
+      return ref.watch(getChatContactsStreamProvider).when(
+            data: (chatsHeader) => Padding(
+              padding: const EdgeInsets.only(top: 10.0),
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: chatsHeader.length,
+                itemBuilder: (context, index) {
+                  return _ContactChatItem(contact: chatsHeader[index]);
                 },
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: ListTile(
-                    title: Text(
-                      info[index]['name'].toString(),
-                      style: const TextStyle(
-                        fontSize: 18,
-                      ),
-                    ),
-                    subtitle: Padding(
-                      padding: const EdgeInsets.only(top: 6.0),
-                      child: Text(
-                        info[index]['message'].toString(),
-                        style: const TextStyle(fontSize: 15),
-                      ),
-                    ),
-                    leading: CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        info[index]['profilePic'].toString(),
-                      ),
-                      radius: 30,
-                    ),
-                    trailing: Text(
-                      info[index]['time'].toString(),
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 13,
-                      ),
-                    ),
-                  ),
+              ),
+            ),
+            error: (error, e) => WidgetError(message: error.toString(), tryAgain: ()=> ref.watch(getChatContactsStreamProvider)),
+            loading: () => const Loader(),
+          );
+    });
+  }
+}
+
+class _ContactChatItem extends StatelessWidget {
+  final ChatContactEntity contact;
+  const _ContactChatItem({super.key, required this.contact});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        InkWell(
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => ChatScreen(
+                  username: contact.name,
+                  uid: contact.contactId,
                 ),
               ),
-              const Divider(color: dividerColor, indent: 85),
-            ],
-          );
-        },
-      ),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: ListTile(
+              title: Text(
+                contact.name,
+                style: const TextStyle(
+                  fontSize: 18,
+                ),
+              ),
+              subtitle: Padding(
+                padding: const EdgeInsets.only(top: 6.0),
+                child: Text(
+                  contact.lastMessage,
+                  style: const TextStyle(fontSize: 15),
+                ),
+              ),
+              leading: contact.profilePic == null
+                  ? const AppAssetImage(
+                      AppImages.defaultProfilePicture,
+                      width: 60,
+                      height: 60,
+                      shape: BoxShape.circle,
+                    )
+                  : AppNetworkImage(
+                      contact.profilePic!,
+                      width: 60,
+                      height: 60,
+                      shape: BoxShape.circle,
+                    ),
+              trailing: Text(
+                DateFormat("hh:m a").format(contact.timeSent),
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 13,
+                ),
+              ),
+            ),
+          ),
+        ),
+        const Divider(color: dividerColor, indent: 85),
+      ],
     );
   }
 }

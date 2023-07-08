@@ -7,8 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:whatsapp/chat_app/di_module/module.dart';
 import 'package:whatsapp/core/resources/widgets/error.dart';
 import 'package:whatsapp/core/resources/widgets/loader.dart';
-import 'package:whatsapp/chat_app/presentation/view/auth/login_screen.dart';
-import 'package:whatsapp/chat_app/presentation/view/chat/mobile_main_screen.dart';
+import 'package:whatsapp/chat_app/presentation/view/main_navigations/main_navigation_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/landing/landing_screen.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/user_info_viewmodel.dart';
 import 'package:whatsapp/core/cache/app_shared_prefs.dart';
@@ -69,13 +68,13 @@ class _MyAppState extends ConsumerState<MyApp> {
       ),
       onGenerateRoute: GenerateRoute.getRoute,
       home: ref.watch(userInfoProvider).when(
-            data: (data) => data == null ? const LandingScreen() : const MobileLayoutScreen(),
+            data: (data) => data == null ? const LandingScreen() : const MainNavigationScreen(),
 
             //  ChatScreen(
             //   uid: '9j9jWKetJ4hla6vK4lB1clktrco2',
             //   username: 'Abdullah',
             // ),
-            error: (err, trace) => WidgetError(message: err.toString()), // TODO: Create Error Screen
+            error: (err, trace) => WidgetError(message: err.toString(), tryAgain: () {  },), // TODO: Create Error Screen
             loading: () => const Loader(),
           ),
       locale: Locale(currentLang),

@@ -1,6 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:whatsapp/core/resources/enums.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
 // part 'error_object.freezed.dart';
 

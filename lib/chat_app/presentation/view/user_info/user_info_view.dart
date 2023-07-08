@@ -4,7 +4,7 @@ import 'package:whatsapp/chat_app/domain/entities/user_entity.dart';
 import 'dart:io';
 
 import 'package:whatsapp/core/resources/widgets/image_picker.dart';
-import 'package:whatsapp/chat_app/presentation/view/chat/mobile_main_screen.dart';
+import 'package:whatsapp/chat_app/presentation/view/main_navigations/main_navigation_screen.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/user_info_viewmodel.dart';
 
 class UserInfoView extends ConsumerStatefulWidget {
@@ -58,7 +58,7 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
                           child: IconButton(
                             onPressed: () async {
                               image = await pickImageFromGallery(context);
-                              setState(() {});
+                              // setState(() {});
                             },
                             icon: const Icon(Icons.add_a_photo),
                           ),
@@ -79,10 +79,10 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
                           onPressed: () async {
                             if (username.isNotEmpty) {
                               viewmodel.saveUserInfoToFirebase(
-                                  name: usernameController.text, profilePic: image, context: context);
+                                  name: usernameController.text, profilePic: image);
                               Navigator.pushAndRemoveUntil(
                                 context,
-                                MaterialPageRoute(builder: (context) => const MobileLayoutScreen()),
+                                MaterialPageRoute(builder: (context) => const MainNavigationScreen()),
                                 (route) => false,
                               );
                             }
@@ -99,4 +99,3 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
     );
   }
 }
-

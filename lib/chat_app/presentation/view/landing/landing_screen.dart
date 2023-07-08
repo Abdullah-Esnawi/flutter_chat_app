@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp/core/resources/app_navigator.dart';
 import 'package:whatsapp/core/resources/colors.dart';
+import 'package:whatsapp/core/resources/widgets/app_images.dart';
 import 'package:whatsapp/core/resources/widgets/custom_button.dart';
 import 'package:whatsapp/core/resources/routes_manager.dart';
 
@@ -25,12 +26,7 @@ class LandingScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: size.height / 9),
-            const Image(
-              image: AssetImage('assets/images/bg.png'),
-              width: 290,
-              height: 290,
-              color: tabColor,
-            ),
+            const AppAssetImage(AppImages.landingScreenBackground, width: 290, height: 290, color: tabColor),
             SizedBox(height: size.height / 9),
             const Padding(
               padding: EdgeInsetsDirectional.only(start: 15, end: 15),

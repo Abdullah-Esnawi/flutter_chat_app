@@ -5,10 +5,10 @@ import 'package:whatsapp/core/resources/colors.dart';
 import 'package:whatsapp/core/resources/widgets/custom_button.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/auth_viewmodel.dart';
 import 'package:whatsapp/core/resources/routes_manager.dart';
-import 'package:whatsapp/generated/l10n.dart';
+import 'package:whatsapp/core/resources/widgets/loader.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen();
+  const LoginScreen({super.key});
 
   @override
   ConsumerState<LoginScreen> createState() => _LoginScreenState();
@@ -27,7 +27,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final viewmodel = ref.watch(authViewmodelProvider);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      // resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text(
           "Enter Your Phone number",
@@ -58,24 +58,33 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
               ],
             ),
-            SizedBox(height: size.width * 0.6),
-            SizedBox(
-              width: 90,
-              child: CustomButton(
-                  text: 'NEXT',
-                  onPressed: () {
-                    viewmodel.sendPhoneNumber().then((state) {
-                      if (state!.hasData) {
-                        Navigator.of(context).pushNamed(Routes.OTPScreen);
-                      } else {
-                        WidgetError(message: S.of(context).somethingWentWrong);
-                      }
-                    });
-                  }),
+            const Spacer(),
+            Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: SizedBox(
+                width: 90,
+                child: CustomButton(
+                    text: 'NEXT',
+                    onPressed: () async {
+                      final result = await viewmodel.sendPhoneNumber();
+
+                      result.when(
+                        loading: () => const Loader(),
+                        data: (data) {
+                          Navigator.of(context).pushNamed(Routes.OTPScreen);
+                        },
+                        error: (error) => Navigator.of(context).push(MaterialPageRoute(
+                            builder: (_) => WidgetError(
+                                message: error.toString(), tryAgain: () async => await viewmodel.sendPhoneNumber()))),
+                      );
+                    }),
+              ),
             ),
+            const SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
 }
+  // 1024015950

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
 import 'package:whatsapp/core/resources/colors.dart';
 
 class MyMessageCard extends StatelessWidget {
-  final String message;
-  final String date;
+  final Message message;
 
-  const MyMessageCard({Key? key, required this.message, required this.date}) : super(key: key);
+  const MyMessageCard(this.message, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class MyMessageCard extends StatelessWidget {
                   bottom: 20,
                 ),
                 child: Text(
-                  message,
+                  message.text,
                   style: const TextStyle(
                     fontSize: 16,
                   ),
@@ -42,8 +43,8 @@ class MyMessageCard extends StatelessWidget {
                 child: Row(
                   children: [
                     Text(
-                      date,
-                      style:const TextStyle(
+                      DateFormat('hh:mm a').format(message.timeSent),
+                      style: const TextStyle(
                         fontSize: 13,
                         color: Colors.white60,
                       ),

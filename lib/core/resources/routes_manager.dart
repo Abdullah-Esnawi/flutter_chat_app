@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp/chat_app/presentation/view/auth/login_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/auth/otp_screen.dart';
-import 'package:whatsapp/chat_app/presentation/view/chat/mobile_chat_screen.dart';
-import 'package:whatsapp/chat_app/presentation/view/chat/mobile_main_screen.dart';
+import 'package:whatsapp/chat_app/presentation/view/chat/chat_screen.dart';
+import 'package:whatsapp/chat_app/presentation/view/main_navigations/main_navigation_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/landing/landing_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/landing/splash_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/user_info/select_contact_screen.dart';
@@ -38,7 +38,7 @@ class GenerateRoute {
       case Routes.userInfoScreen:
         return MaterialPageRoute(builder: (_) => const UserInfoView());
       case Routes.navigationMainScreen:
-        return MaterialPageRoute(builder: (_) => const MobileLayoutScreen());
+        return MaterialPageRoute(builder: (_) => const MainNavigationScreen());
       case Routes.selectContactScreen:
         return MaterialPageRoute(builder: (_) => const SelectContactsScreen());
       default:

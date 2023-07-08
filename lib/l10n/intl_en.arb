@@ -9,5 +9,8 @@
   "changeLanguageScreenArabic": "Arabic",
   "somethingWentWrong": "Something Went wrong",
   "youDontHaveContacts": "You don't have contacts yet",
-  "selectContact": "Select Contact"
+  "selectContact": "Select Contact",
+  "chatsTabLabel": "CHATS",
+  "statusTabLabel": "STATUS",
+  "callsTabLabel": "CALLS"
 }

@@ -159,6 +159,36 @@ class S {
       args: [],
     );
   }
+
+  /// `CHATS`
+  String get chatsTabLabel {
+    return Intl.message(
+      'CHATS',
+      name: 'chatsTabLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `STATUS`
+  String get statusTabLabel {
+    return Intl.message(
+      'STATUS',
+      name: 'statusTabLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `CALLS`
+  String get callsTabLabel {
+    return Intl.message(
+      'CALLS',
+      name: 'callsTabLabel',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
