@@ -50,6 +50,16 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `WhatsApp`
+  String get whatsapp {
+    return Intl.message(
+      'WhatsApp',
+      name: 'whatsapp',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `online`
   String get online {
     return Intl.message(
@@ -185,6 +195,86 @@ class S {
     return Intl.message(
       'CALLS',
       name: 'callsTabLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Document`
+  String get docFileTypeName {
+    return Intl.message(
+      'Document',
+      name: 'docFileTypeName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Camera`
+  String get cameraFileTypeName {
+    return Intl.message(
+      'Camera',
+      name: 'cameraFileTypeName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Gallery`
+  String get galleryFileTypeName {
+    return Intl.message(
+      'Gallery',
+      name: 'galleryFileTypeName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact`
+  String get contactFileTypeName {
+    return Intl.message(
+      'Contact',
+      name: 'contactFileTypeName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Location`
+  String get locationFileTypeName {
+    return Intl.message(
+      'Location',
+      name: 'locationFileTypeName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Audio`
+  String get audioFileTypeName {
+    return Intl.message(
+      'Audio',
+      name: 'audioFileTypeName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Poll`
+  String get pollFileTypeName {
+    return Intl.message(
+      'Poll',
+      name: 'pollFileTypeName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `from`
+  String get from {
+    return Intl.message(
+      'from',
+      name: 'from',
       desc: '',
       args: [],
     );

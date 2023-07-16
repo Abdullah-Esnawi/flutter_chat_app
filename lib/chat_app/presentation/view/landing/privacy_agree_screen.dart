@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whatsapp/core/resources/app_navigator.dart';
-import 'package:whatsapp/core/resources/colors.dart';
+import 'package:whatsapp/core/resources/colors_manager.dart';
 import 'package:whatsapp/core/resources/widgets/app_images.dart';
 import 'package:whatsapp/core/resources/widgets/custom_button.dart';
 import 'package:whatsapp/core/resources/routes_manager.dart';
@@ -18,21 +18,22 @@ class LandingScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 50),
-            const Text(
+              Text(
               "Welcome to Whatsapp",
               style: TextStyle(
                 fontSize: 29,
                 fontWeight: FontWeight.w600,
+                color: AppColors.colors.neutral70
               ),
             ),
             SizedBox(height: size.height / 9),
-            const AppAssetImage(AppImages.landingScreenBackground, width: 290, height: 290, color: tabColor),
+              AppAssetImage(AppImages.landingScreenBackground, width: 290, height: 290, color: AppColors.colors.primary),
             SizedBox(height: size.height / 9),
-            const Padding(
-              padding: EdgeInsetsDirectional.only(start: 15, end: 15),
+              Padding(
+              padding: const EdgeInsetsDirectional.only(start: 15, end: 15),
               child: Text(
                 'Read our Privacy Policy. Tap "Agree and continue" to accept the Terms of service',
-                style: TextStyle(color: greyColor),
+                style: TextStyle(color: AppColors.colors.neutral14),
                 textAlign: TextAlign.center,
               ),
             ),

@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,30 +6,22 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:whatsapp/chat_app/di_module/module.dart';
+import 'package:whatsapp/chat_app/presentation/view/camera/camera_screen.dart';
+import 'package:whatsapp/chat_app/presentation/view/landing/splash_screen.dart';
+import 'package:whatsapp/chat_app/presentation/viewmodel/user_info_viewmodel.dart';
+import 'package:whatsapp/core/resources/app_theme.dart';
+import 'package:whatsapp/core/cache/app_shared_prefs.dart';
+import 'package:whatsapp/core/resources/routes_manager.dart';
 import 'package:whatsapp/core/resources/widgets/error.dart';
 import 'package:whatsapp/core/resources/widgets/loader.dart';
-import 'package:whatsapp/chat_app/presentation/view/main_navigations/main_navigation_screen.dart';
-import 'package:whatsapp/chat_app/presentation/view/landing/landing_screen.dart';
-import 'package:whatsapp/chat_app/presentation/viewmodel/user_info_viewmodel.dart';
-import 'package:whatsapp/core/cache/app_shared_prefs.dart';
-import 'package:whatsapp/core/resources/colors.dart';
-import 'package:whatsapp/core/resources/routes_manager.dart';
 import 'package:whatsapp/firebase_options.dart';
 import 'package:whatsapp/generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  cameras = await availableCameras();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: Colors.black,
-      systemNavigationBarIconBrightness: Brightness.light,
-      statusBarBrightness: Brightness.dark,
-    ),
-  );
+  SystemChrome.setSystemUIOverlayStyle(AppTheme.systemUiOverlayStyle);
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -62,19 +55,14 @@ class _MyAppState extends ConsumerState<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Whatsapp',
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: backgroundColor,
-        appBarTheme: const AppBarTheme(color: appBarColor),
-      ),
+      theme: AppTheme.theme,
       onGenerateRoute: GenerateRoute.getRoute,
       home: ref.watch(userInfoProvider).when(
-            data: (data) => data == null ? const LandingScreen() : const MainNavigationScreen(),
-
-            //  ChatScreen(
-            //   uid: '9j9jWKetJ4hla6vK4lB1clktrco2',
-            //   username: 'Abdullah',
-            // ),
-            error: (err, trace) => WidgetError(message: err.toString(), tryAgain: () {  },), // TODO: Create Error Screen
+            data: (data) => SplashScreen(userData: data),
+            error: (err, trace) => WidgetError(
+              message: err.toString(),
+              tryAgain: () => ref.watch(userInfoProvider),
+            ),
             loading: () => const Loader(),
           ),
       locale: Locale(currentLang),

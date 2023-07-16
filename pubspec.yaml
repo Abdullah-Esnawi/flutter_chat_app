@@ -30,6 +30,11 @@ dependencies:
   equatable: ^2.0.5
   uuid: ^3.0.7
   flutter_svg: ^2.0.7
+  cached_network_image: ^3.2.3
+  cached_video_player: ^2.0.4
+  camera: ^0.10.5+2
+  video_player: ^2.6.0
+  path_provider: ^2.0.15
 dev_dependencies:
   flutter_test:
     sdk: flutter

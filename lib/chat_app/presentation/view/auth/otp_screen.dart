@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:whatsapp/core/resources/colors.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/auth_viewmodel.dart';
 
 class OTPScreen extends ConsumerWidget {
@@ -11,11 +10,7 @@ class OTPScreen extends ConsumerWidget {
     final viewmodel = ref.read(authViewmodelProvider);
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Verifying your number"),
-        elevation: 0,
-        backgroundColor: backgroundColor,
-      ),
+      appBar: AppBar(title: const Text("Verifying your number")),
       body: Center(
         child: Column(
           children: [

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:whatsapp/core/resources/colors_manager.dart';
 
 /// TODO: Remove [WidgetError] and create the Correct Widget error
 class WidgetError extends StatelessWidget {
   final String message;
-  final Function() tryAgain;
+  final VoidCallback tryAgain;
   const WidgetError({super.key, required this.message, required this.tryAgain});
 
   @override
@@ -17,16 +18,17 @@ class WidgetError extends StatelessWidget {
         children: [
           Text(
             message,
-            style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: Colors.red),
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(color: AppColors.colors.danger),
             textAlign: TextAlign.center,
           ),
           const SizedBox(height: 32),
           OutlinedButton(
-              style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red), alignment: Alignment.center),
-              onPressed: () {
-                tryAgain();
-              },
-              child: const Text('Try Again', style: TextStyle(color: Colors.white))),
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(AppColors.colors.danger),
+                alignment: Alignment.center,
+              ),
+              onPressed: tryAgain,
+              child: Text('Try Again', style: TextStyle(color: AppColors.colors.white))),
         ],
       ),
     ));

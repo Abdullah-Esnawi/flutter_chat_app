@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
-import 'package:whatsapp/core/resources/colors.dart';
+import 'package:whatsapp/core/resources/colors_manager.dart';
+import 'package:whatsapp/core/resources/widgets/message_widget.dart';
 
 class SenderMessageCard extends StatelessWidget {
   const SenderMessageCard(this.message, {super.key});
@@ -14,28 +15,16 @@ class SenderMessageCard extends StatelessWidget {
       child: ConstrainedBox(
         constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width - 45,
+          maxHeight: 400,
         ),
         child: Card(
           elevation: 1,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-          color: senderMessageColor,
+          color: AppColors.colors.neutral45,
           margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           child: Stack(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 10,
-                  right: 30,
-                  top: 5,
-                  bottom: 20,
-                ),
-                child: Text(
-                  message.text,
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
-                ),
-              ),
+              MessageWidget(content: message.text, messageType: message.messageType),
               Positioned(
                 bottom: 2,
                 right: 10,
@@ -43,7 +32,7 @@ class SenderMessageCard extends StatelessWidget {
                   DateFormat('hh:mm a').format(message.timeSent),
                   style: TextStyle(
                     fontSize: 13,
-                    color: Colors.grey[600],
+                    color: AppColors.colors.neutral55,
                   ),
                 ),
               ),
@@ -54,3 +43,4 @@ class SenderMessageCard extends StatelessWidget {
     );
   }
 }
+

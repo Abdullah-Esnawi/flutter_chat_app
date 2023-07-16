@@ -55,5 +55,8 @@
 	<string>Mic Use</string>
 	<key>NSContactsUsageDescription</key>
     <string>Contact list to chat</string>
+  	<true/>
+	<key>NSAppTransportSecurity</key>
+	<true/>
 </dict>
 </plist>

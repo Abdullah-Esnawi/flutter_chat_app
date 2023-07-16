@@ -22,24 +22,34 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "audioFileTypeName": MessageLookupByLibrary.simpleMessage("Audio"),
         "bottomChatFieldHint": MessageLookupByLibrary.simpleMessage("Message"),
         "callsTabLabel": MessageLookupByLibrary.simpleMessage("CALLS"),
+        "cameraFileTypeName": MessageLookupByLibrary.simpleMessage("Camera"),
         "changeLanguageScreenArabic":
             MessageLookupByLibrary.simpleMessage("Arabic"),
         "changeLanguageScreenEnglish":
             MessageLookupByLibrary.simpleMessage("English"),
         "chatsTabLabel": MessageLookupByLibrary.simpleMessage("CHATS"),
+        "contactFileTypeName": MessageLookupByLibrary.simpleMessage("Contact"),
+        "docFileTypeName": MessageLookupByLibrary.simpleMessage("Document"),
+        "from": MessageLookupByLibrary.simpleMessage("from"),
+        "galleryFileTypeName": MessageLookupByLibrary.simpleMessage("Gallery"),
+        "locationFileTypeName":
+            MessageLookupByLibrary.simpleMessage("Location"),
         "numberDoesNotExist": MessageLookupByLibrary.simpleMessage(
             "This Number does not exist on this app."),
         "offline": MessageLookupByLibrary.simpleMessage("offline"),
         "online": MessageLookupByLibrary.simpleMessage("online"),
         "phoneNumberNotValid": MessageLookupByLibrary.simpleMessage(
             "The provided phone number is not valid."),
+        "pollFileTypeName": MessageLookupByLibrary.simpleMessage("Poll"),
         "selectContact": MessageLookupByLibrary.simpleMessage("Select Contact"),
         "somethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Something Went wrong"),
         "statusTabLabel": MessageLookupByLibrary.simpleMessage("STATUS"),
         "unknownErr": MessageLookupByLibrary.simpleMessage("Unknown Error"),
+        "whatsapp": MessageLookupByLibrary.simpleMessage("WhatsApp"),
         "youDontHaveContacts":
             MessageLookupByLibrary.simpleMessage("You don\'t have contacts yet")
       };

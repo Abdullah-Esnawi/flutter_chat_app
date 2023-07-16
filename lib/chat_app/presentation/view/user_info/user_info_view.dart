@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:whatsapp/chat_app/domain/entities/user_entity.dart';
 import 'dart:io';
 
-import 'package:whatsapp/core/resources/widgets/image_picker.dart';
+import 'package:whatsapp/core/resources/widgets/file_picker.dart';
 import 'package:whatsapp/chat_app/presentation/view/main_navigations/main_navigation_screen.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/user_info_viewmodel.dart';
 
@@ -35,12 +36,14 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
           child: FutureBuilder<UserInfoEntity?>(
               future: viewmodel.getCurrentUserData(),
               builder: (context, snapshot) {
+                usernameController.text = snapshot.data?.name ?? '';
                 return Column(
                   children: [
                     const SizedBox(height: 20),
                     Stack(
                       children: [
-                        snapshot.data?.profilePic == null
+                        /// TODO: Use [AppAssetImage] Widget instead [NetworkImage]
+                        (snapshot.data?.profilePic == null || snapshot.data!.profilePic.isEmpty)
                             ? const CircleAvatar(
                                 backgroundImage: NetworkImage(
                                     'https://png.pngitem.com/pimgs/s/214-2145309_blank-profile-picture-circle-hd-png-download.png'),
@@ -57,8 +60,8 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
                           left: 80,
                           child: IconButton(
                             onPressed: () async {
-                              image = await pickImageFromGallery(context);
-                              // setState(() {});
+                              image = await pickImageFromGallery(ImageSource.gallery);
+                              setState(() {});
                             },
                             icon: const Icon(Icons.add_a_photo),
                           ),
@@ -78,8 +81,7 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
                         IconButton(
                           onPressed: () async {
                             if (username.isNotEmpty) {
-                              viewmodel.saveUserInfoToFirebase(
-                                  name: usernameController.text, profilePic: image);
+                              viewmodel.saveUserInfoToFirebase(name: usernameController.text, profilePic: image);
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(builder: (context) => const MainNavigationScreen()),

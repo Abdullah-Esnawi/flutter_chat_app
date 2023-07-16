@@ -22,25 +22,35 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "audioFileTypeName": MessageLookupByLibrary.simpleMessage("مقطع صوتي"),
         "bottomChatFieldHint": MessageLookupByLibrary.simpleMessage("رسالة"),
         "callsTabLabel": MessageLookupByLibrary.simpleMessage("المكالمات"),
+        "cameraFileTypeName": MessageLookupByLibrary.simpleMessage("الكاميرا"),
         "changeLanguageScreenArabic":
             MessageLookupByLibrary.simpleMessage("العربية"),
         "changeLanguageScreenEnglish":
             MessageLookupByLibrary.simpleMessage("الإنجليزية"),
         "chatsTabLabel": MessageLookupByLibrary.simpleMessage("المحادثات"),
+        "contactFileTypeName":
+            MessageLookupByLibrary.simpleMessage("جهة اتصال"),
+        "docFileTypeName": MessageLookupByLibrary.simpleMessage("مستند"),
+        "from": MessageLookupByLibrary.simpleMessage("from"),
+        "galleryFileTypeName": MessageLookupByLibrary.simpleMessage("المعرض"),
+        "locationFileTypeName": MessageLookupByLibrary.simpleMessage("الموقع"),
         "numberDoesNotExist": MessageLookupByLibrary.simpleMessage(
             "هذا الرقم غير موجود علي التطبيق"),
         "offline": MessageLookupByLibrary.simpleMessage("غير متصل"),
         "online": MessageLookupByLibrary.simpleMessage("متصل الآن"),
         "phoneNumberNotValid":
             MessageLookupByLibrary.simpleMessage("الرقم غير صالح"),
+        "pollFileTypeName": MessageLookupByLibrary.simpleMessage("استطلاع رأي"),
         "selectContact":
             MessageLookupByLibrary.simpleMessage("اختار جهة الاتصال"),
         "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
             "حدث خطأ٫ برجاء اعادة المحاولة"),
         "statusTabLabel": MessageLookupByLibrary.simpleMessage("الحالات"),
         "unknownErr": MessageLookupByLibrary.simpleMessage("خطأ غير معروف"),
+        "whatsapp": MessageLookupByLibrary.simpleMessage("واتساب"),
         "youDontHaveContacts":
             MessageLookupByLibrary.simpleMessage("ليس لديك جهات اتصال بعد")
       };

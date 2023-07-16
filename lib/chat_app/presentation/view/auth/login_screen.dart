@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/core/resources/widgets/error.dart';
-import 'package:whatsapp/core/resources/colors.dart';
 import 'package:whatsapp/core/resources/widgets/custom_button.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/auth_viewmodel.dart';
 import 'package:whatsapp/core/resources/routes_manager.dart';
@@ -27,13 +26,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final viewmodel = ref.watch(authViewmodelProvider);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      // resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text(
           "Enter Your Phone number",
         ),
-        backgroundColor: backgroundColor,
-        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
