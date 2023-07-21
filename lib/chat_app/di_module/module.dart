@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:camera/camera.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/chat_app/data/data_source/auth/auth_local_data_source.dart';
 import 'package:whatsapp/chat_app/data/data_source/auth/auth_remote_data_source.dart';
+import 'package:whatsapp/chat_app/data/data_source/chat/chat_local_data_source.dart';
 import 'package:whatsapp/chat_app/data/data_source/chat/chat_remote_data_source.dart';
 import 'package:whatsapp/chat_app/data/data_source/contact/contacts_local_data_source.dart';
 import 'package:whatsapp/chat_app/data/data_source/contact/contacts_remote_data_source.dart';
@@ -17,6 +17,7 @@ import 'package:whatsapp/chat_app/domain/usecases/auth/set_user_state_usecase.da
 import 'package:whatsapp/chat_app/domain/usecases/chat/get_chat_contacts_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/get_chat_messages_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_file_message_usecase.dart';
+import 'package:whatsapp/chat_app/domain/usecases/chat/send_gif_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_text_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/contacts/get_all_contacts_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/contacts/get_selected_contact_usecase.dart';
@@ -69,14 +70,31 @@ final contactsViewmodelProvider = Provider(
   ),
 );
 
-final chatViewmodelProvider =
-    Provider((ref) => ChatViewmodel(ref.watch(sentTextMessageUseCase), ref.watch(sendFileMessageUseCaseProvider)));
+final chatViewmodelProvider = Provider((ref) => ChatViewmodel(
+      ref.watch(sentTextMessageUseCase),
+      ref.watch(sendFileMessageUseCaseProvider),
+      ref.watch(sendGifMessageUseCaseProvider),
+      ref,
+
+    ));
+
 final sendFileMessageUseCaseProvider = Provider((ref) => SendFileMessageUseCase(ref.watch(chatRepositoryProvider)));
+final sendGifMessageUseCaseProvider = Provider((ref) => SendGifMessageUseCase(ref.watch(chatRepositoryProvider)));
 
 final sentTextMessageUseCase = Provider((ref) => SendTextMessageUseCase(ref.watch(chatRepositoryProvider)));
-final chatRepositoryProvider = Provider((ref) => ChatRepositoryImpl(ref.watch(chatRemoteDataSourceProvider)));
-final chatRemoteDataSourceProvider =
-    Provider((ref) => ChatRemoteDataSource(FirebaseFirestore.instance, FirebaseAuth.instance, ref));
+
+final chatRepositoryProvider = Provider((ref) => ChatRepositoryImpl(
+      ref.watch(chatRemoteDataSourceProvider),
+      ref.watch(chatLocalDataSourceProvider),
+    ));
+
+final chatRemoteDataSourceProvider = Provider((ref) => ChatRemoteDataSource(
+      FirebaseFirestore.instance,
+      FirebaseAuth.instance,
+      ref,
+    ));
+
+final chatLocalDataSourceProvider = Provider((ref) => ChatLocalDataSource());
 
 final chatContactsUseCaseProvider = Provider((ref) => GetChatContactsUseCase(ref.watch(chatRepositoryProvider)));
 

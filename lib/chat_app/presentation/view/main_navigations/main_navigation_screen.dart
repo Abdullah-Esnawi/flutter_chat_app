@@ -120,7 +120,7 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen>
         body: TabBarView(
           controller: _tabController,
           children: const [
-            CameraScreen(receiverId: 'Ebk5Kf7v6zWcEopCIWeVVO7giIv1'),
+            CameraScreen(), //receiverId: 'Ebk5Kf7v6zWcEopCIWeVVO7giIv1'
             ContactsList(),
             Center(child: Text('STATUS')),
             Center(child: Text('CALLS')),

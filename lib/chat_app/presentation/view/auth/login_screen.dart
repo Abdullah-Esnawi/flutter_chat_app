@@ -36,6 +36,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            // TODO: set right color and remove hard code
             const Text("Whatsapp will need to verify your phone number"),
             const SizedBox(height: 10),
             TextButton(onPressed: () => viewmodel.pickCountry(context), child: const Text("Pick Country")),

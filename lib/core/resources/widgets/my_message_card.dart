@@ -30,7 +30,9 @@ class MyMessageCard extends StatelessWidget {
               PositionedDirectional(
                 bottom: 4,
                 start: 10,
+                end: 10,
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
                       DateFormat('hh:mm a').format(message.timeSent),

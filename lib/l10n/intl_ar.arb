@@ -1,5 +1,5 @@
 {
-  "whatsapp":"واتساب",
+  "whatsapp": "واتساب",
   "online": "متصل الآن",
   "offline": "غير متصل",
   "bottomChatFieldHint": "رسالة",
@@ -21,5 +21,6 @@
   "locationFileTypeName": "الموقع",
   "audioFileTypeName": "مقطع صوتي",
   "pollFileTypeName": "استطلاع رأي",
-  "from":"from"
+  "from": "from",
+  "recordToastMsg": "اضغط باستمرار للتسجيل، حرر للإرسال"
 }

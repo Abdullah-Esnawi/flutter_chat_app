@@ -7,6 +7,7 @@ import 'package:whatsapp/chat_app/data/models/message_model.dart';
 import 'package:whatsapp/chat_app/data/models/user_model.dart';
 import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_file_message_usecase.dart';
+import 'package:whatsapp/chat_app/domain/usecases/chat/send_gif_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_text_message_usecase.dart';
 import 'package:whatsapp/core/error_handling/error_handling.dart';
 import 'package:whatsapp/core/repositories/firebase_storage_repository.dart';
@@ -17,6 +18,7 @@ abstract class BaseChatRemoteDataSource {
   Stream<List<ChatContactModel>> getChatContacts();
   Stream<List<MessageModel>> getChatMessages(String receiverId);
   Future<void> sendFileMessage(FileMessageParams parameters);
+  Future<void> sendGIFMessage(GifMessageParams parameters);
 }
 
 class ChatRemoteDataSource implements BaseChatRemoteDataSource {
@@ -243,6 +245,31 @@ class ChatRemoteDataSource implements BaseChatRemoteDataSource {
         messageType: parameters.messageType,
         messageReplay: parameters.messageReplay,
         senderUserName: senderUser.name);
+  }
+
+  @override
+  Future<void> sendGIFMessage(GifMessageParams parameters) async {
+    UserInfoModel receiverUserData;
+    var timeSent = DateTime.now();
+    var messageId = const Uuid().v1();
+    var userDataMap = await _firestore.collection('users').doc(parameters.receiverId).get();
+    receiverUserData = UserInfoModel.fromMap(userDataMap.data()!);
+    UserInfoModel senderUser = await _currentUser();
+    _saveDataToContactsSubCollection(
+      senderUser,
+      receiverUserData,
+      'Gif',
+      timeSent,
+    );
+    _saveMessageToMessageSubCollection(
+        senderId: senderUser.uid,
+        receiverId: parameters.receiverId,
+        text: parameters.gifUrl,
+        timeSent: timeSent,
+        messageId: messageId,
+        messageType: MessageType.gif,
+        senderUserName: senderUser.name,
+        messageReplay: parameters.messageReplay);
   }
 
   void _saveDataToContactsSubCollection(

@@ -279,6 +279,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Hold to record, release to send`
+  String get recordToastMsg {
+    return Intl.message(
+      'Hold to record, release to send',
+      name: 'recordToastMsg',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

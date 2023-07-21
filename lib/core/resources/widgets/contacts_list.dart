@@ -58,15 +58,13 @@ class _ContactChatItem extends StatelessWidget {
             child: ListTile(
               title: Text(
                 contact.name,
-                style: const TextStyle(
-                  fontSize: 18,
-                ),
+                style: TextStyle(fontSize: 18, color: AppColors.colors.neutral11),
               ),
               subtitle: Padding(
                 padding: const EdgeInsets.only(top: 6.0),
                 child: Text(
                   contact.lastMessage,
-                  style: const TextStyle(fontSize: 15),
+                  style: TextStyle(fontSize: 15, color: AppColors.colors.neutral14),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -83,7 +81,7 @@ class _ContactChatItem extends StatelessWidget {
               trailing: Text(
                 DateFormat("hh:m a").format(contact.timeSent),
                 style: TextStyle(
-                  color: AppColors.colors.neutral55,
+                  color: AppColors.colors.neutral14,
                   fontSize: 13,
                 ),
               ),

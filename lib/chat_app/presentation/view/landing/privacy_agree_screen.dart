@@ -18,18 +18,19 @@ class LandingScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 50),
-              Text(
+            Text(
               "Welcome to Whatsapp",
               style: TextStyle(
                 fontSize: 29,
                 fontWeight: FontWeight.w600,
-                color: AppColors.colors.neutral70
+                color:
+                    Theme.of(context).brightness == Brightness.dark ? AppColors.colors.white : AppColors.colors.primary,
               ),
             ),
             SizedBox(height: size.height / 9),
-              AppAssetImage(AppImages.landingScreenBackground, width: 290, height: 290, color: AppColors.colors.primary),
+            AppAssetImage(AppImages.landingScreenBackground, width: 290, height: 290, color: AppColors.colors.primary),
             SizedBox(height: size.height / 9),
-              Padding(
+            Padding(
               padding: const EdgeInsetsDirectional.only(start: 15, end: 15),
               child: Text(
                 'Read our Privacy Policy. Tap "Agree and continue" to accept the Terms of service',

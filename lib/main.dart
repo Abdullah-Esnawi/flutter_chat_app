@@ -57,6 +57,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       title: 'Whatsapp',
       theme: AppTheme.theme,
       onGenerateRoute: GenerateRoute.getRoute,
+      // initialRoute: Routes.splash,
       home: ref.watch(userInfoProvider).when(
             data: (data) => SplashScreen(userData: data),
             error: (err, trace) => WidgetError(

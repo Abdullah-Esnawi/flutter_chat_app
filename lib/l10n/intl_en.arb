@@ -21,5 +21,6 @@
   "locationFileTypeName": "Location",
   "audioFileTypeName": "Audio",
   "pollFileTypeName": "Poll",
-  "from": "from"
+  "from": "from",
+  "recordToastMsg": "Hold to record, release to send"
 }

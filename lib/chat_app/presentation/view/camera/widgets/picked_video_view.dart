@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_video_player/cached_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:whatsapp/core/resources/colors_manager.dart';
@@ -13,12 +14,12 @@ class PickedVideoView extends StatefulWidget {
 }
 
 class _VideoViewPageState extends State<PickedVideoView> {
-  late VideoPlayerController _controller;
+  late CachedVideoPlayerController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = VideoPlayerController.file(File(widget.path))
+    _controller = CachedVideoPlayerController.file(File(widget.path))
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
@@ -69,7 +70,7 @@ class _VideoViewPageState extends State<PickedVideoView> {
               child: _controller.value.isInitialized
                   ? AspectRatio(
                       aspectRatio: _controller.value.aspectRatio,
-                      child: VideoPlayer(_controller),
+                      child: CachedVideoPlayer(_controller),
                     )
                   : Container(),
             ),
@@ -81,7 +82,7 @@ class _VideoViewPageState extends State<PickedVideoView> {
                 padding: EdgeInsets.symmetric(vertical: 5, horizontal: 8),
                 child: TextFormField(
                   style: TextStyle(
-                    color: Colors.white,
+                    color: AppColors.colors.white,
                     fontSize: 17,
                   ),
                   maxLines: 6,
@@ -95,15 +96,15 @@ class _VideoViewPageState extends State<PickedVideoView> {
                         size: 27,
                       ),
                       hintStyle: TextStyle(
-                        color: Colors.white,
+                        color: AppColors.colors.white,
                         fontSize: 17,
                       ),
                       suffixIcon: CircleAvatar(
                         radius: 27,
                         backgroundColor: Colors.tealAccent[700],
-                        child: const Icon(
+                        child:   Icon(
                           Icons.check,
-                          color: Colors.white,
+                          color: AppColors.colors.white,
                           size: 27,
                         ),
                       )),
@@ -127,7 +128,7 @@ class _VideoViewPageState extends State<PickedVideoView> {
                     _controller.value.isPlaying
                         ? Icons.pause
                         : Icons.play_arrow,
-                    color: Colors.white,
+                    color: AppColors.colors.white,
                     size: 50,
                   ),
                 ),

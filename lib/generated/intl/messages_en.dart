@@ -44,6 +44,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneNumberNotValid": MessageLookupByLibrary.simpleMessage(
             "The provided phone number is not valid."),
         "pollFileTypeName": MessageLookupByLibrary.simpleMessage("Poll"),
+        "recordToastMsg": MessageLookupByLibrary.simpleMessage(
+            "Hold to record, release to send"),
         "selectContact": MessageLookupByLibrary.simpleMessage("Select Contact"),
         "somethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Something Went wrong"),

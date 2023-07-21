@@ -2,7 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/chat_app/presentation/view/camera/camera_screen.dart';
-import 'package:whatsapp/chat_app/presentation/view/camera/camera_screen0.dart';
+import 'package:whatsapp/chat_app/presentation/view/camera/camera_screen.dart';
 import 'package:whatsapp/core/resources/colors_manager.dart';
 import 'package:whatsapp/core/resources/routes_manager.dart';
 

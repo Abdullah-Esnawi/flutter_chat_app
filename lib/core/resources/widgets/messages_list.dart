@@ -8,19 +8,27 @@ import 'package:whatsapp/core/resources/widgets/loader.dart';
 import 'package:whatsapp/core/resources/widgets/my_message_card.dart';
 import 'package:whatsapp/core/resources/widgets/sender_message_card.dart';
 
-class Messages extends ConsumerWidget {
+class Messages extends ConsumerStatefulWidget {
   final String receiverId;
   Messages({required this.receiverId, Key? key}) : super(key: key);
-  final ScrollController _controller = ScrollController();
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(getChatMessagesStreamProvider(receiverId)).when(
+  ConsumerState<Messages> createState() => _MessagesState();
+}
+
+class _MessagesState extends ConsumerState<Messages> {
+  final ScrollController _controller = ScrollController();
+
+  @override
+  Widget build(BuildContext context) {
+    return ref.watch(getChatMessagesStreamProvider(widget.receiverId)).when(
         data: (messages) {
           /// Scroll Down
           SchedulerBinding.instance.addPostFrameCallback((_) {
             _controller.jumpTo(_controller.position.maxScrollExtent);
           });
           return ListView.builder(
+            cacheExtent: 999999,
             controller: _controller,
             itemCount: messages.length,
             itemBuilder: (context, index) {

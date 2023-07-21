@@ -5,7 +5,7 @@ import 'package:whatsapp/core/resources/colors_manager.dart';
 class AppTheme {
   AppTheme._();
 
-  static Brightness brightness = Brightness.dark;
+  static Brightness brightness = Brightness.light;
 
   static final systemUiOverlayStyle = SystemUiOverlayStyle(
     statusBarColor: AppColors.colors.transparent,

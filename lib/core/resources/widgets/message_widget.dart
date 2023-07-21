@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:whatsapp/core/resources/colors_manager.dart';
 import 'package:whatsapp/core/resources/enums.dart';
 import 'package:whatsapp/core/resources/widgets/app_images.dart';
+import 'package:whatsapp/core/resources/widgets/chat_video_player_item.dart';
 
 class MessageWidget extends StatelessWidget {
   const MessageWidget({super.key, required this.content, required this.messageType});
@@ -12,18 +13,21 @@ class MessageWidget extends StatelessWidget {
     final Widget messageWidget;
     switch (messageType) {
       case MessageType.text:
-        messageWidget = Text(content, style: TextStyle(fontSize: 16, color: AppColors.colors.white));
+        messageWidget = Text(content, style: TextStyle(fontSize: 16, color: AppColors.colors.neutral11));
         break;
       case MessageType.image:
         messageWidget = AppCachedImage(url: content, borderRadius: BorderRadius.circular(6));
         break;
 
       case MessageType.gif:
-        messageWidget = Container();
+        int gifUrlPartIndex = content.lastIndexOf('-') + 1;
+        String gifUrlPart = content.substring(gifUrlPartIndex);
+        String url = 'https://i.giphy.com/media/$gifUrlPart/200.gif';
+        messageWidget = AppCachedImage(url: url);
         break;
 
       case MessageType.video:
-        messageWidget = Container();
+        messageWidget = VideoPlayerItem(videoUrl: content);
         break;
 
       case MessageType.audio:

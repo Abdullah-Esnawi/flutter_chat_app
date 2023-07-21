@@ -11,6 +11,8 @@ class AppImages {
   static const defaultProfilePicture = AppImage('default_profile_picture');
   static const landingScreenBackground = AppImage('landing_screen_background');
   static const chatScreenBackground = AppImage('chat_background');
+  static const trashCover = AppImage('trash_cover.png');
+  static const trashContainer = AppImage('trash_container.png');
 }
 
 
@@ -38,18 +40,20 @@ class SvgImage extends StatelessWidget {
 
 class AppNetworkImage extends StatelessWidget {
   final String image;
-  final double width;
-  final double height;
-  final BoxShape shape;
+  final double? width;
+  final double? height;
+  final BoxFit fit;
+  final BorderRadius? borderRadius;
   final Color? color;
 
   const AppNetworkImage(
     this.image, {
     super.key,
-    required this.width,
-    required this.height,
-    this.shape = BoxShape.rectangle,
+     this.width,
+     this.height,
     this.color,
+    this.borderRadius,
+    this.fit = BoxFit.cover,
   });
 
   @override
@@ -57,16 +61,14 @@ class AppNetworkImage extends StatelessWidget {
     return Container(
       width: width,
       height: height,
+      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-        shape: shape,
+        borderRadius: borderRadius,
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(width / 2),
-        child: Image.network(
-          image,
-          fit: BoxFit.cover,
-          color: color,
-        ),
+      child: Image.network(
+        image,
+        fit: fit,
+        color: color,
       ),
     );
   }

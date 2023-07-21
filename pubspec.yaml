@@ -25,6 +25,7 @@ dependencies:
   flutter_contacts: ^1.1.5+1
   intl: ^0.18.0
   shared_preferences: ^2.0.18
+  emoji_picker_flutter: ^1.6.1
   dartz: ^0.10.1
   freezed_annotation: ^2.2.0
   equatable: ^2.0.5
@@ -35,6 +36,12 @@ dependencies:
   camera: ^0.10.5+2
   video_player: ^2.6.0
   path_provider: ^2.0.15
+  enough_giphy_flutter: ^0.4.0
+  permission_handler: ^10.4.3
+  audio_waveforms: ^1.0.4
+  shimmer: ^3.0.0
+  fluttertoast: ^8.2.2
+  swipeable_button_view: ^0.0.2
 dev_dependencies:
   flutter_test:
     sdk: flutter

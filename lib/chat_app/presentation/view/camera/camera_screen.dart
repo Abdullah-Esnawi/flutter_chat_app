@@ -1,165 +1,174 @@
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:whatsapp/chat_app/presentation/view/camera/camera_screen_appbar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatsapp/chat_app/presentation/view/camera/widgets/camera_middle_button.dart';
+import 'package:whatsapp/core/resources/colors_manager.dart';
+import 'package:flutter/services.dart';
 import 'package:whatsapp/core/resources/routes_manager.dart';
 import 'package:whatsapp/core/resources/widgets/loader.dart';
 
 late List<CameraDescription> cameras;
 
-class CameraScreen extends StatefulWidget {
-  final String receiverId;
-  const CameraScreen({
-    super.key,
-    required this.receiverId,
-  });
+final isFlashOn = StateProvider.autoDispose<bool>((ref) => false);
+final cameraOrientation = StateProvider.autoDispose<int>((ref) => 0);
+
+final cameraIsRecording = StateProvider.autoDispose((ref) => false);
+
+class CameraScreen extends ConsumerStatefulWidget {
+  const CameraScreen({super.key});
 
   @override
-  State<CameraScreen> createState() => _CameraScreenState();
+  ConsumerState<CameraScreen> createState() => _CameraScreenState();
 }
 
-class _CameraScreenState extends State<CameraScreen> {
+class _CameraScreenState extends ConsumerState<CameraScreen> {
   late CameraController _cameraController;
-  late Future<void> _cameraValue;
-  bool isFlashOn = false;
-  bool isCameraFront = true;
-  bool isRecording = false;
+  late Future<void> cameraValue;
 
   @override
   void initState() {
     super.initState();
-    _cameraController = CameraController(cameras[0], ResolutionPreset.high);
-    _cameraValue = _cameraController.initialize();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      appBar: CameraAppBar(
-        isFlashOn: isFlashOn,
-        onFlashPressed: toggleFlash,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Stack(
-              children: [
-                FutureBuilder(
-                  future: _cameraValue,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      return SizedBox(
-                        width: double.infinity,
-                        child: CameraPreview(_cameraController),
-                      );
-                    } else {
-                      return const Loader();
-                    }
-                  },
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SelectImageFromGalleryButton(receiverId: widget.receiverId),
-                        GestureDetector(
-                          onTap: () {
-                            if (!isRecording) takePhoto(context);
-                          },
-                          onLongPress: () async {
-                            await _cameraController.startVideoRecording();
-                            setState(() {
-                              isRecording = true;
-                            });
-                          },
-                          onLongPressUp: () async {
-                            XFile file = await _cameraController.stopVideoRecording();
-                            setState(() {
-                              isRecording = false;
-                            });
-                            if (!mounted) return;
-                            Navigator.pushNamed(context, Routes.pickedImageView, arguments: {
-                              'path': file.path,
-                              'uid': widget.receiverId,
-                            });
-                          },
-                          child: cameraIcon(),
-                        ),
-                        GestureDetector(
-                          onTap: toggleCameraFront,
-                          child: const CircleAvatar(
-                            radius: 30,
-                            backgroundColor: Colors.black38,
-                            child: Icon(
-                              Icons.flip_camera_ios,
-                              size: 30,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              ],
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(top: 8, bottom: 8),
-            child: Text(
-              'Hold for video, tap for photo',
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Icon cameraIcon() {
-    return isRecording
-        ? const Icon(
-            Icons.radio_button_on,
-            color: Colors.red,
-            size: 80,
-          )
-        : const Icon(
-            Icons.panorama_fish_eye,
-            size: 80,
-            color: Colors.white,
-          );
-  }
-
-  void toggleFlash() {
-    setState(() {
-      isFlashOn = !isFlashOn;
-    });
-    isFlashOn ? _cameraController.setFlashMode(FlashMode.torch) : _cameraController.setFlashMode(FlashMode.off);
-  }
-
-  void toggleCameraFront() {
-    setState(() {
-      isCameraFront = !isCameraFront;
-    });
-    int cameraPos = isCameraFront ? 0 : 1;
-    _cameraController = CameraController(cameras[cameraPos], ResolutionPreset.high);
-    _cameraValue = _cameraController.initialize();
-  }
-
-  void takePhoto(BuildContext context) async {
-    XFile file = await _cameraController.takePicture();
-    if (!mounted) return;
-    Navigator.pushNamed(context, Routes.pickedImageView, arguments: {
-      'path': file.path,
-      'uId': widget.receiverId,
-    });
+    _cameraController = CameraController(cameras[ref.read(cameraOrientation)], ResolutionPreset.high);
+    cameraValue = _cameraController.initialize();
   }
 
   @override
   void dispose() {
-    super.dispose();
     _cameraController.dispose();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);
+
+    super.dispose();
+  }
+
+  void toggleFlash() {
+    ref.watch(isFlashOn)
+        ? _cameraController.setFlashMode(FlashMode.torch)
+        : _cameraController.setFlashMode(FlashMode.off);
+
+    ref.watch(isFlashOn.notifier).state = !ref.watch(isFlashOn);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    final CameraController? cameraController = _cameraController;
+
+    // App state changed before we got the chance to initialize.
+    if (cameraController == null || !cameraController.value.isInitialized) {
+      return;
+    }
+    if (state == AppLifecycleState.resumed) _initializeCameraController(cameraController.description);
+  }
+
+  Future<void> _initializeCameraController(CameraDescription cameraDescription) async {
+    final CameraController cameraController = CameraController(
+      cameraDescription,
+      kIsWeb ? ResolutionPreset.max : ResolutionPreset.high,
+      enableAudio: true,
+      imageFormatGroup: ImageFormatGroup.jpeg,
+    );
+
+    _cameraController = cameraController;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [SystemUiOverlay.top]);
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      body: FutureBuilder<void>(
+          future: cameraValue,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Stack(
+                children: [
+                  Positioned.fill(
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                    child: CameraPreview(_cameraController),
+                  ),
+                  Positioned(
+                    bottom: 0.0,
+                    child: Container(
+                      padding: const EdgeInsets.only(top: 20, bottom: 26),
+                      width: MediaQuery.of(context).size.width,
+                      color: AppColors.colors.black.withOpacity(.5),
+                      child: Column(children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () => toggleFlash(),
+                              icon: Icon(
+                                ref.watch(isFlashOn) ? Icons.flash_off_outlined : Icons.flash_on_outlined,
+                                size: 28,
+                              ),
+                              color: AppColors.colors.white,
+                            ),
+                            CameraMiddleButton(
+                              controller: _cameraController,
+                              onLongPress: () {
+                                if (!ref.read(cameraIsRecording)) {
+                                  _cameraController.startVideoRecording();
+                                  ref.read(cameraIsRecording.notifier).state = true;
+                                } else {
+                                  _cameraController.stopVideoRecording().then((file) {
+                                    ref.read(cameraIsRecording.notifier).state = false;
+                                    Navigator.pushNamed(context, Routes.pickedVideoView,
+                                        arguments: {"path": file.path});
+                                  });
+                                }
+                              },
+                              onTap: () {
+                                if (!ref.read(cameraIsRecording)) {
+                                  _cameraController.takePicture().then((XFile? file) {
+                                    if (file?.path != null) {
+                                      _cameraController.dispose();
+
+                                      Navigator.pushNamed(context, Routes.pickedImageView,
+                                          arguments: {"path": file!.path});
+                                    }
+                                  });
+                                } else {
+                                  if (ref.read(cameraIsRecording)) {
+                                    _cameraController.stopVideoRecording().then((file) {
+                                      ref.read(cameraIsRecording.notifier).state = false;
+                                      Navigator.pushNamed(context, Routes.pickedVideoView,
+                                          arguments: {"path": file.path});
+                                    });
+                                  }
+                                }
+                              },
+                              onLongPressUp: () {},
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                ref.read(cameraOrientation.notifier).state = ref.read(cameraOrientation) == 1 ? 0 : 1;
+                                cameraValue = _cameraController.initialize();
+                              },
+                              icon: const Icon(Icons.cameraswitch_outlined, size: 28),
+                              color: AppColors.colors.white,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 26),
+                        Text(
+                          'Hold for video, Tap for photo',
+                          style: TextStyle(color: AppColors.colors.white),
+                          textAlign: TextAlign.center,
+                        )
+                      ]),
+                    ),
+                  )
+                ],
+              );
+            } else {
+              return const Loader();
+            }
+          }),
+    );
   }
 }

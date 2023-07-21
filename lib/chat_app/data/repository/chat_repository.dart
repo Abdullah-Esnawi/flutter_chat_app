@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:whatsapp/chat_app/data/data_source/chat/chat_local_data_source.dart';
 import 'package:whatsapp/chat_app/data/data_source/chat/chat_remote_data_source.dart';
 import 'package:whatsapp/chat_app/data/models/chat_contact_model.dart';
 import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
@@ -11,8 +12,9 @@ import 'package:whatsapp/core/error_handling/error_handling.dart';
 
 class ChatRepositoryImpl implements ChatRepository {
   final ChatRemoteDataSource _remote;
+  final ChatLocalDataSource _local;
 
-  ChatRepositoryImpl(this._remote);
+  ChatRepositoryImpl(this._remote, this._local);
 
   @override
   Future<Result<Failure, void>> sendTextMessage(TextMessageParams params) async {
@@ -51,10 +53,14 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  Future<Result<Failure, void>> sendGifMessage(GifMessageParams parameters) {
-    // TODO: implement sendGifMessage
-    throw UnimplementedError();
-  }
+  Future<Result<Failure, void>> sendGifMessage(GifMessageParams parameters) async {
+    try {
+      await _remote.sendGIFMessage(parameters);
+      return const Right(true);
+    } catch (err) {
+       return Left(ServerFailure(err.toString()));
+    }
+ }
 
   @override
   Future<Result<Failure, void>> setChatMessageSeen(SetChatMessageSeenParams parameters) {

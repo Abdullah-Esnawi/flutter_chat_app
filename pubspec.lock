@@ -41,6 +41,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  audio_waveforms:
+    dependency: "direct main"
+    description:
+      name: audio_waveforms
+      sha256: f2f81e256c5c03b64e2861e0323a77e1b6790c256c73393b671214c9846260fc
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
   boolean_selector:
     dependency: transitive
     description:
@@ -297,6 +305,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  cupertino_progress_bar:
+    dependency: transitive
+    description:
+      name: cupertino_progress_bar
+      sha256: "4962a7c6db9b94d1c19462ad6036fdf20db43defa4114c908a3c4cbef1b3a2e0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
+  cupertino_stepper:
+    dependency: transitive
+    description:
+      name: cupertino_stepper
+      sha256: "124690b8b23db7b43fc6d547688e42a9f3d73c8f46d0b210568e98a04b5645b2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.1"
   dart_style:
     dependency: transitive
     description:
@@ -313,6 +337,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.10.1"
+  emoji_picker_flutter:
+    dependency: "direct main"
+    description:
+      name: emoji_picker_flutter
+      sha256: "1ca31245cc1f7ab5304c68ccda8039f52b9f2372aa4d10803117160fad3faf12"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.6.1"
+  enough_giphy:
+    dependency: transitive
+    description:
+      name: enough_giphy
+      sha256: e6dc82bc2cf9acb2ccb5202060bec809c6bf900a8281186f183874c5c97528c1
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
+  enough_giphy_flutter:
+    dependency: "direct main"
+    description:
+      name: enough_giphy_flutter
+      sha256: "123ffa20391de0ce7a36995439b5f2a46746ebe5fec8fd23864ff7405d35d352"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0"
+  enough_platform_widgets:
+    dependency: transitive
+    description:
+      name: enough_platform_widgets
+      sha256: "7d9ae2de02decbff6d565348d5c4255a91879ce3ba77ebeaaf39a354f86bf52a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.2"
   equatable:
     dependency: "direct main"
     description:
@@ -499,6 +555,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_platform_widgets:
+    dependency: transitive
+    description:
+      name: flutter_platform_widgets
+      sha256: "107d5bc9a167b4e268cba44075ee399b6b2c63d44ede28f7e8c983d7fa4b59be"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.3.5"
   flutter_plugin_android_lifecycle:
     dependency: transitive
     description:
@@ -533,6 +597,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  fluttertoast:
+    dependency: "direct main"
+    description:
+      name: fluttertoast
+      sha256: "474f7d506230897a3cd28c965ec21c5328ae5605fc9c400cd330e9e9d6ac175c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "8.2.2"
   freezed:
     dependency: "direct dev"
     description:
@@ -585,10 +657,10 @@ packages:
     dependency: transitive
     description:
       name: http
-      sha256: "759d1a329847dd0f39226c688d3e06a6b8679668e350e2891a6474f8b4bb8525"
+      sha256: "5895291c13fa8a3bd82e76d5627f69e0d85ca6a30dcac95c4ea19a5d555879c2"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.0"
+    version: "0.13.6"
   http_multi_server:
     dependency: transitive
     description:
@@ -837,6 +909,46 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.7"
+  permission_handler:
+    dependency: "direct main"
+    description:
+      name: permission_handler
+      sha256: "63e5216aae014a72fe9579ccd027323395ce7a98271d9defa9d57320d001af81"
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.4.3"
+  permission_handler_android:
+    dependency: transitive
+    description:
+      name: permission_handler_android
+      sha256: c0c9754479a4c4b1c1f3862ddc11930c9b3f03bef2816bb4ea6eed1e13551d6f
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.3.2"
+  permission_handler_apple:
+    dependency: transitive
+    description:
+      name: permission_handler_apple
+      sha256: "99e220bce3f8877c78e4ace901082fb29fa1b4ebde529ad0932d8d664b34f3f5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.1.4"
+  permission_handler_platform_interface:
+    dependency: transitive
+    description:
+      name: permission_handler_platform_interface
+      sha256: "7c6b1500385dd1d2ca61bb89e2488ca178e274a69144d26bbd65e33eae7c02a9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.11.3"
+  permission_handler_windows:
+    dependency: transitive
+    description:
+      name: permission_handler_windows
+      sha256: cc074aace208760f1eee6aa4fae766b45d947df85bc831cde77009cdb4720098
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.3"
   petitparser:
     dependency: transitive
     description:
@@ -989,6 +1101,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  shimmer:
+    dependency: "direct main"
+    description:
+      name: shimmer
+      sha256: "5f88c883a22e9f9f299e5ba0e4f7e6054857224976a5d9f839d4ebdc94a14ac9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -1074,6 +1194,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.0"
+  swipeable_button_view:
+    dependency: "direct main"
+    description:
+      name: swipeable_button_view
+      sha256: "6fbe3fe9084d849828fa49bf1f5d48a107f7797e3c7eff41aa61541c0b6d97f2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   synchronized:
     dependency: transitive
     description:
@@ -1244,4 +1372,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.0.0 <4.0.0"
-  flutter: ">=3.7.0-0"
+  flutter: ">=3.7.0"

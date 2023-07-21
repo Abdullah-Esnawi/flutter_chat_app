@@ -44,6 +44,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneNumberNotValid":
             MessageLookupByLibrary.simpleMessage("الرقم غير صالح"),
         "pollFileTypeName": MessageLookupByLibrary.simpleMessage("استطلاع رأي"),
+        "recordToastMsg": MessageLookupByLibrary.simpleMessage(
+            "اضغط باستمرار للتسجيل، حرر للإرسال"),
         "selectContact":
             MessageLookupByLibrary.simpleMessage("اختار جهة الاتصال"),
         "somethingWentWrong": MessageLookupByLibrary.simpleMessage(
