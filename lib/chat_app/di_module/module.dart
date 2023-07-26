@@ -13,6 +13,7 @@ import 'package:whatsapp/chat_app/data/data_source/contact/contacts_remote_data_
 import 'package:whatsapp/chat_app/data/repository/auth_repository.dart';
 import 'package:whatsapp/chat_app/data/repository/chat_repository.dart';
 import 'package:whatsapp/chat_app/data/repository/contacts_repository.dart';
+import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/set_user_state_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/get_chat_contacts_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/get_chat_messages_usecase.dart';
@@ -104,6 +105,10 @@ final setUserStateUseCaseProvider = Provider((ref) => SetUserStateUseCase(ref.wa
 
 // 00971551593442
 
+
+final messageReplayProvider  = StateProvider<MessageReplay?>((ref) => null);
+
+
 enum AppLanguage {
   english('en'),
   arabic('ar');
@@ -122,3 +127,4 @@ enum AppLanguage {
     }
   }
 }
+

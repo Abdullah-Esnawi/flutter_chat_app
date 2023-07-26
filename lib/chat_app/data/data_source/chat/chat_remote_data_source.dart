@@ -12,6 +12,7 @@ import 'package:whatsapp/chat_app/domain/usecases/chat/send_text_message_usecase
 import 'package:whatsapp/core/error_handling/error_handling.dart';
 import 'package:whatsapp/core/repositories/firebase_storage_repository.dart';
 import 'package:whatsapp/core/resources/enums.dart';
+import 'package:whatsapp/generated/l10n.dart';
 
 abstract class BaseChatRemoteDataSource {
   Future<void> sendTextMessage(TextMessageParams params);
@@ -121,8 +122,8 @@ class ChatRemoteDataSource implements BaseChatRemoteDataSource {
       timeSent: timeSent,
       isSeen: false,
       messageType: messageType,
-      repliedMessage: messageReplay == null ? '' : messageReplay.message,
       senderName: senderUserName,
+      repliedMessage: messageReplay == null ? '' : messageReplay.message,
       repliedTo: messageReplay == null
           ? ''
           : messageReplay.isMe

@@ -44,8 +44,8 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
                       children: [
                         /// TODO: Use [AppAssetImage] Widget instead [NetworkImage]
                         (snapshot.data?.profilePic == null || snapshot.data!.profilePic.isEmpty)
-                            ? const CircleAvatar(
-                                backgroundImage: NetworkImage(
+                            ? CircleAvatar(
+                                backgroundImage: NetworkImage(image?.path ??
                                     'https://png.pngitem.com/pimgs/s/214-2145309_blank-profile-picture-circle-hd-png-download.png'),
                                 radius: 64,
                               )

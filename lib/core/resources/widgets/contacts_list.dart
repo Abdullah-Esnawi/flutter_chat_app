@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:whatsapp/chat_app/domain/entities/chat_contact_entity.dart';
 import 'package:whatsapp/chat_app/presentation/view/chat/chat_screen.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/chat_viewmodel.dart';
+import 'package:whatsapp/chat_app/presentation/viewmodel/user_info_viewmodel.dart';
 import 'package:whatsapp/core/resources/colors_manager.dart';
 import 'package:whatsapp/core/resources/widgets/app_images.dart';
 import 'package:whatsapp/core/resources/widgets/error.dart';
@@ -34,12 +35,12 @@ class ContactsList extends ConsumerWidget {
   }
 }
 
-class _ContactChatItem extends StatelessWidget {
+class _ContactChatItem extends ConsumerWidget {
   final ChatContactEntity contact;
   const _ContactChatItem({super.key, required this.contact});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
       children: [
         InkWell(
@@ -57,16 +58,29 @@ class _ContactChatItem extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 8.0),
             child: ListTile(
               title: Text(
-                contact.name,
+                contact.name.isEmpty ? contact.phoneNumber : contact.name,
                 style: TextStyle(fontSize: 18, color: AppColors.colors.neutral11),
               ),
               subtitle: Padding(
                 padding: const EdgeInsets.only(top: 6.0),
-                child: Text(
-                  contact.lastMessage,
-                  style: TextStyle(fontSize: 15, color: AppColors.colors.neutral14),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                child: Row(
+                  children: [
+                    // if()
+                    // ...[
+                    //   Icon(
+                    //     Icons.done_all,
+                    //     size: 20,
+                    //     color: AppColors.colors.neutral55,
+                    //   ),
+                    //   SizedBox(width: 4),
+                    // ],
+                    Text(
+                      contact.lastMessage,
+                      style: TextStyle(fontSize: 15, color: AppColors.colors.neutral14),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
                 ),
               ),
               leading: (contact.profilePic == null || contact.profilePic == '')

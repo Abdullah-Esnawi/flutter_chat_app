@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/chat_app/domain/entities/user_entity.dart';
 import 'package:whatsapp/chat_app/presentation/view/chat/widgets/bottom_chat_filed.dart';
-import 'package:whatsapp/chat_app/presentation/view/chat/widgets/recording_mic.dart';
 import 'package:whatsapp/core/resources/widgets/app_images.dart';
 import 'package:whatsapp/generated/l10n.dart';
 import 'package:whatsapp/core/resources/widgets/messages_list.dart';
@@ -42,7 +41,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(widget.username),
+                  Text(widget.username.isEmpty ? snapshot.data!.phoneNumber : widget.username),
                   Text(
                     snapshot.data!.isOnline ? strings.online : strings.offline,
                     style: const TextStyle(
@@ -76,7 +75,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             AppImages.chatScreenBackground,
             color: Color(0xFFf0e8de),
           )),
-          Stack(
+          Column(
             children: [
               Expanded(
                 child: Messages(receiverId: widget.uid),

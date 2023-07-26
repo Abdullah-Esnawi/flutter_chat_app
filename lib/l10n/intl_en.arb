@@ -22,5 +22,6 @@
   "audioFileTypeName": "Audio",
   "pollFileTypeName": "Poll",
   "from": "from",
-  "recordToastMsg": "Hold to record, release to send"
+  "recordToastMsg": "Hold to record, release to send",
+  "you":"You"
 }

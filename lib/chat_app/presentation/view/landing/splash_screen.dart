@@ -61,7 +61,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(height: MediaQuery.of(context).size.height * .19),
-            const AppAssetImage(AppImages.splashIcon, width: 160, height: 160),
+            const AppAssetImage(AppImages.splashIcon, width: 250, height: 250),
             const Spacer(),
             RichText(
               textAlign: TextAlign.center,

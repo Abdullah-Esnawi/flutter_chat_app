@@ -52,6 +52,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "statusTabLabel": MessageLookupByLibrary.simpleMessage("STATUS"),
         "unknownErr": MessageLookupByLibrary.simpleMessage("Unknown Error"),
         "whatsapp": MessageLookupByLibrary.simpleMessage("WhatsApp"),
+        "you": MessageLookupByLibrary.simpleMessage("You"),
         "youDontHaveContacts":
             MessageLookupByLibrary.simpleMessage("You don\'t have contacts yet")
       };

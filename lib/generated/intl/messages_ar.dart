@@ -53,6 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "statusTabLabel": MessageLookupByLibrary.simpleMessage("الحالات"),
         "unknownErr": MessageLookupByLibrary.simpleMessage("خطأ غير معروف"),
         "whatsapp": MessageLookupByLibrary.simpleMessage("واتساب"),
+        "you": MessageLookupByLibrary.simpleMessage("انت"),
         "youDontHaveContacts":
             MessageLookupByLibrary.simpleMessage("ليس لديك جهات اتصال بعد")
       };

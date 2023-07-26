@@ -26,7 +26,7 @@ class MessageModel extends Message {
         'messageType': messageType.type,
         'repliedMessage': repliedMessage,
         'repliedTo': repliedTo,
-        'repliedMessageType': repliedMessageType.type,
+        'repliedMessageType': repliedMessageType?.type,
         'senderName': senderName,
       };
 

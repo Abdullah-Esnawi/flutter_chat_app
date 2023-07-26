@@ -12,7 +12,7 @@ class Message extends Equatable {
   final MessageType messageType;
   final String repliedMessage;
   final String repliedTo;
-  final MessageType repliedMessageType;
+  final MessageType? repliedMessageType;
 
   const Message({
     required this.senderId,

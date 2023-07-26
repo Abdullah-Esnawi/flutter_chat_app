@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
+import 'package:whatsapp/chat_app/presentation/view/chat/widgets/audio_player_widget.dart';
+import 'package:whatsapp/chat_app/presentation/view/chat/widgets/message_replay_preview.dart';
 import 'package:whatsapp/core/resources/colors_manager.dart';
 import 'package:whatsapp/core/resources/enums.dart';
 import 'package:whatsapp/core/resources/widgets/app_images.dart';
 import 'package:whatsapp/core/resources/widgets/chat_video_player_item.dart';
 
 class MessageWidget extends StatelessWidget {
-  const MessageWidget({super.key, required this.content, required this.messageType});
+  const MessageWidget({super.key, required this.content, required this.messageType, this.messageReplay});
   final String content;
   final MessageType messageType;
+  final MessageReplay? messageReplay;
   @override
   Widget build(BuildContext context) {
     final Widget messageWidget;
     switch (messageType) {
       case MessageType.text:
-        messageWidget = Text(content, style: TextStyle(fontSize: 16, color: AppColors.colors.neutral11));
+        messageWidget = Text(
+          content,
+          style: TextStyle(fontSize: 16, color: AppColors.colors.neutral11),
+          textAlign: TextAlign.start,
+        );
         break;
       case MessageType.image:
         messageWidget = AppCachedImage(url: content, borderRadius: BorderRadius.circular(6));
@@ -22,6 +30,9 @@ class MessageWidget extends StatelessWidget {
       case MessageType.gif:
         int gifUrlPartIndex = content.lastIndexOf('-') + 1;
         String gifUrlPart = content.substring(gifUrlPartIndex);
+        if (gifUrlPart.isEmpty || gifUrlPart == '/') {
+          gifUrlPart = "contentNotAvailable";
+        }
         String url = 'https://i.giphy.com/media/$gifUrlPart/200.gif';
         messageWidget = AppCachedImage(url: url);
         break;
@@ -31,7 +42,7 @@ class MessageWidget extends StatelessWidget {
         break;
 
       case MessageType.audio:
-        messageWidget = Container();
+        messageWidget = AudioPlayerWidget(url: content);
         break;
 
       case MessageType.location:
@@ -61,7 +72,17 @@ class MessageWidget extends StatelessWidget {
               top: 4,
               bottom: 26,
             ),
-      child: messageWidget,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (messageReplay != null)
+            MessageReplayWidget(
+              messageReplay: messageReplay!,
+              isPreviewMode: false, //
+            ),
+          messageWidget,
+        ],
+      ),
     );
   }
 }
