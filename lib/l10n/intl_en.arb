@@ -1,5 +1,5 @@
 {
-  "whatsapp":"WhatsApp",
+  "whatsapp": "WhatsApp",
   "online": "online",
   "offline": "offline",
   "bottomChatFieldHint": "Message",
@@ -23,5 +23,6 @@
   "pollFileTypeName": "Poll",
   "from": "from",
   "recordToastMsg": "Hold to record, release to send",
-  "you":"You"
+  "you": "You",
+  "enterName": "Enter Your Name"
 }

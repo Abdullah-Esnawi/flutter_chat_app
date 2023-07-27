@@ -20,6 +20,7 @@ class MessageWidget extends StatelessWidget {
         messageWidget = Text(
           content,
           style: TextStyle(fontSize: 16, color: AppColors.colors.neutral11),
+          // maxLines: 30,
           textAlign: TextAlign.start,
         );
         break;
@@ -59,6 +60,11 @@ class MessageWidget extends StatelessWidget {
     }
 
     return Padding(
+      // constraints: BoxConstraints(
+      //   maxWidth: MediaQuery.of(context).size.width - 45,
+      //   maxHeight: 400,
+      //   minWidth: 136,
+      // ),
       padding: messageType == MessageType.text
           ? const EdgeInsets.only(
               left: 10,
@@ -72,16 +78,18 @@ class MessageWidget extends StatelessWidget {
               top: 4,
               bottom: 26,
             ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (messageReplay != null)
-            MessageReplayWidget(
-              messageReplay: messageReplay!,
-              isPreviewMode: false, //
-            ),
-          messageWidget,
-        ],
+      child: Expanded(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (messageReplay != null)
+              MessageReplayWidget(
+                messageReplay: messageReplay!,
+                isPreviewMode: false, //
+              ),
+            Flexible(child: messageWidget),
+          ],
+        ),
       ),
     );
   }

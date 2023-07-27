@@ -9,6 +9,7 @@ import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_file_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_gif_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_text_message_usecase.dart';
+import 'package:whatsapp/chat_app/domain/usecases/chat/set_chat_message_seen_usecase.dart';
 import 'package:whatsapp/core/error_handling/error_handling.dart';
 import 'package:whatsapp/core/repositories/firebase_storage_repository.dart';
 import 'package:whatsapp/core/resources/enums.dart';
@@ -20,6 +21,7 @@ abstract class BaseChatRemoteDataSource {
   Stream<List<MessageModel>> getChatMessages(String receiverId);
   Future<void> sendFileMessage(FileMessageParams parameters);
   Future<void> sendGIFMessage(GifMessageParams parameters);
+  Future<void> setChatMessageSeen(SetChatMessageSeenParams parameters);
 }
 
 class ChatRemoteDataSource implements BaseChatRemoteDataSource {
@@ -310,6 +312,31 @@ class ChatRemoteDataSource implements BaseChatRemoteDataSource {
         .collection('chats')
         .doc(receiverUserData.uid)
         .set(senderChatContact.toMap());
+  }
+
+  @override
+  Future<void> setChatMessageSeen(SetChatMessageSeenParams parameters) async {
+    await _firestore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .collection('chats')
+        .doc(parameters.receiverId)
+        .collection('messages')
+        .doc(parameters.messageId)
+        .update({
+      'isSeen': true,
+    });
+    // users -> receiver id -> chats -> sender id -> messages ->message id ->store message
+    await _firestore
+        .collection('users')
+        .doc(parameters.receiverId)
+        .collection('chats')
+        .doc(_auth.currentUser!.uid)
+        .collection('messages')
+        .doc(parameters.messageId)
+        .update({
+      'isSeen': true,
+    });
   }
 }
 

@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:whatsapp/core/resources/widgets/file_picker.dart';
 import 'package:whatsapp/chat_app/presentation/view/main_navigations/main_navigation_screen.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/user_info_viewmodel.dart';
+import 'package:whatsapp/generated/l10n.dart';
 
 class UserInfoView extends ConsumerStatefulWidget {
   const UserInfoView({Key? key}) : super(key: key);
@@ -18,6 +19,7 @@ class UserInfoView extends ConsumerStatefulWidget {
 class _UserInfoViewState extends ConsumerState<UserInfoView> {
   TextEditingController usernameController = TextEditingController();
   File? image;
+  final _formKey = GlobalKey<FormState>();
   @override
   void dispose() {
     usernameController.dispose();
@@ -68,30 +70,39 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
                         ),
                       ],
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          width: size.width * .85,
-                          padding: const EdgeInsets.all(20),
-                          child: TextField(
-                            controller: usernameController,
-                            decoration: const InputDecoration(hintText: 'Enter Your Name'),
+                    Form(
+                      key: _formKey,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: size.width * .85,
+                            padding: const EdgeInsets.all(20),
+                            child: TextFormField(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return S.of(context).enterName;
+                                }
+                                return null;
+                              },
+                              controller: usernameController,
+                              decoration: InputDecoration(hintText: S.of(context).enterName),
+                            ),
                           ),
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            if (username.isNotEmpty) {
-                              viewmodel.saveUserInfoToFirebase(name: usernameController.text, profilePic: image);
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(builder: (context) => const MainNavigationScreen()),
-                                (route) => false,
-                              );
-                            }
-                          },
-                          icon: const Icon(Icons.done),
-                        ),
-                      ],
+                          IconButton(
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                viewmodel.saveUserInfoToFirebase(name: usernameController.text, profilePic: image);
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const MainNavigationScreen()),
+                                  (route) => false,
+                                );
+                              }
+                            },
+                            icon: const Icon(Icons.done),
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 );

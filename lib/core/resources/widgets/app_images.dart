@@ -139,7 +139,7 @@ class AppCachedImage extends StatelessWidget {
         borderRadius: borderRadius,
       ),
       child: CachedNetworkImage(
-        imageUrl: url,
+      imageUrl: url,
         fit: BoxFit.cover,
       ),
     );

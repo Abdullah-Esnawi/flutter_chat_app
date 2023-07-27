@@ -33,6 +33,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "chatsTabLabel": MessageLookupByLibrary.simpleMessage("CHATS"),
         "contactFileTypeName": MessageLookupByLibrary.simpleMessage("Contact"),
         "docFileTypeName": MessageLookupByLibrary.simpleMessage("Document"),
+        "enterName": MessageLookupByLibrary.simpleMessage("Enter Your Name"),
         "from": MessageLookupByLibrary.simpleMessage("from"),
         "galleryFileTypeName": MessageLookupByLibrary.simpleMessage("Gallery"),
         "locationFileTypeName":

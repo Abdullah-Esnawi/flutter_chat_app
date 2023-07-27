@@ -74,11 +74,13 @@ class _ContactChatItem extends ConsumerWidget {
                     //   ),
                     //   SizedBox(width: 4),
                     // ],
-                    Text(
-                      contact.lastMessage,
-                      style: TextStyle(fontSize: 15, color: AppColors.colors.neutral14),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    Flexible(
+                      child: Text(
+                        contact.lastMessage,
+                        style: TextStyle(fontSize: 15, color: AppColors.colors.neutral14),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ],
                 ),

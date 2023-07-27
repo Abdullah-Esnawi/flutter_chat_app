@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "contactFileTypeName":
             MessageLookupByLibrary.simpleMessage("جهة اتصال"),
         "docFileTypeName": MessageLookupByLibrary.simpleMessage("مستند"),
+        "enterName": MessageLookupByLibrary.simpleMessage("ادخل اسمك"),
         "from": MessageLookupByLibrary.simpleMessage("from"),
         "galleryFileTypeName": MessageLookupByLibrary.simpleMessage("المعرض"),
         "locationFileTypeName": MessageLookupByLibrary.simpleMessage("الموقع"),

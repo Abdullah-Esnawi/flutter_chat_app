@@ -1,11 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:swipe_to/swipe_to.dart';
 import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
-import 'package:whatsapp/chat_app/presentation/view/chat/widgets/message_replay_preview.dart';
 import 'package:whatsapp/core/resources/colors_manager.dart';
-import 'package:whatsapp/core/resources/enums.dart';
 import 'package:whatsapp/core/resources/widgets/message_widget.dart';
 
 class MyMessageCard extends StatelessWidget {
@@ -33,23 +30,10 @@ class MyMessageCard extends StatelessWidget {
               elevation: 1,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               color: AppColors.colors.neutral75,
-              margin:
-                  EdgeInsets.only(left: 15, right: 15, bottom: 5, top: /*message.repliedMessage.isNotEmpty ? 65 : */ 5),
+              margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  // // TODO: Complete this
-                  // if (message.repliedMessage.isNotEmpty)
-                  //   Positioned(
-                  //     top: -65,
-                  //     child: MessageReplayWidget(
-                  //         messageReplay: MessageReplay(
-                  //       isMe: true,
-                  //       message: message.repliedMessage,
-                  //       messageType: message.repliedMessageType!,
-                  //       repliedTo: message.senderName,
-                  //     )),
-                  //   ),
                   MessageWidget(
                     content: message.text,
                     messageType: message.messageType,
@@ -80,7 +64,7 @@ class MyMessageCard extends StatelessWidget {
                         Icon(
                           Icons.done_all,
                           size: 20,
-                          color: AppColors.colors.neutral55,
+                          color: message.isSeen ? AppColors.colors.blue : AppColors.colors.neutral55,
                         ),
                       ],
                     ),
@@ -89,7 +73,6 @@ class MyMessageCard extends StatelessWidget {
               ),
             ),
           ),
-          // ),
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/chat_app/di_module/module.dart';
 import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
+import 'package:whatsapp/chat_app/domain/usecases/chat/set_chat_message_seen_usecase.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/chat_viewmodel.dart';
 import 'package:whatsapp/core/resources/enums.dart';
 import 'package:whatsapp/core/resources/widgets/error.dart';
@@ -33,11 +34,19 @@ class _MessagesState extends ConsumerState<Messages> {
           SchedulerBinding.instance.addPostFrameCallback((_) {
             _controller.jumpTo(_controller.position.maxScrollExtent);
           });
+
           return ListView.builder(
             cacheExtent: 999999,
             controller: _controller,
             itemCount: messages.length,
             itemBuilder: (context, index) {
+              if (messages[index].isSeen == false &&
+                  messages[index].receiverId == FirebaseAuth.instance.currentUser!.uid) {
+                ref.read(chatViewmodelProvider).setMessageSeen(
+                      SetChatMessageSeenParams(receiverId: widget.receiverId, messageId: messages[index].messageId),
+                    );
+              }
+
               if (messages[index].senderId == FirebaseAuth.instance.currentUser!.uid) {
                 return MyMessageCard(
                   messages[index],

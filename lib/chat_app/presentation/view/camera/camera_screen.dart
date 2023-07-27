@@ -126,7 +126,7 @@ class _CameraScreenState extends ConsumerState<CameraScreen> {
                                 if (!ref.read(cameraIsRecording)) {
                                   _cameraController.takePicture().then((XFile? file) {
                                     if (file?.path != null) {
-                                      _cameraController.dispose();
+                                      _cameraController.pausePreview();
 
                                       Navigator.pushNamed(context, Routes.pickedImageView,
                                           arguments: {"path": file!.path});

@@ -23,5 +23,6 @@
   "pollFileTypeName": "استطلاع رأي",
   "from": "from",
   "recordToastMsg": "اضغط باستمرار للتسجيل، حرر للإرسال",
-  "you":"انت"
+  "you": "انت",
+  "enterName": "ادخل اسمك"
 }

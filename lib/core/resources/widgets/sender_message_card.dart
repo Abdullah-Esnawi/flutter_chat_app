@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:swipe_to/swipe_to.dart';
 import 'package:intl/intl.dart';
 import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
-import 'package:whatsapp/chat_app/presentation/view/chat/widgets/message_replay_preview.dart';
 import 'package:whatsapp/core/resources/colors_manager.dart';
 import 'package:whatsapp/core/resources/widgets/message_widget.dart';
 
@@ -22,6 +20,7 @@ class SenderMessageCard extends StatelessWidget {
           constraints: BoxConstraints(
             maxWidth: MediaQuery.of(context).size.width - 45,
             maxHeight: 400,
+            minWidth: 136,
           ),
           child: Card(
             elevation: 1,
@@ -31,15 +30,6 @@ class SenderMessageCard extends StatelessWidget {
             child: Stack(
               clipBehavior: Clip.none,
               children: [
-                // TODO: Complete this
-                // if (message.repliedMessage.isNotEmpty)
-                //   MessageReplayWidget(
-                //       messageReplay: MessageReplay(
-                //     isMe: message.senderId == FirebaseAuth.instance.currentUser!.uid,
-                //     message: message.repliedMessage,
-                //     messageType: message.repliedMessageType!,
-                //     repliedTo: message.repliedTo,
-                //   )),
                 MessageWidget(
                   content: message.text,
                   messageType: message.messageType,

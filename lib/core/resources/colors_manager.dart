@@ -45,7 +45,9 @@ abstract class AppColorScheme {
   /// ************ common colors
   Color white = const Color(0xffffffff);
 
-  Color primary = const Color(0xff02AD9B);
+  Color primary = const Color(0XFF008069);
+  Color blue = const Color(0xFF34B7F1);
+  // Color primary = const Color(0xff02AD9B);
 
   Color primary100 = const Color(0xff0CA996);
 
@@ -92,9 +94,6 @@ abstract class AppColorScheme {
 
 class DarkColorScheme extends AppColorScheme {
   DarkColorScheme();
-
-  @override
-  Color get primary => const Color(0xFF128C7E); // Primary color
 
   @override
   Color get neutral11 => const Color(0xffD3DAE0); // Username color in chats contact list

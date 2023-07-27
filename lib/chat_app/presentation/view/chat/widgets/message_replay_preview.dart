@@ -9,6 +9,7 @@ import 'package:whatsapp/generated/l10n.dart';
 
 class MessageReplayWidget extends ConsumerWidget {
   const MessageReplayWidget({
+    super.key,
     required this.messageReplay,
     required this.isPreviewMode,
     this.onCloseTap,
@@ -32,7 +33,7 @@ class MessageReplayWidget extends ConsumerWidget {
             )
           : null,
       child: Container(
-        height: 50,
+        // height: 0,
         padding: const EdgeInsetsDirectional.only(start: 10, bottom: 6, end: 6, top: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -56,7 +57,11 @@ class MessageReplayWidget extends ConsumerWidget {
                       : messageReplay.repliedTo.isEmpty
                           ? "Opposite"
                           : messageReplay.repliedTo,
-                  style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.colors.primary),
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.colors.primary,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 )),
                 if (isPreviewMode)
                   GestureDetector(

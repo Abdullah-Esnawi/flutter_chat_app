@@ -181,10 +181,10 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                                         if (image != null) {
                                           ref.read(chatViewmodelProvider).sendFileMessage(
                                                 FileMessageParams(
-                                                  receiverId: widget.receiverId,
-                                                  messageType: MessageType.image,
-                                                  file: File(image.path),
-                                                ),
+                                                    receiverId: widget.receiverId,
+                                                    messageType: MessageType.image,
+                                                    file: File(image.path),
+                                                    messageReplay: messageReplay),
                                               );
                                         }
                                       },
@@ -219,14 +219,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                     final state = await ref.read(chatViewmodelProvider).sendTextMessage(TextMessageParams(
                           receiverId: widget.receiverId,
                           text: widget.messageCtrl.text.trim(),
-                          messageReplay: messageReplay != null
-                              ? MessageReplay(
-                                  message: messageReplay.message,
-                                  isMe: messageReplay.isMe,
-                                  messageType: messageReplay.messageType,
-                                  repliedTo: messageReplay.repliedTo,
-                                )
-                              : null,
+                          messageReplay: messageReplay,
                         ));
                     // TODO: Handle message State
                     widget.messageCtrl.clear();
@@ -239,7 +232,11 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                       ref.read(isRecording.notifier).state = false;
                       if (path != null) {
                         await ref.read(chatViewmodelProvider).sendFileMessage(FileMessageParams(
-                            receiverId: widget.receiverId, messageType: MessageType.audio, file: File(path)));
+                              receiverId: widget.receiverId,
+                              messageType: MessageType.audio,
+                              file: File(path),
+                              messageReplay: messageReplay
+                            ));
                       } else {
                         showSnackBar(content: strings.somethingWentWrong, duration: const Duration(seconds: 1));
                       }
@@ -266,7 +263,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                   if (gif != null) {
                     ref
                         .read(chatViewmodelProvider)
-                        .sendGifMessage(GifMessageParams(receiverId: widget.receiverId, gifUrl: gif.source!));
+                        .sendGifMessage(GifMessageParams(receiverId: widget.receiverId, gifUrl: gif.source!, messageReplay: messageReplay));
                   }
                 });
               },

@@ -58,13 +58,16 @@ class ChatRepositoryImpl implements ChatRepository {
       await _remote.sendGIFMessage(parameters);
       return const Right(true);
     } catch (err) {
-       return Left(ServerFailure(err.toString()));
+      return Left(ServerFailure(err.toString()));
     }
- }
+  }
 
   @override
-  Future<Result<Failure, void>> setChatMessageSeen(SetChatMessageSeenParams parameters) {
-    // TODO: implement setChatMessageSeen
-    throw UnimplementedError();
+  Future<Result<Failure, void>> setChatMessageSeen(SetChatMessageSeenParams parameters) async {
+    try {
+      return await Right(_remote.setChatMessageSeen(parameters));
+    } catch (err) {
+      return Left(ServerFailure(err.toString()));
+    }
   }
 }

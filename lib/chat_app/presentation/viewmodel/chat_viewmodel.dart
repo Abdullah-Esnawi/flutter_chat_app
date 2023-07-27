@@ -11,6 +11,7 @@ import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_file_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_gif_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_text_message_usecase.dart';
+import 'package:whatsapp/chat_app/domain/usecases/chat/set_chat_message_seen_usecase.dart';
 import 'package:whatsapp/chat_app/presentation/view/chat/widgets/bottom_chat_filed.dart';
 import 'package:whatsapp/core/resources/enums.dart';
 import 'package:whatsapp/core/resources/widgets/snackbar.dart';
@@ -29,9 +30,11 @@ class ChatViewmodel {
   final SendTextMessageUseCase _sendTextMessageUseCase;
   final SendFileMessageUseCase _sendFileMessageUseCase;
   final SendGifMessageUseCase _sendGifMessageUseCase;
+  final SetChatMessageSeenUseCase _setChatMessageSeenUseCase;
   final Ref _ref;
 
-  ChatViewmodel(this._sendTextMessageUseCase, this._sendFileMessageUseCase, this._sendGifMessageUseCase, this._ref);
+  ChatViewmodel(this._sendTextMessageUseCase, this._sendFileMessageUseCase, this._sendGifMessageUseCase, this._ref,
+      this._setChatMessageSeenUseCase);
   TextEditingController messageController = TextEditingController();
   Future<RemoteObjectState<void>> sendTextMessage(TextMessageParams params) async {
     var state = const RemoteObjectState.loading();
@@ -75,25 +78,7 @@ class ChatViewmodel {
     return state;
   }
 
-  // Future<void> audioHandler(RecorderController? soundRecorder, String receiverId) async {
-  //   if (_ref.read(isRecorderInit) == false) {
-  //     showSnackBar(content: S.current.somethingWentWrong);
-  //       return;
-  //   }
-  //   var tempDir = await getTemporaryDirectory();
-  //   var path = '${tempDir.path}/flutter_sound/.acc';
-  //   if (_ref.read(isRecording)) {
-  //    var file = await soundRecorder?.stop();
-
-  //     sendFileMessage(FileMessageParams(receiverId: receiverId, messageType: MessageType.audio, file: File(file!)));
-
-  //   } else {
-  //     soundRecorder?.record(path: path);
-  //   }
-  //   if (_ref.read(isRecording)) {
-  //     _ref.read(isRecording.notifier).state = false;
-  //   } else {
-  //     _ref.read(isRecording.notifier).state = true;
-  //   }
-  // }
+  Future<void> setMessageSeen(SetChatMessageSeenParams params) async {
+    await _setChatMessageSeenUseCase(params);
+  }
 }

@@ -10,6 +10,7 @@ import 'package:whatsapp/chat_app/data/models/user_model.dart';
 import 'package:whatsapp/chat_app/di_module/module.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/save_user_data_use_case.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/verify_otp_usecase.dart';
+import 'package:whatsapp/core/error_handling/error_handling.dart';
 import 'package:whatsapp/core/repositories/firebase_storage_repository.dart';
 import 'package:whatsapp/generated/l10n.dart';
 
@@ -92,12 +93,17 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
 
   @override
   Future<void> verifyOtp(VerifyOTPParams parameters) async {
-    PhoneAuthCredential credential = PhoneAuthProvider.credential(
+   try {
+     PhoneAuthCredential credential = PhoneAuthProvider.credential(
       verificationId: _verificationId,
       smsCode: parameters.userOTP,
     );
     await auth.signInWithCredential(credential);
     setCurrentUid(ref);
+     
+   } catch (err) {
+     ServerException(err.toString());
+   }
   }
 
   @override

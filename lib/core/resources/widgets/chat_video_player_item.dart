@@ -69,7 +69,7 @@ class _PlayingVideoViewState extends ConsumerState<PlayingVideoView> {
   void dispose() {
     super.dispose();
     widget._controller.pause();
-    ref.read(isVideoPlaying.notifier).state = false;
+    ref.read(isVideoPlaying.notifier).update((state) => false);
   }
 
   String minutesString = '00';

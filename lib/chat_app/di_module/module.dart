@@ -20,6 +20,7 @@ import 'package:whatsapp/chat_app/domain/usecases/chat/get_chat_messages_usecase
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_file_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_gif_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_text_message_usecase.dart';
+import 'package:whatsapp/chat_app/domain/usecases/chat/set_chat_message_seen_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/contacts/get_all_contacts_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/contacts/get_selected_contact_usecase.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/chat_viewmodel.dart';
@@ -70,13 +71,16 @@ final contactsViewmodelProvider = Provider(
     selectedContactsUseCase: ref.watch(selectedContactUseCaseProvider),
   ),
 );
+final setMessageSeenUseCaseProvider = Provider(
+  (ref) => SetChatMessageSeenUseCase(ref.watch(chatRepositoryProvider)),
+);
 
 final chatViewmodelProvider = Provider((ref) => ChatViewmodel(
       ref.watch(sentTextMessageUseCase),
       ref.watch(sendFileMessageUseCaseProvider),
       ref.watch(sendGifMessageUseCaseProvider),
       ref,
-
+      ref.watch(setMessageSeenUseCaseProvider),
     ));
 
 final sendFileMessageUseCaseProvider = Provider((ref) => SendFileMessageUseCase(ref.watch(chatRepositoryProvider)));
@@ -105,9 +109,7 @@ final setUserStateUseCaseProvider = Provider((ref) => SetUserStateUseCase(ref.wa
 
 // 00971551593442
 
-
-final messageReplayProvider  = StateProvider<MessageReplay?>((ref) => null);
-
+final messageReplayProvider = StateProvider<MessageReplay?>((ref) => null);
 
 enum AppLanguage {
   english('en'),
@@ -127,4 +129,3 @@ enum AppLanguage {
     }
   }
 }
-

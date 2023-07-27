@@ -299,6 +299,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Enter Your Name`
+  String get enterName {
+    return Intl.message(
+      'Enter Your Name',
+      name: 'enterName',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
