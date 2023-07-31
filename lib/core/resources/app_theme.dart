@@ -22,7 +22,8 @@ class AppTheme {
   //   statusBarBrightness: brightness,
   // );
 
-  static final theme = ThemeData().copyWith(
+  static final theme = ThemeData(
+    fontFamily: 'Montserrat',
     // textTheme: AppTextTheme.materialTextTheme,
     scaffoldBackgroundColor: AppColors.colors.neutral90,
     appBarTheme: AppBarTheme(

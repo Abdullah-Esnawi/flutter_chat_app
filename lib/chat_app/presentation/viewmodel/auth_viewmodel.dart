@@ -5,13 +5,16 @@ import 'package:whatsapp/chat_app/di_module/module.dart';
 import 'package:whatsapp/chat_app/domain/entities/user_entity.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/set_user_state_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/signin_with_phone_usecase.dart';
+import 'package:whatsapp/chat_app/domain/usecases/auth/signout_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/verify_otp_usecase.dart';
 import 'package:whatsapp/core/resources/widgets/snackbar.dart';
 import 'package:whatsapp/core/resources/routes_manager.dart';
+import 'package:whatsapp/core/usecases/base_use_cases.dart';
 import 'package:whatsapp/core/x_state/state.dart';
 
 final authViewmodelProvider = Provider.autoDispose((ref) {
   return AuthViewmodel(
+    signOutUseCase: ref.watch(signOutUseCaseProvider),
     signInWithPhoneUseCase: ref.watch(signInWithPhoneUseCaseProvider),
     verifyOTPUseCase: ref.watch(verifyOTPUseCaseProvider),
     ref: ref,
@@ -23,6 +26,7 @@ final countryPickerProvider = StateProvider<Country?>((ref) => null);
 
 class AuthViewmodel with BaseAuthViewmodel {
   AuthViewmodel({
+    required this.signOutUseCase,
     required this.setUserStateUseCase,
     required this.verifyOTPUseCase,
     required this.ref,
@@ -32,6 +36,7 @@ class AuthViewmodel with BaseAuthViewmodel {
   final SignInWithPhoneUseCase signInWithPhoneUseCase;
   final VerifyOTPUseCase verifyOTPUseCase;
   final SetUserStateUseCase setUserStateUseCase;
+  final SignOutUseCase signOutUseCase;
 
   final phoneController = TextEditingController();
 
@@ -47,7 +52,7 @@ class AuthViewmodel with BaseAuthViewmodel {
     final country = ref.read(countryPickerProvider.notifier).state;
 
     if (country != null && phoneNumber.isNotEmpty) {
-      final result = await signInWithPhoneUseCase('+${country.phoneCode}$phoneNumber');
+      final result = await signInWithPhoneUseCase('+${country.phoneCode}${phoneNumber.replaceAll(' ', '')}');
       return result.fold((failure) {
         return RemoteObjectState.error(failure.message);
       }, (user) {
@@ -104,6 +109,16 @@ class AuthViewmodel with BaseAuthViewmodel {
       state = const RemoteObjectState.data(true);
     });
     return state;
+  }
+
+  @override
+  Future<void> logout(BuildContext context) async {
+    final result = await signOutUseCase(const NoParameters());
+
+    result.fold(
+      (l) => Navigator.pushNamedAndRemoveUntil(context, Routes.privacy, (route) => false),
+      (r) => Navigator.pushNamedAndRemoveUntil(context, Routes.privacy, (route) => false),
+    );
   }
 }
 

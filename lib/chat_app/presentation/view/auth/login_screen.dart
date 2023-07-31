@@ -72,7 +72,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         },
                         error: (error) => Navigator.of(context).push(MaterialPageRoute(
                             builder: (_) => WidgetError(
-                                message: error.toString(), tryAgain: () async => await viewmodel.sendPhoneNumber()))),
+                                message: error.toString(), tryAgain: () async {
+                                   await viewmodel.sendPhoneNumber();
+                                   Navigator.pop(context);
+                                }))),
                       );
                     }),
               ),
@@ -84,4 +87,4 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 }
-  // 1024015950
+  // 

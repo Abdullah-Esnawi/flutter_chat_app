@@ -27,11 +27,11 @@ class AuthRepositoryImpl extends AuthRepository {
       // if (user == null) {
       //   return Left(ServerFailure(S.current.somethingWentWrong));
       // }
+      return Right(user);
+
     } on ServerException catch (e) {
       return Left(ServerFailure(e.message));
     }
-
-    return Right(user);
   }
 
   @override

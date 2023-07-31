@@ -1,7 +1,10 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/chat_app/data/repository/user_info_repository.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/save_user_data_use_case.dart';
+import 'package:whatsapp/chat_app/presentation/view/main_navigations/main_navigation_screen.dart';
 import 'package:whatsapp/core/resources/widgets/snackbar.dart';
 
 import '../../domain/entities/user_entity.dart';
@@ -25,14 +28,21 @@ class UserInfoViewmodel implements UserInfoViewmodelBase {
   final Ref ref;
 
   @override
-  Future<void> saveUserInfoToFirebase({required String name, required File? profilePic}) async {
+  Future<void> saveUserInfoToFirebase(
+      {required String name, required File? profilePic, required BuildContext context}) async {
     final result = await _setUserStateUseCaseProvider(UserDataParams(name: name, profilePic: profilePic));
 
     result.fold(
       (fail) {
         showSnackBar(content: 'Data isn\'t Updated');
+        debugPrint("ERREREEeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
       },
       (success) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const MainNavigationScreen()),
+          (route) => false,
+        );
         showSnackBar(content: 'Data Updated Successfully');
       },
     );
@@ -50,7 +60,7 @@ class UserInfoViewmodel implements UserInfoViewmodelBase {
 }
 
 abstract class UserInfoViewmodelBase {
-  void saveUserInfoToFirebase({required String name, required File? profilePic});
+  Future<void> saveUserInfoToFirebase({required String name, required File? profilePic, required BuildContext context});
   Future<UserInfoEntity?> getCurrentUserData();
   Stream<UserInfoEntity> getUserById(String id);
 }

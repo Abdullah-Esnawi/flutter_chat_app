@@ -48,6 +48,9 @@ abstract class AppColorScheme {
   Color primary = const Color(0XFF008069);
   Color blue = const Color(0xFF34B7F1);
   // Color primary = const Color(0xff02AD9B);
+  Color get grey => const Color(0xFFC4C4C4);
+  
+  Color get neutral10 => const Color(0xFFEAEBEB);
 
   Color primary100 = const Color(0xff0CA996);
 

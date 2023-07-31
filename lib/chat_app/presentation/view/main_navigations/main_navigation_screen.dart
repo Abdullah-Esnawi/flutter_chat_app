@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:whatsapp/chat_app/presentation/common/dropdown_menu.dart';
+import 'package:whatsapp/chat_app/presentation/view/status/status_contacts_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/camera/camera_screen.dart';
 // import 'package:whatsapp/chat_app/presentation/view/camera/camera_screen.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/auth_viewmodel.dart';
@@ -8,6 +11,7 @@ import 'package:whatsapp/core/resources/app_navigator.dart';
 import 'package:whatsapp/core/resources/colors_manager.dart';
 import 'package:whatsapp/core/resources/routes_manager.dart';
 import 'package:whatsapp/core/resources/widgets/contacts_list.dart';
+import 'package:whatsapp/core/resources/widgets/file_picker.dart';
 import 'package:whatsapp/generated/l10n.dart';
 
 // final _currentIndex = StateProvider((ref) => 1);
@@ -28,15 +32,12 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _tabController = TabController(length: 4, vsync: this, initialIndex: 1);
-    _tabController.addListener((){
-            setState(() {
+    _tabController.addListener(() {
+      setState(() {
         _currentIndex = _tabController.index;
       });
-
     });
   }
-
-
 
   @override
   void dispose() {
@@ -84,10 +85,14 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen>
               icon: Icon(Icons.search, color: AppColors.colors.neutral13),
               onPressed: () {},
             ),
-            IconButton(
-              icon: Icon(Icons.more_vert, color: AppColors.colors.neutral13),
-              onPressed: () {},
-            ),
+            // IconButton(
+            //   icon: Icon(Icons.more_vert, color: AppColors.colors.neutral13),
+            //   onPressed: () async {
+            //     // await ref.read(authViewmodelProvider).logout(context);
+            //     ;
+            //   },
+            // ),
+           const DropdownButtonWidget(),
           ],
           bottom: TabBar(
             controller: _tabController,
@@ -119,21 +124,34 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen>
         ),
         body: TabBarView(
           controller: _tabController,
-          children: const [
+          children: [
             CameraScreen(), //receiverId: 'Ebk5Kf7v6zWcEopCIWeVVO7giIv1'
             ContactsList(),
-            Center(child: Text('STATUS')),
+            StatusScreen(),
             Center(child: Text('CALLS')),
           ],
         ), // create provider
         floatingActionButton: _currentIndex != 0
             ? FloatingActionButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, Routes.selectContactScreen);
+                onPressed: () async {
+                  switch (_currentIndex) {
+                    case 1:
+                      Navigator.pushNamed(context, Routes.selectContactScreen);
+                      break;
+                    case 2:
+                      var file = await pickImageFromGallery(ImageSource.gallery);
+                      if (file != null) {
+                        Navigator.pushNamed(context, Routes.pickedImageView, arguments: {'path': file.path});
+                      }
+                  }
                 },
                 backgroundColor: AppColors.colors.primary,
                 child: Icon(
-                  Icons.comment,
+                  _currentIndex == 1
+                      ? Icons.comment
+                      : _currentIndex == 2
+                          ? Icons.camera_alt_rounded
+                          : Icons.add_ic_call_rounded,
                   color: AppColors.colors.white,
                 ),
               )

@@ -10,11 +10,14 @@ import 'package:whatsapp/chat_app/data/data_source/chat/chat_local_data_source.d
 import 'package:whatsapp/chat_app/data/data_source/chat/chat_remote_data_source.dart';
 import 'package:whatsapp/chat_app/data/data_source/contact/contacts_local_data_source.dart';
 import 'package:whatsapp/chat_app/data/data_source/contact/contacts_remote_data_source.dart';
+import 'package:whatsapp/chat_app/data/data_source/status/status_remote_data_source.dart';
 import 'package:whatsapp/chat_app/data/repository/auth_repository.dart';
 import 'package:whatsapp/chat_app/data/repository/chat_repository.dart';
 import 'package:whatsapp/chat_app/data/repository/contacts_repository.dart';
+import 'package:whatsapp/chat_app/data/repository/status_repository.dart';
 import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/set_user_state_usecase.dart';
+import 'package:whatsapp/chat_app/domain/usecases/auth/signout_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/get_chat_contacts_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/get_chat_messages_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_file_message_usecase.dart';
@@ -23,6 +26,8 @@ import 'package:whatsapp/chat_app/domain/usecases/chat/send_text_message_usecase
 import 'package:whatsapp/chat_app/domain/usecases/chat/set_chat_message_seen_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/contacts/get_all_contacts_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/contacts/get_selected_contact_usecase.dart';
+import 'package:whatsapp/chat_app/domain/usecases/status/get_statueses_usecase.dart';
+import 'package:whatsapp/chat_app/domain/usecases/status/upload_status_usecase.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/chat_viewmodel.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/contacts_viewmodel.dart';
 import 'package:whatsapp/core/usecases/base_use_cases.dart';
@@ -86,12 +91,21 @@ final chatViewmodelProvider = Provider((ref) => ChatViewmodel(
 final sendFileMessageUseCaseProvider = Provider((ref) => SendFileMessageUseCase(ref.watch(chatRepositoryProvider)));
 final sendGifMessageUseCaseProvider = Provider((ref) => SendGifMessageUseCase(ref.watch(chatRepositoryProvider)));
 
+final signOutUseCaseProvider = Provider((ref) => SignOutUseCase(ref.watch(authRepositoryProvider)));
+
 final sentTextMessageUseCase = Provider((ref) => SendTextMessageUseCase(ref.watch(chatRepositoryProvider)));
 
 final chatRepositoryProvider = Provider((ref) => ChatRepositoryImpl(
       ref.watch(chatRemoteDataSourceProvider),
       ref.watch(chatLocalDataSourceProvider),
     ));
+final statusRemoteDataSourceProvider =
+    Provider((ref) => StatusRemoteDataSource(FirebaseFirestore.instance, FirebaseAuth.instance, ref));
+
+final statusRepositoryProvider = Provider((ref) => StatusRepositoryImpl(ref.watch(statusRemoteDataSourceProvider)));
+
+final uploadStatusUseCaseProvider = Provider((ref) => UploadStatusUseCase(ref.watch(statusRepositoryProvider)));
+final getStatusUseCaseProvider = Provider((ref) => GetStatusUseCase(ref.watch(statusRepositoryProvider)));
 
 final chatRemoteDataSourceProvider = Provider((ref) => ChatRemoteDataSource(
       FirebaseFirestore.instance,

@@ -11,18 +11,6 @@ class ContactsRemoteDataSource implements BaseContactsRemoteDataSource {
 
   ContactsRemoteDataSource(this._firestore);
 
-  // Future<List<Contact>> getContacts(ContactsType contactsType) async {
-  //   List<Contact> contacts = [];
-  //   try {
-  //     if (await FlutterContacts.requestPermission()) {
-  //       contacts = await FlutterContacts.getContacts(withProperties: true);
-  //     }
-  //   } catch (err) {
-  //     debugPrint(err.toString());
-  //   }
-  //   return contacts;
-  // }
-
   @override
   Future<UserInfoModel?> getSelectedContact(String phone) async {
     try {
@@ -30,8 +18,6 @@ class ContactsRemoteDataSource implements BaseContactsRemoteDataSource {
       bool isFound = false;
       for (var doc in userCollection.docs) {
         var userData = UserInfoModel.fromMap(doc.data());
-        // String selectedPhoneNum = selectedContact.phones[0].number.replaceAll(' ', '');
-
         if (phone.split('').first == '0') {
           phone = phone.replaceFirst('0', '+20');
         }

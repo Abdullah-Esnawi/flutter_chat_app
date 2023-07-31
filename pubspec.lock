@@ -17,6 +17,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.3"
+  agora_rtc_engine:
+    dependency: transitive
+    description:
+      name: agora_rtc_engine
+      sha256: "5e0d363c8ae68b08028d19a743972278266b8cb73f81243d09bc024f5541412c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.2.1"
+  agora_rtm:
+    dependency: transitive
+    description:
+      name: agora_rtm
+      sha256: b3b00ef84c385bdb5ebf99402435e88662dd27adfd03e1a0eb323e9e5c7e925f
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.5.7"
+  agora_uikit:
+    dependency: "direct main"
+    description:
+      name: agora_uikit
+      sha256: f1b7204cd56581b0d7131c8c420477e460d03684a245642efda5444747be9f24
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.3.5"
   analyzer:
     dependency: transitive
     description:
@@ -433,6 +457,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.5"
+  extended_image:
+    dependency: transitive
+    description:
+      name: extended_image
+      sha256: e77d18f956649ba6e5ecebd0cb68542120886336a75ee673788145bd4c3f0767
+      url: "https://pub.dev"
+    source: hosted
+    version: "8.0.2"
+  extended_image_library:
+    dependency: transitive
+    description:
+      name: extended_image_library
+      sha256: af3ff1c09c23ca7663f94272313d63499a6bd19121e99378e375e0cf2ac7a3e4
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.5.2"
   fake_async:
     dependency: transitive
     description:
@@ -709,6 +749,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.13.6"
+  http_client_helper:
+    dependency: transitive
+    description:
+      name: http_client_helper
+      sha256: "14c6e756644339f561321dab021215475ba4779aa962466f59ccb3ecf66b36c3"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.4"
   http_multi_server:
     dependency: transitive
     description:
@@ -805,6 +853,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  iris_method_channel:
+    dependency: transitive
+    description:
+      name: iris_method_channel
+      sha256: dce2527839b46d1d0f0573b5ae1425e23a111afb280245ea1500f16a11957ad4
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.0"
   js:
     dependency: transitive
     description:
@@ -833,10 +889,10 @@ packages:
     dependency: transitive
     description:
       name: lints
-      sha256: "0a217c6c989d21039f1498c3ed9f3ed71b354e69873f13a8dfc3c9fe76f1b452"
+      sha256: "5e4a9cd06d447758280a8ac2405101e0e2094d2a1dbdd3756aec3fe7775ba593"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.1"
+    version: "2.0.1"
   logging:
     dependency: transitive
     description:
@@ -877,6 +933,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   octo_image:
     dependency: transitive
     description:
@@ -1005,6 +1069,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.4.0"
+  photo_manager:
+    dependency: transitive
+    description:
+      name: photo_manager
+      sha256: df31e29a81831d1ec136d80ba4a43a90077994ada6acd565fcfbd8ed181ca0e8
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.7.0"
   platform:
     dependency: transitive
     description:
@@ -1037,6 +1109,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
+  provider:
+    dependency: transitive
+    description:
+      name: provider
+      sha256: cdbe7530b12ecd9eb455bdaa2fcb8d4dad22e80b8afb4798b41479d5ce26847f
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.5"
   pub_semver:
     dependency: transitive
     description:
@@ -1210,6 +1290,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.7.2+1"
+  story_view:
+    dependency: "direct main"
+    description:
+      name: story_view
+      sha256: "792fb10fb8b3e72e6bbbc5c94bc6ff6399a752237dd2afb1fcb97392814797b9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.15.0"
   stream_channel:
     dependency: transitive
     description:
@@ -1378,6 +1466,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.4.0"
+  wechat_assets_picker:
+    dependency: "direct main"
+    description:
+      name: wechat_assets_picker
+      sha256: "5aeac81c6a28e1142a2c9ba9ee802b909c2dad9186d9a58dbe4eb74493af4743"
+      url: "https://pub.dev"
+    source: hosted
+    version: "8.5.0"
   win32:
     dependency: transitive
     description:
@@ -1412,4 +1508,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.0.0 <4.0.0"
-  flutter: ">=3.7.0"
+  flutter: ">=3.10.0"

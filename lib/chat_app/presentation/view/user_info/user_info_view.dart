@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:whatsapp/chat_app/domain/entities/user_entity.dart';
+import 'package:whatsapp/core/resources/widgets/app_images.dart';
 import 'dart:io';
 
 import 'package:whatsapp/core/resources/widgets/file_picker.dart';
@@ -38,25 +39,50 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
           child: FutureBuilder<UserInfoEntity?>(
               future: viewmodel.getCurrentUserData(),
               builder: (context, snapshot) {
-                usernameController.text = snapshot.data?.name ?? '';
+                usernameController.text = snapshot.data?.name ?? usernameController.text;
                 return Column(
                   children: [
                     const SizedBox(height: 20),
                     Stack(
                       children: [
                         /// TODO: Use [AppAssetImage] Widget instead [NetworkImage]
-                        (snapshot.data?.profilePic == null || snapshot.data!.profilePic.isEmpty)
-                            ? CircleAvatar(
-                                backgroundImage: NetworkImage(image?.path ??
-                                    'https://png.pngitem.com/pimgs/s/214-2145309_blank-profile-picture-circle-hd-png-download.png'),
-                                radius: 64,
+                        // (snapshot.data?.profilePic == null || snapshot.data!.profilePic.isEmpty)
+                        //     ? CircleAvatar(
+                        //         backgroundImage: NetworkImage(image?.path ??
+                        //             'https://png.pngitem.com/pimgs/s/214-2145309_blank-profile-picture-circle-hd-png-download.png'),
+                        //         radius: 64,
+                        //       )
+                        //     : CircleAvatar(
+                        //         backgroundImage: (image != null
+                        //             ? FileImage(image!)
+                        //             : NetworkImage(snapshot.data!.profilePic)) as ImageProvider,
+                        //         radius: 64,
+                        //       ),
+
+                        image != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(60),
+                                child: Image.file(
+                                  image!,
+                                  width: 120,
+                                  height: 120,
+                                  fit: BoxFit.cover,
+                                ),
                               )
-                            : CircleAvatar(
-                                backgroundImage: (image != null
-                                    ? FileImage(image!)
-                                    : NetworkImage(snapshot.data!.profilePic)) as ImageProvider,
-                                radius: 64,
-                              ),
+                            : (snapshot.data?.profilePic == null || snapshot.data!.profilePic.isEmpty)
+                                ? AppAssetImage(
+                                    AppImages.defaultProfilePicture,
+                                    width: 120,
+                                    height: 120,
+                                    borderRadius: BorderRadius.circular(60),
+                                  )
+                                : AppCachedImage(
+                                    url: snapshot.data!.profilePic,
+                                    width: 120,
+                                    height: 120,
+                                    borderRadius: BorderRadius.circular(60),
+                                  ),
+
                         Positioned(
                           bottom: -8,
                           left: 80,
@@ -91,12 +117,8 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
                           IconButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                viewmodel.saveUserInfoToFirebase(name: usernameController.text, profilePic: image);
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const MainNavigationScreen()),
-                                  (route) => false,
-                                );
+                                viewmodel.saveUserInfoToFirebase(
+                                    name: usernameController.text, profilePic: image, context: context);
                               }
                             },
                             icon: const Icon(Icons.done),

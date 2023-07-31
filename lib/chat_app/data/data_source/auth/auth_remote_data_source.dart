@@ -65,7 +65,7 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
   Future<UserInfoModel?> signInWithPhoneNumber(String phone) async {
     var user;
     await auth.verifyPhoneNumber(
-      phoneNumber: phone,
+      phoneNumber: phone.trim(),
       verificationCompleted: (AuthCredential credential) async {
         user = await auth.signInWithCredential(credential);
 
@@ -93,17 +93,16 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
 
   @override
   Future<void> verifyOtp(VerifyOTPParams parameters) async {
-   try {
-     PhoneAuthCredential credential = PhoneAuthProvider.credential(
-      verificationId: _verificationId,
-      smsCode: parameters.userOTP,
-    );
-    await auth.signInWithCredential(credential);
-    setCurrentUid(ref);
-     
-   } catch (err) {
-     ServerException(err.toString());
-   }
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: _verificationId,
+        smsCode: parameters.userOTP,
+      );
+      await auth.signInWithCredential(credential);
+      setCurrentUid(ref);
+    } catch (err) {
+      ServerException(err.toString());
+    }
   }
 
   @override
@@ -113,9 +112,9 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
     String photoUrl = '';
     if (parameters.profilePic != null) {
       photoUrl = await ref.watch(commonFirebaseStorageRepoProvider).storeFileToFirebase(
-        'profilePic/$uId',
-        parameters.profilePic!,
-      );
+            'profilePic/$uId',
+            parameters.profilePic!,
+          );
     }
 
     var user = UserInfoModel(
@@ -135,8 +134,6 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
       await firestore.collection('users').doc(uId).set(user.toMap());
     }
   }
-
-
 
   @override
   Future<UserInfoModel> getCurrentUser() async {
@@ -173,9 +170,9 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
     }
     //then upload new image
     String photoUrl = await ref.watch(commonFirebaseStorageRepoProvider).storeFileToFirebase(
-      'profilePic/$uId',
-      File(path),
-    );
+          'profilePic/$uId',
+          File(path),
+        );
     await firestore.collection('users').doc(auth.currentUser!.uid).update({
       'profilePic': photoUrl,
     });
