@@ -7,6 +7,7 @@ import 'package:whatsapp/chat_app/domain/usecases/auth/set_user_state_usecase.da
 import 'package:whatsapp/chat_app/domain/usecases/auth/signin_with_phone_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/signout_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/verify_otp_usecase.dart';
+import 'package:whatsapp/chat_app/presentation/viewmodel/user_info_viewmodel.dart';
 import 'package:whatsapp/core/resources/widgets/snackbar.dart';
 import 'package:whatsapp/core/resources/routes_manager.dart';
 import 'package:whatsapp/core/usecases/base_use_cases.dart';

@@ -1,11 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:whatsapp/chat_app/domain/entities/call_entity.dart';
 import 'package:whatsapp/chat_app/domain/repository/base_call_repository.dart';
 import 'package:whatsapp/core/error_handling/error_handling.dart';
 import 'package:whatsapp/core/usecases/base_use_cases.dart';
 
 class MakeCallUseCase extends BaseUseCase<void, MakeCallParams> {
-  final CallRepository _baseCallRepository;
+  final CallingRepository _baseCallRepository;
 
   MakeCallUseCase(this._baseCallRepository);
 
@@ -16,20 +17,17 @@ class MakeCallUseCase extends BaseUseCase<void, MakeCallParams> {
 }
 
 class MakeCallParams extends Equatable {
-  final String receiverId;
-  final String receiverName;
-  final String receiverPic;
+  final CallEntity receiverCallData;
+  final CallEntity senderCallData;
 
   const MakeCallParams({
-    required this.receiverId,
-    required this.receiverName,
-    required this.receiverPic,
+    required this.receiverCallData,
+    required this.senderCallData,
   });
 
   @override
   List<Object?> get props => [
-        receiverId,
-        receiverName,
-        receiverPic,
+        receiverCallData,
+        senderCallData,
       ];
 }

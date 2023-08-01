@@ -3,7 +3,7 @@ import 'package:whatsapp/chat_app/domain/repository/base_call_repository.dart';
 import 'package:whatsapp/core/usecases/base_use_cases.dart';
 
 class CallStreamUseCase extends StreamBaseUseCase<DocumentSnapshot, NoParameters> {
-  final CallRepository repository;
+  final CallingRepository repository;
 
   CallStreamUseCase(this.repository);
   @override

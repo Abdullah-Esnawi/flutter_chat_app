@@ -5,7 +5,7 @@ import 'package:whatsapp/core/error_handling/error_handling.dart';
 import 'package:whatsapp/core/usecases/base_use_cases.dart';
 
 class EndCallUseCase extends BaseUseCase<void, EndCallParams> {
-  final CallRepository _repository;
+  final CallingRepository _repository;
 
   EndCallUseCase(this._repository);
 

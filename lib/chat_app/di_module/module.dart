@@ -6,18 +6,21 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/chat_app/data/data_source/auth/auth_local_data_source.dart';
 import 'package:whatsapp/chat_app/data/data_source/auth/auth_remote_data_source.dart';
+import 'package:whatsapp/chat_app/data/data_source/call/call_remote_data_source.dart';
 import 'package:whatsapp/chat_app/data/data_source/chat/chat_local_data_source.dart';
 import 'package:whatsapp/chat_app/data/data_source/chat/chat_remote_data_source.dart';
 import 'package:whatsapp/chat_app/data/data_source/contact/contacts_local_data_source.dart';
 import 'package:whatsapp/chat_app/data/data_source/contact/contacts_remote_data_source.dart';
 import 'package:whatsapp/chat_app/data/data_source/status/status_remote_data_source.dart';
 import 'package:whatsapp/chat_app/data/repository/auth_repository.dart';
+import 'package:whatsapp/chat_app/data/repository/call_repository.dart';
 import 'package:whatsapp/chat_app/data/repository/chat_repository.dart';
 import 'package:whatsapp/chat_app/data/repository/contacts_repository.dart';
 import 'package:whatsapp/chat_app/data/repository/status_repository.dart';
 import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/set_user_state_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/signout_usecase.dart';
+import 'package:whatsapp/chat_app/domain/usecases/call/make_call_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/get_chat_contacts_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/get_chat_messages_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_file_message_usecase.dart';
@@ -107,6 +110,12 @@ final statusRepositoryProvider = Provider((ref) => StatusRepositoryImpl(ref.watc
 final uploadStatusUseCaseProvider = Provider((ref) => UploadStatusUseCase(ref.watch(statusRepositoryProvider)));
 final getStatusUseCaseProvider = Provider((ref) => GetStatusUseCase(ref.watch(statusRepositoryProvider)));
 
+final callingRepositoryProvider = Provider((ref) => CallingRepositoryImpl(ref.watch(callingRemoteDataSourceProvider)));
+final callingRemoteDataSourceProvider = Provider((ref) => CallingRemoteDataSource(
+      FirebaseAuth.instance,
+      FirebaseFirestore.instance,
+    ));
+
 final chatRemoteDataSourceProvider = Provider((ref) => ChatRemoteDataSource(
       FirebaseFirestore.instance,
       FirebaseAuth.instance,
@@ -116,6 +125,7 @@ final chatRemoteDataSourceProvider = Provider((ref) => ChatRemoteDataSource(
 final chatLocalDataSourceProvider = Provider((ref) => ChatLocalDataSource());
 
 final chatContactsUseCaseProvider = Provider((ref) => GetChatContactsUseCase(ref.watch(chatRepositoryProvider)));
+final makeCallUseCaseProvider = Provider((ref) => MakeCallUseCase(ref.watch(callingRepositoryProvider)));
 
 final chatMessagesUseCaseProvider = Provider((ref) => GetChatMessagesUseCase(ref.watch(chatRepositoryProvider)));
 

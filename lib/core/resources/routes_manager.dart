@@ -53,7 +53,8 @@ class GenerateRoute {
         final arguments = settings.arguments as Map<String, dynamic>;
         final String name = arguments['name'];
         final String uid = arguments['uid'];
-        return MaterialPageRoute(builder: (_) => ChatScreen(username: name, uid: uid));
+        final String profilePic = arguments['profilePic'];
+        return MaterialPageRoute(builder: (_) => ChatScreen(username: name, uid: uid, profilePic: profilePic));
       case Routes.OTPScreen:
         return MaterialPageRoute(builder: (_) => const OTPScreen());
       case Routes.userInfoScreen:

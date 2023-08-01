@@ -9,17 +9,19 @@ import 'package:whatsapp/core/resources/colors_manager.dart';
 import 'package:whatsapp/core/resources/widgets/app_images.dart';
 
 class StatusItemWidget extends ConsumerWidget {
-  const StatusItemWidget({
-    super.key,
-   required  this.status,
-    required this.onTap,
-    this.onOwnStatusTap,
-  });
+  const StatusItemWidget(
+      {super.key,
+      required this.status,
+      required this.onTap,
+      this.onOwnStatusTap,
+      this.ownHasStatus = false,
+      this.isOwn = false});
   final StatusEntity status;
   final VoidCallback? onOwnStatusTap;
   final VoidCallback onTap;
+  final bool ownHasStatus;
+  final bool isOwn;
 
-  
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return InkWell(
@@ -28,29 +30,51 @@ class StatusItemWidget extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
-            Center(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  SizedBox(
-                    width: 54,
-                    height: 54,
-                    child: CustomPaint(
-                      painter: DottedBorder(numberOfStories: status!.photoUrl.length),
+            !ownHasStatus
+                ? Center(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        SizedBox(
+                          width: 54,
+                          height: 54,
+                          child: CustomPaint(
+                            painter: DottedBorder(numberOfStories: status.photoUrl.length),
+                          ),
+                        ),
+                        AppCachedImage(
+                          url: status.photoUrl[0],
+                          width: 48,
+                          height: 48,
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                      ],
                     ),
+                  )
+                : Stack(
+                    children: [
+                      (status.profilePic == '' || status.profilePic == null)
+                          ? AppAssetImage(
+                              AppImages.defaultProfilePicture,
+                              width: 48,
+                              height: 48,
+                              borderRadius: BorderRadius.circular(24),
+                            )
+                          : AppCachedImage(
+                              url: status.profilePic!,
+                              width: 48,
+                              height: 48,
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                    ],
                   ),
-                  AppCachedImage(
-                      url: status!.profilePic, width: 48, height: 48, borderRadius: BorderRadius.circular(24)),
-                ],
-              ),
-            ),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    status.username ,
+                    status.username,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
@@ -59,13 +83,22 @@ class StatusItemWidget extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
-                    DateFormat("hh:m a").format(status.createdAt),
-                    style: TextStyle(
-                      color: AppColors.colors.neutral14, // AppColors.colors.black.withAlpha(145),
-                      fontSize: 14,
-                    ),
-                  )
+                  if (!isOwn)
+                    Text(
+                      DateFormat("hh:m a").format(status.createdAt),
+                      style: TextStyle(
+                        color: AppColors.colors.neutral14, // AppColors.colors.black.withAlpha(145),
+                        fontSize: 14,
+                      ),
+                    )
+                  else
+                    Text(
+                      'Tap to add status update',
+                      style: TextStyle(
+                        color: AppColors.colors.neutral14, // AppColors.colors.black.withAlpha(145),
+                        fontSize: 14,
+                      ),
+                    )
                 ],
               ),
             ),
@@ -82,6 +115,7 @@ class StatusItemWidget extends ConsumerWidget {
     );
   }
 }
+
 // 01024015950
 class DottedBorder extends CustomPainter {
   //number of stories

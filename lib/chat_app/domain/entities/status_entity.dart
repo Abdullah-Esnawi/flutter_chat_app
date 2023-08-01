@@ -9,7 +9,7 @@ class StatusEntity {
   final String? caption;
   final List<String> photoUrl;
   final DateTime createdAt;
-  final String profilePic;
+  final String? profilePic;
   final String statusId;
   final List<String> whoCanSee;
   StatusEntity({
@@ -18,9 +18,11 @@ class StatusEntity {
     required this.phoneNumber,
     required this.photoUrl,
     required this.createdAt,
-    required this.profilePic,
+     this.profilePic,
     required this.statusId,
     required this.whoCanSee,
     this.caption,
   });
+
+  get first => null;
 }

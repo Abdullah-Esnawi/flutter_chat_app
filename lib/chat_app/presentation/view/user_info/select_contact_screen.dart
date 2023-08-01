@@ -41,7 +41,7 @@ class SelectContactsScreen extends ConsumerWidget {
                               data: (contact) {
                                 Navigator.of(context).pushNamed(
                                   Routes.ChatScreen,
-                                  arguments: {'uid': contact?.uid, 'name': contact?.name},
+                                  arguments: {'uid': contact?.uid, 'name': contact?.name, 'profilePic': contact?.profilePic},
                                 );
                               },
                               error: (error) => showSnackBar(content: error),

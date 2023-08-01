@@ -9,6 +9,7 @@ import 'package:whatsapp/chat_app/presentation/viewmodel/user_info_viewmodel.dar
 import 'package:whatsapp/core/resources/widgets/loader.dart';
 import 'package:whatsapp/core/resources/widgets/snackbar.dart';
 import 'package:whatsapp/core/usecases/base_use_cases.dart';
+import 'package:whatsapp/generated/l10n.dart';
 
 final statusViewmodelProvider = Provider(
     (ref) => StatusViewmodel(ref.watch(uploadStatusUseCaseProvider), ref, ref.watch(getStatusUseCaseProvider)));
@@ -47,9 +48,13 @@ class StatusViewmodel {
             //   statusImage: file,
             //   caption: caption,
             // ));
+            if (data == null) {
+              showSnackBar(content: S.current.somethingWentWrong);
 
+              return;
+            }
             final result = await _uploadStatusUseCase(UploadStatusParams(
-              username: data!.name,
+              username: data.name,
               profilePic: data.profilePic,
               phoneNumber: data.phoneNumber,
               statusImage: file,

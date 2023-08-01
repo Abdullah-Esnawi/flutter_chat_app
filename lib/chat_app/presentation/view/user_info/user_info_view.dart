@@ -45,20 +45,6 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
                     const SizedBox(height: 20),
                     Stack(
                       children: [
-                        /// TODO: Use [AppAssetImage] Widget instead [NetworkImage]
-                        // (snapshot.data?.profilePic == null || snapshot.data!.profilePic.isEmpty)
-                        //     ? CircleAvatar(
-                        //         backgroundImage: NetworkImage(image?.path ??
-                        //             'https://png.pngitem.com/pimgs/s/214-2145309_blank-profile-picture-circle-hd-png-download.png'),
-                        //         radius: 64,
-                        //       )
-                        //     : CircleAvatar(
-                        //         backgroundImage: (image != null
-                        //             ? FileImage(image!)
-                        //             : NetworkImage(snapshot.data!.profilePic)) as ImageProvider,
-                        //         radius: 64,
-                        //       ),
-
                         image != null
                             ? ClipRRect(
                                 borderRadius: BorderRadius.circular(60),
@@ -82,7 +68,6 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
                                     height: 120,
                                     borderRadius: BorderRadius.circular(60),
                                   ),
-
                         Positioned(
                           bottom: -8,
                           left: 80,
@@ -117,8 +102,11 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
                           IconButton(
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
-                                viewmodel.saveUserInfoToFirebase(
-                                    name: usernameController.text, profilePic: image, context: context);
+                                await viewmodel.saveUserInfoToFirebase(
+                                  name: usernameController.text,
+                                  profilePic: image,
+                                  context: context,
+                                );
                               }
                             },
                             icon: const Icon(Icons.done),

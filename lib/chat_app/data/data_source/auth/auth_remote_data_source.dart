@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:whatsapp/chat_app/data/models/chat_contact_model.dart';
 import 'package:whatsapp/chat_app/data/models/user_model.dart';
 import 'package:whatsapp/chat_app/di_module/module.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/save_user_data_use_case.dart';
@@ -87,6 +90,7 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
     //   throw ServerException(S.current.somethingWentWrong);
     // }
     // });
+    
 
     return user;
   }
@@ -117,8 +121,16 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
           );
     }
 
+    final contacts = await ref.watch(contactsLocalDataSourceProvider).getContacts(ContactsType.all);
+
+    final username = contacts
+        .map((element) => element.phones.first.number == auth.currentUser!.phoneNumber!
+            ? "${element.name.first} ${element.name.last}"
+            : null)
+        .first;
+
     var user = UserInfoModel(
-      name: parameters.name,
+      name: username ?? parameters.name,
       uid: uId,
       status: 'Hi There I\'m Using WhatsApp Clone', ///////
       profilePic: photoUrl,

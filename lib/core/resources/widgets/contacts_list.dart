@@ -50,6 +50,7 @@ class _ContactChatItem extends ConsumerWidget {
                 builder: (context) => ChatScreen(
                   username: contact.name,
                   uid: contact.contactId,
+                  profilePic: contact.profilePic,
                 ),
               ),
             );
