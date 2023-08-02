@@ -22,13 +22,19 @@ class CallingRepositoryImpl implements CallingRepository {
 
   @override
   Stream<DocumentSnapshot<Object?>> callStream() {
-    // TODO: implement callStream
-    throw UnimplementedError();
+    try {
+      return _remote.callStream();
+    } catch (e) {
+      throw ServerFailure(e.toString());
+    }
   }
 
   @override
-  Future<Result<Failure, void>> endCall(EndCallParams parameters) {
-    // TODO: implement endCall
-    throw UnimplementedError();
+  Future<Result<Failure, void>> endCall(EndCallParams parameters) async {
+    try {
+      return Right(await _remote.endCall(parameters));
+    } catch (e) {
+      throw Left(ServerFailure(e.toString()));
+    }
   }
 }

@@ -35,10 +35,11 @@ class StatusScreen extends ConsumerWidget {
             if (currentUserStatusData != null)
               StatusItemWidget(
                 status: currentUserStatusData,
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, Routes.statusViewScreen, arguments: {'status': currentUserStatusData});
+                },
                 onOwnStatusTap: () {},
-                isOwn: true,
-                ownHasStatus: true,
+                showEmptyViewStatus: false,
               )
             else
               StatusItemWidget(
@@ -59,8 +60,7 @@ class StatusScreen extends ConsumerWidget {
                   }
                 },
                 onOwnStatusTap: () {},
-                isOwn: true,
-                ownHasStatus: true,
+                showEmptyViewStatus: true,
               ),
             const StoriesTitle('Recent updates'),
             Expanded(
@@ -70,10 +70,12 @@ class StatusScreen extends ConsumerWidget {
                       // shrinkWrap: true,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
-                        print(index);
                         var item = snapshot.data![index];
-                        print(item);
-                        return StatusItemWidget(status: item, onTap: () {});
+                        return StatusItemWidget(
+                            status: item,
+                            onTap: () {
+                              Navigator.pushNamed(context, Routes.statusViewScreen, arguments: {'status': item});
+                            });
                       },
                     )
                   : const Loader(),

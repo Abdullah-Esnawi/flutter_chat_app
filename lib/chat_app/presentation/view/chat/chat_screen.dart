@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/chat_app/domain/entities/user_entity.dart';
+import 'package:whatsapp/chat_app/presentation/view/call/calling_pickup_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/chat/widgets/bottom_chat_filed.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/calling_viewmodel.dart';
 import 'package:whatsapp/core/resources/widgets/app_images.dart';
@@ -31,6 +32,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     final strings = S.of(context);
+
     return Scaffold(
       appBar: AppBar(
         title: StreamBuilder<UserInfoEntity>(
@@ -58,7 +60,9 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              ref.read(callingViewmodelProvider).makeCall(receiverId: widget.uid, receiverName: widget.username, receiverPic: widget.profilePic);
+              ref
+                  .read(callingViewmodelProvider)
+                  .makeCall(receiverId: widget.uid, receiverName: widget.username, receiverPic: widget.profilePic);
             },
             icon: const Icon(Icons.video_call),
           ),

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-
-
 class AppImages {
   const AppImages._();
 
@@ -14,7 +12,6 @@ class AppImages {
   static const trashCover = AppImage('trash_cover.png');
   static const trashContainer = AppImage('trash_container.png');
 }
-
 
 class SvgImage extends StatelessWidget {
   final AppImage image;
@@ -49,8 +46,8 @@ class AppNetworkImage extends StatelessWidget {
   const AppNetworkImage(
     this.image, {
     super.key,
-     this.width,
-     this.height,
+    this.width,
+    this.height,
     this.color,
     this.borderRadius,
     this.fit = BoxFit.cover,
@@ -81,6 +78,7 @@ class AppAssetImage extends StatelessWidget {
   final BorderRadius? borderRadius;
   final BoxFit fit;
   final Color? color;
+  final BlendMode? blendMode;
 
   const AppAssetImage(
     this.image, {
@@ -90,6 +88,7 @@ class AppAssetImage extends StatelessWidget {
     this.borderRadius,
     this.fit = BoxFit.cover,
     this.color,
+    this.blendMode,
   });
 
   @override
@@ -105,6 +104,7 @@ class AppAssetImage extends StatelessWidget {
         'lib/core/resources/assets/images/${image.name}.png',
         fit: fit,
         color: color,
+        colorBlendMode: blendMode,
       ),
     );
   }
@@ -139,7 +139,7 @@ class AppCachedImage extends StatelessWidget {
         borderRadius: borderRadius,
       ),
       child: CachedNetworkImage(
-      imageUrl: url,
+        imageUrl: url,
         fit: BoxFit.cover,
       ),
     );

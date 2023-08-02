@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:whatsapp/chat_app/di_module/module.dart';
 import 'package:whatsapp/chat_app/domain/entities/chat_contact_entity.dart';
 import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
+import 'package:whatsapp/chat_app/domain/usecases/chat/get_num_of_message_not_seen_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_file_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_gif_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_text_message_usecase.dart';
@@ -31,10 +32,15 @@ class ChatViewmodel {
   final SendFileMessageUseCase _sendFileMessageUseCase;
   final SendGifMessageUseCase _sendGifMessageUseCase;
   final SetChatMessageSeenUseCase _setChatMessageSeenUseCase;
-  final Ref _ref;
+  final GetUnseenMessagesCount _getUnseenMessagesCount;
 
-  ChatViewmodel(this._sendTextMessageUseCase, this._sendFileMessageUseCase, this._sendGifMessageUseCase, this._ref,
-      this._setChatMessageSeenUseCase);
+  ChatViewmodel(
+    this._sendTextMessageUseCase,
+    this._sendFileMessageUseCase,
+    this._sendGifMessageUseCase,
+    this._setChatMessageSeenUseCase,
+    this._getUnseenMessagesCount,
+  );
   TextEditingController messageController = TextEditingController();
   Future<RemoteObjectState<void>> sendTextMessage(TextMessageParams params) async {
     var state = const RemoteObjectState.loading();
@@ -80,5 +86,9 @@ class ChatViewmodel {
 
   Future<void> setMessageSeen(SetChatMessageSeenParams params) async {
     await _setChatMessageSeenUseCase(params);
+  }
+
+  Stream<int> getUnseenMessagesCount(String senderId) {
+    return _getUnseenMessagesCount(senderId);
   }
 }

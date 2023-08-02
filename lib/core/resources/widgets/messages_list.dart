@@ -12,6 +12,9 @@ import 'package:whatsapp/core/resources/widgets/loader.dart';
 import 'package:whatsapp/core/resources/widgets/my_message_card.dart';
 import 'package:whatsapp/core/resources/widgets/sender_message_card.dart';
 
+
+// final messagesUnseenCount = StateProvider.autoDispose
+
 class Messages extends ConsumerStatefulWidget {
   final String receiverId;
   Messages({required this.receiverId, Key? key}) : super(key: key);

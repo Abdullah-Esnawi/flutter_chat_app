@@ -22,6 +22,7 @@ abstract class BaseChatRemoteDataSource {
   Future<void> sendFileMessage(FileMessageParams parameters);
   Future<void> sendGIFMessage(GifMessageParams parameters);
   Future<void> setChatMessageSeen(SetChatMessageSeenParams parameters);
+  Stream<int> getNumOfMessageNotSeen(String senderId);
 }
 
 class ChatRemoteDataSource implements BaseChatRemoteDataSource {
@@ -338,6 +339,28 @@ class ChatRemoteDataSource implements BaseChatRemoteDataSource {
       'isSeen': true,
     });
   }
-}
 
-//
+  @override
+  Stream<int> getNumOfMessageNotSeen(String senderId) {
+    return _firestore
+        .collection('users')
+        .doc(_auth.currentUser!.uid)
+        .collection('chats')
+        .doc(senderId)
+        .collection('messages')
+        .orderBy('timeSent')
+        .snapshots()
+        .map((event) {
+      int num = 0;
+      for (var document in event.docs) {
+        MessageModel message = MessageModel.fromMap(document.data());
+        if (message.senderId == senderId) {
+          if (!message.isSeen) {
+            num++;
+          }
+        }
+      }
+      return num;
+    });
+  }
+}

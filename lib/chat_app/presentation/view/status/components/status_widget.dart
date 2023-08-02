@@ -9,18 +9,17 @@ import 'package:whatsapp/core/resources/colors_manager.dart';
 import 'package:whatsapp/core/resources/widgets/app_images.dart';
 
 class StatusItemWidget extends ConsumerWidget {
-  const StatusItemWidget(
-      {super.key,
-      required this.status,
-      required this.onTap,
-      this.onOwnStatusTap,
-      this.ownHasStatus = false,
-      this.isOwn = false});
+  const StatusItemWidget({
+    super.key,
+    required this.status,
+    required this.onTap,
+    this.onOwnStatusTap,
+    this.showEmptyViewStatus,
+  });
   final StatusEntity status;
   final VoidCallback? onOwnStatusTap;
   final VoidCallback onTap;
-  final bool ownHasStatus;
-  final bool isOwn;
+  final bool? showEmptyViewStatus;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,8 +29,34 @@ class StatusItemWidget extends ConsumerWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         child: Row(
           children: [
-            !ownHasStatus
-                ? Center(
+            (showEmptyViewStatus == true)
+                ? Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      // Get profile picture
+                      (status.profilePic == '' || status.profilePic == null)
+                          ? AppAssetImage(
+                              AppImages.defaultProfilePicture,
+                              width: 48,
+                              height: 48,
+                              borderRadius: BorderRadius.circular(24),
+                            )
+                          : AppCachedImage(
+                              url: status.profilePic!,
+                              width: 48,
+                              height: 48,
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                      Positioned(
+                          bottom: -4,
+                          right: 0,
+                          child: Icon(
+                            Icons.add_circle_rounded,
+                            color: AppColors.colors.primary100,
+                          ))
+                    ],
+                  )
+                : Center(
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
@@ -50,23 +75,6 @@ class StatusItemWidget extends ConsumerWidget {
                         ),
                       ],
                     ),
-                  )
-                : Stack(
-                    children: [
-                      (status.profilePic == '' || status.profilePic == null)
-                          ? AppAssetImage(
-                              AppImages.defaultProfilePicture,
-                              width: 48,
-                              height: 48,
-                              borderRadius: BorderRadius.circular(24),
-                            )
-                          : AppCachedImage(
-                              url: status.profilePic!,
-                              width: 48,
-                              height: 48,
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                    ],
                   ),
             const SizedBox(width: 16),
             Expanded(
@@ -74,7 +82,7 @@ class StatusItemWidget extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    status.username,
+                    showEmptyViewStatus == false ? 'My status' : status.username,
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 16,
@@ -83,7 +91,7 @@ class StatusItemWidget extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  if (!isOwn)
+                  if (onOwnStatusTap == null || showEmptyViewStatus == false)
                     Text(
                       DateFormat("hh:m a").format(status.createdAt),
                       style: TextStyle(
@@ -116,7 +124,6 @@ class StatusItemWidget extends ConsumerWidget {
   }
 }
 
-// 01024015950
 class DottedBorder extends CustomPainter {
   //number of stories
   final int numberOfStories;

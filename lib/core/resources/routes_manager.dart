@@ -8,6 +8,7 @@ import 'package:whatsapp/chat_app/presentation/view/chat/chat_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/main_navigations/main_navigation_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/landing/privacy_agree_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/landing/splash_screen.dart';
+import 'package:whatsapp/chat_app/presentation/view/status/status_view_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/user_info/select_contact_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/user_info/user_info_view.dart';
 import 'package:whatsapp/core/resources/widgets/chat_video_player_item.dart';
@@ -24,6 +25,7 @@ class Routes {
   static const String ChatScreen = "/mobile-chat-screen";
   static const String navigationMainScreen = '/navigation-main-screen';
   static const String videoView = '/video_view';
+  static const String statusViewScreen = '/status-view-screen';
 }
 
 class GenerateRoute {
@@ -41,6 +43,10 @@ class GenerateRoute {
         final arguments = settings.arguments as Map<String, dynamic>;
         final controller = arguments['controller'];
         return MaterialPageRoute(builder: (_) => PlayingVideoView(controller));
+      case Routes.statusViewScreen:
+        final arguments = settings.arguments as Map<String, dynamic>;
+        final status = arguments['status'];
+        return MaterialPageRoute(builder: (_) => StatusView(status: status));
       case Routes.pickedImageView:
         final arguments = settings.arguments as Map<String, dynamic>;
         final String path = arguments['path'];

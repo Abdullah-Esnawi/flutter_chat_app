@@ -20,9 +20,12 @@ import 'package:whatsapp/chat_app/data/repository/status_repository.dart';
 import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/set_user_state_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/signout_usecase.dart';
+import 'package:whatsapp/chat_app/domain/usecases/call/call_stream_usecase.dart';
+import 'package:whatsapp/chat_app/domain/usecases/call/end_call_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/call/make_call_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/get_chat_contacts_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/get_chat_messages_usecase.dart';
+import 'package:whatsapp/chat_app/domain/usecases/chat/get_num_of_message_not_seen_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_file_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_gif_message_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/chat/send_text_message_usecase.dart';
@@ -74,6 +77,8 @@ final getAllContactsProvider = FutureProvider(
   },
 );
 
+final callStreamUseCaseProvider = Provider((ref) => CallStreamUseCase(ref.watch(callingRepositoryProvider)));
+
 final contactsViewmodelProvider = Provider(
   (ref) => ContactsViewmodel(
     selectedContactsUseCase: ref.watch(selectedContactUseCaseProvider),
@@ -84,12 +89,11 @@ final setMessageSeenUseCaseProvider = Provider(
 );
 
 final chatViewmodelProvider = Provider((ref) => ChatViewmodel(
-      ref.watch(sentTextMessageUseCase),
-      ref.watch(sendFileMessageUseCaseProvider),
-      ref.watch(sendGifMessageUseCaseProvider),
-      ref,
-      ref.watch(setMessageSeenUseCaseProvider),
-    ));
+    ref.watch(sentTextMessageUseCase),
+    ref.watch(sendFileMessageUseCaseProvider),
+    ref.watch(sendGifMessageUseCaseProvider),
+    ref.watch(setMessageSeenUseCaseProvider),
+    ref.watch(unseenMsgsCountUsecaseProvider)));
 
 final sendFileMessageUseCaseProvider = Provider((ref) => SendFileMessageUseCase(ref.watch(chatRepositoryProvider)));
 final sendGifMessageUseCaseProvider = Provider((ref) => SendGifMessageUseCase(ref.watch(chatRepositoryProvider)));
@@ -106,6 +110,8 @@ final statusRemoteDataSourceProvider =
     Provider((ref) => StatusRemoteDataSource(FirebaseFirestore.instance, FirebaseAuth.instance, ref));
 
 final statusRepositoryProvider = Provider((ref) => StatusRepositoryImpl(ref.watch(statusRemoteDataSourceProvider)));
+
+final unseenMsgsCountUsecaseProvider = Provider((ref) => GetUnseenMessagesCount(ref.watch(chatRepositoryProvider)));
 
 final uploadStatusUseCaseProvider = Provider((ref) => UploadStatusUseCase(ref.watch(statusRepositoryProvider)));
 final getStatusUseCaseProvider = Provider((ref) => GetStatusUseCase(ref.watch(statusRepositoryProvider)));
@@ -126,6 +132,8 @@ final chatLocalDataSourceProvider = Provider((ref) => ChatLocalDataSource());
 
 final chatContactsUseCaseProvider = Provider((ref) => GetChatContactsUseCase(ref.watch(chatRepositoryProvider)));
 final makeCallUseCaseProvider = Provider((ref) => MakeCallUseCase(ref.watch(callingRepositoryProvider)));
+
+final endCallUseCaseProvider = Provider((ref) => EndCallUseCase(ref.watch(callingRepositoryProvider)));
 
 final chatMessagesUseCaseProvider = Provider((ref) => GetChatMessagesUseCase(ref.watch(chatRepositoryProvider)));
 

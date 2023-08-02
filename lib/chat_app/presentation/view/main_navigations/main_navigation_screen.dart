@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:whatsapp/chat_app/presentation/common/dropdown_menu.dart';
+import 'package:whatsapp/chat_app/presentation/view/call/calling_pickup_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/status/status_contacts_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/camera/camera_screen.dart';
 // import 'package:whatsapp/chat_app/presentation/view/camera/camera_screen.dart';
@@ -65,97 +66,99 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen>
   @override
   Widget build(BuildContext context) {
     final strings = S.of(context);
-    return DefaultTabController(
-      key: AppNavigator.appGlobalKey,
-      length: 4,
-      initialIndex: 1,
-      child: Scaffold(
-        backgroundColor: AppColors.colors.neutral90,
-        appBar: AppBar(
-          title: Text(
-            strings.whatsapp,
-            style: TextStyle(
-              fontSize: 20,
-              color: AppColors.colors.neutral13,
-              fontWeight: FontWeight.bold,
+    return CallingPickupScreen(
+      DefaultTabController(
+        key: AppNavigator.appGlobalKey,
+        length: 4,
+        initialIndex: 1,
+        child: Scaffold(
+          backgroundColor: AppColors.colors.neutral90,
+          appBar: AppBar(
+            title: Text(
+              strings.whatsapp,
+              style: TextStyle(
+                fontSize: 20,
+                color: AppColors.colors.neutral13,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.search, color: AppColors.colors.neutral13),
-              onPressed: () {},
-            ),
-            // IconButton(
-            //   icon: Icon(Icons.more_vert, color: AppColors.colors.neutral13),
-            //   onPressed: () async {
-            //     // await ref.read(authViewmodelProvider).logout(context);
-            //     ;
-            //   },
-            // ),
-           const DropdownButtonWidget(),
-          ],
-          bottom: TabBar(
-            controller: _tabController,
-            indicatorColor: AppColors.colors.white,
-            indicatorPadding: const EdgeInsets.only(bottom: .4),
-            indicatorWeight: 4,
-            labelColor: AppColors.colors.white,
-            unselectedLabelColor: AppColors.colors.white.withOpacity(.6),
-            indicatorSize: TabBarIndicatorSize.tab,
-            labelStyle: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-            ),
-            tabs: [
-              const Tab(
-                icon: Icon(Icons.camera_alt),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.search, color: AppColors.colors.neutral13),
+                onPressed: () {},
               ),
-              Tab(
-                text: strings.chatsTabLabel,
-              ),
-              Tab(
-                text: strings.statusTabLabel,
-              ),
-              Tab(
-                text: strings.callsTabLabel,
-              ),
+              // IconButton(
+              //   icon: Icon(Icons.more_vert, color: AppColors.colors.neutral13),
+              //   onPressed: () async {
+              //     // await ref.read(authViewmodelProvider).logout(context);
+              //     ;
+              //   },
+              // ),
+              const DropdownButtonWidget(),
             ],
-          ),
-        ),
-        body: TabBarView(
-          controller: _tabController,
-          children: [
-            CameraScreen(), //receiverId: 'Ebk5Kf7v6zWcEopCIWeVVO7giIv1'
-            ContactsList(),
-            StatusScreen(),
-            Center(child: Text('CALLS')),
-          ],
-        ), // create provider
-        floatingActionButton: _currentIndex != 0
-            ? FloatingActionButton(
-                onPressed: () async {
-                  switch (_currentIndex) {
-                    case 1:
-                      Navigator.pushNamed(context, Routes.selectContactScreen);
-                      break;
-                    case 2:
-                      var file = await pickImageFromGallery(ImageSource.gallery);
-                      if (file != null) {
-                        Navigator.pushNamed(context, Routes.pickedImageView, arguments: {'path': file.path});
-                      }
-                  }
-                },
-                backgroundColor: AppColors.colors.primary,
-                child: Icon(
-                  _currentIndex == 1
-                      ? Icons.comment
-                      : _currentIndex == 2
-                          ? Icons.camera_alt_rounded
-                          : Icons.add_ic_call_rounded,
-                  color: AppColors.colors.white,
+            bottom: TabBar(
+              controller: _tabController,
+              indicatorColor: AppColors.colors.white,
+              indicatorPadding: const EdgeInsets.only(bottom: .4),
+              indicatorWeight: 4,
+              labelColor: AppColors.colors.white,
+              unselectedLabelColor: AppColors.colors.white.withOpacity(.6),
+              indicatorSize: TabBarIndicatorSize.tab,
+              labelStyle: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15,
+              ),
+              tabs: [
+                const Tab(
+                  icon: Icon(Icons.camera_alt),
                 ),
-              )
-            : null,
+                Tab(
+                  text: strings.chatsTabLabel,
+                ),
+                Tab(
+                  text: strings.statusTabLabel,
+                ),
+                Tab(
+                  text: strings.callsTabLabel,
+                ),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            controller: _tabController,
+            children: [
+              CameraScreen(), //receiverId: 'Ebk5Kf7v6zWcEopCIWeVVO7giIv1'
+              ContactsList(),
+              StatusScreen(),
+              Center(child: Text('CALLS')),
+            ],
+          ), // create provider
+          floatingActionButton: _currentIndex != 0
+              ? FloatingActionButton(
+                  onPressed: () async {
+                    switch (_currentIndex) {
+                      case 1:
+                        Navigator.pushNamed(context, Routes.selectContactScreen);
+                        break;
+                      case 2:
+                        var file = await pickImageFromGallery(ImageSource.gallery);
+                        if (file != null) {
+                          Navigator.pushNamed(context, Routes.pickedImageView, arguments: {'path': file.path});
+                        }
+                    }
+                  },
+                  backgroundColor: AppColors.colors.primary,
+                  child: Icon(
+                    _currentIndex == 1
+                        ? Icons.comment
+                        : _currentIndex == 2
+                            ? Icons.camera_alt_rounded
+                            : Icons.add_ic_call_rounded,
+                    color: AppColors.colors.white,
+                  ),
+                )
+              : null,
+        ),
       ),
     );
   }

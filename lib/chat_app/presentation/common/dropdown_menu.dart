@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/auth_viewmodel.dart';
+import 'package:whatsapp/chat_app/presentation/viewmodel/user_info_viewmodel.dart';
 import 'package:whatsapp/core/resources/colors_manager.dart';
 
 class DropdownButtonWidget extends ConsumerStatefulWidget {
@@ -35,7 +36,10 @@ class _DropdownButtonWidgetState extends ConsumerState<DropdownButtonWidget> {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
-          onTap: () async => await ref.read(authViewmodelProvider).logout(context),
+          onTap: () async {
+            await ref.read(authViewmodelProvider).logout(context);
+            setState(() {});
+          },
         );
       }).toList(),
     );

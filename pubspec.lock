@@ -228,10 +228,11 @@ packages:
   cached_video_player:
     dependency: "direct main"
     description:
-      name: cached_video_player
-      sha256: "13c25fc1af3bb239da83d9e965d119463a67a782fd9af3714ed86a1182ded20c"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: "feature/gradle_version_bump"
+      resolved-ref: "69f4009ec2ff147a407efafb6b30b34ff122fd78"
+      url: "https://github.com/vikram25897/flutter_cached_video_player"
+    source: git
     version: "2.0.4"
   camera:
     dependency: "direct main"

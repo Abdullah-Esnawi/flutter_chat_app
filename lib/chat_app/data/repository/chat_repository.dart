@@ -38,8 +38,7 @@ class ChatRepositoryImpl implements ChatRepository {
 
   @override
   Stream<int> getNumOfMessageNotSeen(String senderId) {
-    // TODO: implement getNumOfMessageNotSeen
-    throw UnimplementedError();
+   return _remote.getNumOfMessageNotSeen(senderId);
   }
 
   @override

@@ -30,7 +30,7 @@ class StatusRemoteDataSource implements BaseStatusRemoteDataSource {
       contacts = await FlutterContacts.getContacts(withProperties: true);
     }
 
-   for (var e in contacts)   {
+    contacts.map((e) async {
       var phoneNum = e.phones.first.number.replaceAll(' ', '');
       phoneNum = phoneNum.startsWith('+') ? phoneNum.substring(1) : phoneNum;
       var userFirestoreData = await _firestore.collection('users').where('phoneNumber', isEqualTo: "+$phoneNum").get();
@@ -38,7 +38,7 @@ class StatusRemoteDataSource implements BaseStatusRemoteDataSource {
         var userData = UserInfoModel.fromMap(userFirestoreData.docs[0].data());
         uidWhoCanSee.add(userData.uid);
       }
-    };
+    });
 
     var statusesSnapshot = await _firestore.collection('status').where('uid', isEqualTo: userId).get();
 
@@ -80,12 +80,11 @@ class StatusRemoteDataSource implements BaseStatusRemoteDataSource {
         contacts = await FlutterContacts.getContacts(withProperties: true);
       }
       for (int i = 1; i <= contacts.length; i++) {
-        final snapshot = await _firestore
-            .collection('status')
-            .where('phoneNumber', isEqualTo: contacts[i].phones.first.number.replaceAll(' ', ''))
-            .where('createdAt',
-                isGreaterThan: DateTime.now().subtract(const Duration(hours: 24)).millisecondsSinceEpoch)
-            .get();
+        final snapshot = await _firestore.collection('status').get();
+        // .where('phoneNumber', isEqualTo: contacts[i].phones.first.number.replaceAll(' ', ''))
+        // .where('createdAt',
+        //     isGreaterThan: DateTime.now().subtract(const Duration(hours: 24)).millisecondsSinceEpoch)
+        // .get();
         for (var tempData in snapshot.docs) {
           StatusModel tempStatus = StatusModel.fromMap(tempData.data());
           if (tempStatus.whoCanSee.contains(_auth.currentUser!.uid)) {

@@ -33,7 +33,6 @@ class MessageReplayWidget extends ConsumerWidget {
             )
           : null,
       child: Container(
-        // height: 0,
         padding: const EdgeInsetsDirectional.only(start: 10, bottom: 6, end: 6, top: 6),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(8),
@@ -42,7 +41,7 @@ class MessageReplayWidget extends ConsumerWidget {
             0.017
           ], colors: [
             AppColors.colors.primary,
-            isPreviewMode ? AppColors.colors.black.withOpacity(.1) : AppColors.colors.white.withAlpha(120),
+            AppColors.colors.black.withOpacity(.1),
           ]),
         ),
         child: Column(

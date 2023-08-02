@@ -19,7 +19,10 @@ class MessageWidget extends StatelessWidget {
       case MessageType.text:
         messageWidget = Text(
           content,
-          style: TextStyle(fontSize: 16, color: AppColors.colors.neutral11),
+          style: TextStyle(
+            fontSize: 16,
+            color: AppColors.colors.neutral11,
+          ),
           // maxLines: 30,
           textAlign: TextAlign.start,
         );
@@ -60,11 +63,6 @@ class MessageWidget extends StatelessWidget {
     }
 
     return Padding(
-      // constraints: BoxConstraints(
-      //   maxWidth: MediaQuery.of(context).size.width - 45,
-      //   maxHeight: 400,
-      //   minWidth: 136,
-      // ),
       padding: messageType == MessageType.text
           ? const EdgeInsets.only(
               left: 10,
@@ -80,6 +78,7 @@ class MessageWidget extends StatelessWidget {
             ),
       child: Expanded(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
             if (messageReplay != null)
@@ -87,7 +86,7 @@ class MessageWidget extends StatelessWidget {
                 messageReplay: messageReplay!,
                 isPreviewMode: false, //
               ),
-            Flexible(child: messageWidget),
+            messageWidget,
           ],
         ),
       ),
