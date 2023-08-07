@@ -47,6 +47,9 @@ dependencies:
     git:
       url: https://github.com/vikram25897/flutter_cached_video_player
       ref: feature/gradle_version_bump
+  firebase_messaging: ^14.6.5
+  flutter_local_notifications: ^15.1.0+1
+  http: ^0.13.6
   
 dev_dependencies:
   flutter_test:

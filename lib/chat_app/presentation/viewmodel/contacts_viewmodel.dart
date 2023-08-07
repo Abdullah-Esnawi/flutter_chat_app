@@ -1,6 +1,15 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/chat_app/domain/entities/user_entity.dart';
+import 'package:whatsapp/chat_app/domain/usecases/contacts/get_all_contacts_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/contacts/get_selected_contact_usecase.dart';
+import 'package:whatsapp/core/usecases/base_use_cases.dart';
 import 'package:whatsapp/core/x_state/state.dart';
+
+final getAllContactsProvider = FutureProvider(
+  (ref) {
+    return ref.watch(getAllContactsUseCaseProvider).call(const NoParameters());
+  },
+);
 
 class ContactsViewmodel {
   final GetSelectedContactUseCase selectedContactsUseCase;

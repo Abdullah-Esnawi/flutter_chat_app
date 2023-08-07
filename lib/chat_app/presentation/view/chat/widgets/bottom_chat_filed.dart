@@ -5,6 +5,7 @@ import 'package:audio_waveforms/audio_waveforms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:whatsapp/chat_app/data/data_source/notifications/notification_config.dart';
 
 import 'package:whatsapp/chat_app/di_module/module.dart';
 import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
@@ -245,6 +246,9 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
                     }
                   }
                   ref.read(messageReplayProvider.notifier).update((state) => null);
+
+                  ref.read(notificationsConfigProvider).sendNotification(title:'' );
+                  
                 },
                 onLongPress: () async {
                   if (recorderController.hasPermission) {

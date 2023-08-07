@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/chat_app/di_module/module.dart';
+import 'package:whatsapp/chat_app/presentation/viewmodel/contacts_viewmodel.dart';
 import 'package:whatsapp/core/resources/widgets/error.dart';
 import 'package:whatsapp/core/resources/widgets/loader.dart';
 import 'package:whatsapp/core/resources/routes_manager.dart';

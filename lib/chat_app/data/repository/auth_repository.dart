@@ -47,7 +47,7 @@ class AuthRepositoryImpl extends AuthRepository {
   @override
   Future<Either<Failure, void>> saveUserDataToFirebase(UserDataParams parameters) async {
     final result = await remoteDataSource.saveUserDataToFirebase(parameters);
-    localDataSource.setUserLoggedIn(await remoteDataSource.getCurrentUid);
+    await localDataSource.setUserLoggedIn( remoteDataSource.getCurrentUid as String);
     try {
       return Right(result);
     } on FirebaseAuthException catch (err) {
@@ -55,16 +55,7 @@ class AuthRepositoryImpl extends AuthRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, String>> getCurrentUid() async {
-    final result = await remoteDataSource.getCurrentUid;
-    //final result = await _getUid();
-    try {
-      return Right(result);
-    } on FirebaseAuthException catch (err) {
-      return Left(ServerFailure(err.message ?? S.current.somethingWentWrong));
-    }
-  }
+
 
   @override
   Future<Either<Failure, void>> signOut() async {
@@ -88,7 +79,7 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, UserInfoModel>> getCurrentUser() async {
+  Future<Either<Failure, UserInfoModel?>> getCurrentUser() async {
     final result = await remoteDataSource.getCurrentUser();
     try {
       return Right(result);
@@ -129,5 +120,11 @@ class AuthRepositoryImpl extends AuthRepository {
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
+  }
+  
+  @override
+  Future<Result<Failure, String>> getCurrentUid() {
+    // TODO: implement getCurrentUid
+    throw UnimplementedError();
   }
 }

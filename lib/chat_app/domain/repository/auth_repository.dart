@@ -13,7 +13,7 @@ abstract class AuthRepository {
   Future<Result<Failure, void>> setCurrentUid(Ref ref);
   Future<Result<Failure, String>> getCachedLocalCurrentUid();
   Future<Result<Failure, void>> signOut();
-  Future<Result<Failure, UserInfoEntity>> getCurrentUser();
+  Future<Result<Failure, UserInfoEntity?>> getCurrentUser();
   Stream<UserInfoEntity> getUserById(String uId);
   Future<Result<Failure, void>> setUserState(bool isOnline);
   Future<Result<Failure, void>> updateProfilePic(String path);

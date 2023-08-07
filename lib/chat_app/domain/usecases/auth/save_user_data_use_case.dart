@@ -25,12 +25,14 @@ class SaveUserDataToFirebaseUseCase extends BaseUseCase<void, UserDataParams> {
 class UserDataParams extends Equatable {
   final String name;
   final File? profilePic;
+  final String pushToken;
 
-  const UserDataParams({required this.name, this.profilePic});
+  const UserDataParams( {required this.pushToken, required this.name, this.profilePic});
 
   @override
   List<Object?> get props => [
         name,
         profilePic,
+        pushToken,
       ];
 }

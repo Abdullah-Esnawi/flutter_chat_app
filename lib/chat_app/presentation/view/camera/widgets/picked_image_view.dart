@@ -88,9 +88,8 @@ class PickedImageView extends ConsumerWidget {
                     ),
                     suffixIcon: InkWell(
                       onTap: () async {
-                        await ref.read(statusViewmodelProvider).addStatus(File(path), _captionController.text);
-
                         Navigator.pop(context);
+                        await ref.read(statusViewmodelProvider).addStatus(File(path), _captionController.text);
                       },
                       child: CircleAvatar(
                         radius: 24,

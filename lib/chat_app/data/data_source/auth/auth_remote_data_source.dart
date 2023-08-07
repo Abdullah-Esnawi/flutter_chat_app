@@ -13,6 +13,7 @@ import 'package:whatsapp/chat_app/data/models/user_model.dart';
 import 'package:whatsapp/chat_app/di_module/module.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/save_user_data_use_case.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/verify_otp_usecase.dart';
+import 'package:whatsapp/chat_app/presentation/viewmodel/auth_viewmodel.dart';
 import 'package:whatsapp/core/error_handling/error_handling.dart';
 import 'package:whatsapp/core/repositories/firebase_storage_repository.dart';
 import 'package:whatsapp/generated/l10n.dart';
@@ -24,13 +25,13 @@ abstract class BaseAuthRemoteDataSource {
 
   Future<void> saveUserDataToFirebase(UserDataParams parameters);
 
-  Future<String> get getCurrentUid;
+  Future<String?> get getCurrentUid;
 
   void setCurrentUid(Ref ref);
 
   Future<void> signOut();
 
-  Future<UserInfoModel> getCurrentUser();
+  Future<UserInfoModel?> getCurrentUser();
 
   Stream<UserInfoModel> getUserById(String uId);
 
@@ -54,7 +55,7 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
   });
 
   @override
-  Future<String> get getCurrentUid async => auth.currentUser!.uid;
+  Future<String?> get getCurrentUid async => auth.currentUser?.uid;
 
   @override
   void setCurrentUid(Ref ref) {
@@ -90,7 +91,6 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
     //   throw ServerException(S.current.somethingWentWrong);
     // }
     // });
-    
 
     return user;
   }
@@ -111,7 +111,7 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
 
   @override
   Future<void> saveUserDataToFirebase(UserDataParams parameters) async {
-    String uId = await getCurrentUid;
+    String? uId = await getCurrentUid;
 
     String photoUrl = '';
     if (parameters.profilePic != null) {
@@ -121,36 +121,32 @@ class AuthRemoteDataSource extends BaseAuthRemoteDataSource {
           );
     }
 
-    final contacts = await ref.watch(contactsLocalDataSourceProvider).getContacts(ContactsType.all);
-
-    final username = contacts
-        .map((element) => element.phones.first.number == auth.currentUser!.phoneNumber!
-            ? "${element.name.first} ${element.name.last}"
-            : null)
-        .first;
-
     var user = UserInfoModel(
-      name: username ?? parameters.name,
-      uid: uId,
+      name: parameters.name,
+      uid: uId!,
       status: 'Hi There I\'m Using WhatsApp Clone', ///////
       profilePic: photoUrl,
       phoneNumber: auth.currentUser!.phoneNumber!,
       isOnline: true,
       groupId: const [],
+      pushToken: parameters.pushToken,
       lastSeen: DateTime.now(),
     );
+
     var userDoc = await firestore.collection('users').doc(uId).get();
     if (userDoc.exists) {
       await firestore.collection('users').doc(uId).update(user.toMap());
     } else {
       await firestore.collection('users').doc(uId).set(user.toMap());
     }
+    ref.read(userInfoProvider.notifier).update((state) => user);
   }
 
   @override
-  Future<UserInfoModel> getCurrentUser() async {
-    var userData = await firestore.collection('users').doc(await getCurrentUid).get();
-    UserInfoModel user = UserInfoModel.fromMap(userData.data()!);
+  Future<UserInfoModel?> getCurrentUser() async {
+    var userData =
+        await getCurrentUid != null ? await firestore.collection('users').doc(await getCurrentUid).get() : null;
+    UserInfoModel? user = userData?.data() != null ? UserInfoModel.fromMap(userData!.data()!) : null;
     return user;
   }
 

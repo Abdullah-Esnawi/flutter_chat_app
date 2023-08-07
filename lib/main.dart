@@ -1,13 +1,16 @@
 import 'package:camera/camera.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:whatsapp/chat_app/di_module/module.dart';
 import 'package:whatsapp/chat_app/presentation/view/camera/camera_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/landing/splash_screen.dart';
+import 'package:whatsapp/chat_app/presentation/viewmodel/auth_viewmodel.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/user_info_viewmodel.dart';
 import 'package:whatsapp/core/resources/app_theme.dart';
 import 'package:whatsapp/core/cache/app_shared_prefs.dart';
@@ -21,6 +24,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  // FlutterLocalNotificationsPlugin notificationsConfig = FlutterLocalNotificationsPlugin();
+
+  // await notificationsConfig
+  //     .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!
+  //     .requestPermission();
+
+  // FirebaseMessaging.onBackgroundMessage((msg) async => debugPrint(msg.messageId));
+
   SystemChrome.setSystemUIOverlayStyle(AppTheme.systemUiOverlayStyle);
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -57,9 +69,10 @@ class _MyAppState extends ConsumerState<MyApp> {
       title: 'Whatsapp',
       theme: AppTheme.theme,
       onGenerateRoute: GenerateRoute.getRoute,
-      // initialRoute: Routes.splash,
-      home: ref.watch(userInfoProvider).when(
-            data: (data) => SplashScreen(userData: data),
+      // initialRoute: Routes.splash
+      // home:  SplashScreen(hasLoading: true,),
+      home: ref.watch(getUserInfoFutureProvider).when(
+            data: (data) => SplashScreen(userData: data, hasLoading: false),
             error: (err, trace) => WidgetError(
               message: err.toString(),
               tryAgain: () => ref.watch(userInfoProvider),

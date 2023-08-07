@@ -28,7 +28,8 @@ class LandingScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: size.height / 9),
-            AppAssetImage(AppImages.landingScreenBackground, width: 290, height: 290, color: AppColors.colors.primary),
+            AppAssetImage(AppImages.landingScreenBackground,
+                width: size.width * .6, height: size.width * .6, color: AppColors.colors.primary),
             SizedBox(height: size.height / 9),
             Padding(
               padding: const EdgeInsetsDirectional.only(start: 15, end: 15),

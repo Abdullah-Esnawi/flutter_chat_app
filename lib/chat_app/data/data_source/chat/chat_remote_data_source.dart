@@ -167,17 +167,21 @@ class ChatRemoteDataSource implements BaseChatRemoteDataSource {
       for (var document in event.docs) {
         ChatContactModel contactChat = ChatContactModel.fromMap(document.data());
         var userData = await _firestore.collection('users').doc(contactChat.contactId).get();
-        var user = UserInfoModel.fromMap(userData.data()!);
-        contacts.add(
-          ChatContactModel(
-            name: user.name,
-            profilePic: user.profilePic,
-            contactId: user.uid,
-            lastMessage: contactChat.lastMessage,
-            timeSent: contactChat.timeSent,
-            phoneNumber: contactChat.phoneNumber,
-          ),
-        );
+        if (userData.data() != null) {
+          var user = UserInfoModel.fromMap(userData.data()!);
+
+          UserInfoModel.fromMap(userData.data()!);
+          contacts.add(
+            ChatContactModel(
+              name: user.name,
+              profilePic: user.profilePic,
+              contactId: user.uid,
+              lastMessage: contactChat.lastMessage,
+              timeSent: contactChat.timeSent,
+              phoneNumber: contactChat.phoneNumber,
+            ),
+          );
+        }
       }
       return contacts;
     });

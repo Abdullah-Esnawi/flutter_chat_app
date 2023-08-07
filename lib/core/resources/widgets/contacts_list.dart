@@ -95,22 +95,28 @@ class _ContactChatItem extends ConsumerWidget {
                       height: 60,
                       borderRadius: BorderRadius.circular(30),
                     ),
-              trailing: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    DateFormat("hh:m a").format(contact.timeSent),
-                    style: TextStyle(
-                      color: AppColors.colors.neutral14,
-                      fontSize: 13,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  StreamBuilder<int>(
-                      stream: ref.watch(chatViewmodelProvider).getUnseenMessagesCount(contact.contactId),
-                      builder: (context, snapshot) {
-                        return (snapshot.data == null || snapshot.data == 0)
+              trailing: StreamBuilder<int>(
+                  stream: ref.watch(chatViewmodelProvider).getUnseenMessagesCount(contact.contactId),
+                  builder: (context, snapshot) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          DateFormat("hh:m a").format(contact.timeSent),
+                          style: TextStyle(
+                            color: (snapshot.data == null || snapshot.data == 0)
+                                ? AppColors.colors.neutral14
+                                : const Color(0XFF25D167),
+                            fontSize: 13,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        // StreamBuilder<int>(
+                        //     stream: ref.watch(chatViewmodelProvider).getUnseenMessagesCount(contact.contactId),
+                        //     builder: (context, snapshot) {
+
+                        (snapshot.data == null || snapshot.data == 0)
                             ? const SizedBox.shrink()
                             : Container(
                                 width: 20,
@@ -121,10 +127,11 @@ class _ContactChatItem extends ConsumerWidget {
                                   snapshot.data!.toString(),
                                   style: TextStyle(fontSize: 12, color: AppColors.colors.white),
                                 ),
-                              );
-                      })
-                ],
-              ),
+                              ),
+                        // })
+                      ],
+                    );
+                  }),
             ),
           ),
         ),

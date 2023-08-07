@@ -8,6 +8,7 @@ class UserInfoEntity extends Equatable {
   final bool isOnline;
   final List<String> groupId;
   final String status;
+  final String pushToken;
   final DateTime? lastSeen;
 
   const UserInfoEntity({
@@ -17,6 +18,7 @@ class UserInfoEntity extends Equatable {
     required this.phoneNumber,
     required this.isOnline,
     required this.groupId,
+    required this.pushToken,
     required this.status,
     this.lastSeen,
   });

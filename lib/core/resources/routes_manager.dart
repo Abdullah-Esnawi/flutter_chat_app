@@ -31,10 +31,10 @@ class Routes {
 class GenerateRoute {
   static Route<dynamic> getRoute(RouteSettings settings) {
     switch (settings.name) {
-      case Routes.splash:
-        final arguments = settings.arguments as Map<String, dynamic>;
-        final UserInfoEntity? userData = arguments['userInfo'];
-        return MaterialPageRoute(builder: (_) => SplashScreen(userData: userData));
+      // case Routes.splash:
+        // final arguments = settings.arguments as Map<String, dynamic>;
+        // final UserInfoEntity? userData = arguments['userInfo'];
+        // return MaterialPageRoute(builder: (_) => SplashScreen(userData: userData, hasLoading: false));
       case Routes.login:
         return MaterialPageRoute(builder: (_) => const LoginScreen());
       case Routes.privacy:

@@ -18,6 +18,8 @@ import 'package:whatsapp/chat_app/data/repository/chat_repository.dart';
 import 'package:whatsapp/chat_app/data/repository/contacts_repository.dart';
 import 'package:whatsapp/chat_app/data/repository/status_repository.dart';
 import 'package:whatsapp/chat_app/domain/entities/message_entity.dart';
+import 'package:whatsapp/chat_app/domain/usecases/auth/get_current_user_usecase.dart';
+import 'package:whatsapp/chat_app/domain/usecases/auth/get_user_by_id_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/set_user_state_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/auth/signout_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/call/call_stream_usecase.dart';
@@ -34,6 +36,7 @@ import 'package:whatsapp/chat_app/domain/usecases/contacts/get_all_contacts_usec
 import 'package:whatsapp/chat_app/domain/usecases/contacts/get_selected_contact_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/status/get_statueses_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/status/upload_status_usecase.dart';
+import 'package:whatsapp/chat_app/presentation/viewmodel/auth_viewmodel.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/chat_viewmodel.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/contacts_viewmodel.dart';
 import 'package:whatsapp/core/usecases/base_use_cases.dart';
@@ -71,12 +74,10 @@ final contactsRepositoryProvider = Provider(
   ),
 );
 
-final getAllContactsProvider = FutureProvider(
-  (ref) {
-    return ref.watch(getAllContactsUseCaseProvider).call(const NoParameters());
-  },
-);
+final getUserInfoFutureProvider = FutureProvider((ref)=> ref.watch(authRemoteDataSourceProvider).getCurrentUser());
 
+final getCurrentUserUseCaseProvider = Provider((ref) => GetCurrentUserUseCase(ref.watch(authRepositoryProvider)));
+final getUserByIdUseCaseProvider = Provider((ref) => GetUserByIdUseCase(ref.watch(authRepositoryProvider)));
 final callStreamUseCaseProvider = Provider((ref) => CallStreamUseCase(ref.watch(callingRepositoryProvider)));
 
 final contactsViewmodelProvider = Provider(

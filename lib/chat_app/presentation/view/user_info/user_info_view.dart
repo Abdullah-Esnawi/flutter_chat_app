@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:whatsapp/chat_app/domain/entities/user_entity.dart';
+import 'package:whatsapp/chat_app/presentation/viewmodel/auth_viewmodel.dart';
 import 'package:whatsapp/core/resources/widgets/app_images.dart';
 import 'dart:io';
 
@@ -29,7 +30,7 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
 
   @override
   Widget build(BuildContext context) {
-    final viewmodel = ref.watch(userInfoViewmodelProvider);
+    final viewmodel = ref.watch(authViewmodelProvider);
     // final userInfo = viewmodel.getCurrentUserData();
     String username = usernameController.text;
     final size = MediaQuery.of(context).size;
@@ -40,6 +41,7 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
               future: viewmodel.getCurrentUserData(),
               builder: (context, snapshot) {
                 usernameController.text = snapshot.data?.name ?? usernameController.text;
+                // ref.watch(userInfoProvider.notifier).state = snapshot.data;
                 return Column(
                   children: [
                     const SizedBox(height: 20),
@@ -55,19 +57,21 @@ class _UserInfoViewState extends ConsumerState<UserInfoView> {
                                   fit: BoxFit.cover,
                                 ),
                               )
-                            : (snapshot.data?.profilePic == null || snapshot.data!.profilePic.isEmpty)
-                                ? AppAssetImage(
-                                    AppImages.defaultProfilePicture,
-                                    width: 120,
-                                    height: 120,
-                                    borderRadius: BorderRadius.circular(60),
-                                  )
-                                : AppCachedImage(
-                                    url: snapshot.data!.profilePic,
-                                    width: 120,
-                                    height: 120,
-                                    borderRadius: BorderRadius.circular(60),
-                                  ),
+                            :
+                            // : (snapshot.data?.profilePic == null || snapshot.data!.profilePic.isEmpty)
+                            AppAssetImage(
+                                AppImages.defaultProfilePicture,
+                                width: 120,
+                                height: 120,
+                                borderRadius: BorderRadius.circular(60),
+                              ),
+                        // :
+                        //  AppCachedImage(
+                        //     url: snapshot.data!.profilePic,
+                        //     width: 120,
+                        //     height: 120,
+                        //     borderRadius: BorderRadius.circular(60),
+                        //   ),
                         Positioned(
                           bottom: -8,
                           left: 80,

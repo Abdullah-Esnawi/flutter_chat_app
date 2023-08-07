@@ -18,13 +18,12 @@ class MyMessageCard extends StatelessWidget {
         alignment: Alignment.centerRight,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 0.0),
-          // child: ColoredBox(
-          // color: message.repliedMessage.isNotEmpty ? AppColors.colors.white : AppColors.colors.transparent,
           child: ConstrainedBox(
             constraints: BoxConstraints(
               maxWidth: MediaQuery.of(context).size.width - 45,
               maxHeight: 400,
               minWidth: 136,
+              
             ),
             child: Card(
               elevation: 1,

@@ -1,7 +1,10 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:whatsapp/chat_app/data/data_source/notifications/notification_config.dart';
 import 'package:whatsapp/chat_app/presentation/common/dropdown_menu.dart';
 import 'package:whatsapp/chat_app/presentation/view/call/calling_pickup_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/status/status_contacts_screen.dart';
@@ -15,8 +18,6 @@ import 'package:whatsapp/core/resources/widgets/contacts_list.dart';
 import 'package:whatsapp/core/resources/widgets/file_picker.dart';
 import 'package:whatsapp/generated/l10n.dart';
 
-// final _currentIndex = StateProvider((ref) => 1);
-
 class MainNavigationScreen extends ConsumerStatefulWidget {
   const MainNavigationScreen({Key? key}) : super(key: key);
 
@@ -28,9 +29,11 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen>
     with WidgetsBindingObserver, SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _currentIndex = 1;
+  final localNotiPlugin = FlutterLocalNotificationsPlugin();
   @override
   void initState() {
     super.initState();
+
     WidgetsBinding.instance.addObserver(this);
     _tabController = TabController(length: 4, vsync: this, initialIndex: 1);
     _tabController.addListener(() {
@@ -46,6 +49,14 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen>
     super.dispose();
   }
 
+  @override
+  void didUpdateWidget(covariant MainNavigationScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    var notificationConfig = ref.watch(notificationsConfigProvider);
+
+    notificationConfig.requestPermission();
+  }
+
 // Change User's Active state when close or Open The Application
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
@@ -54,7 +65,7 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen>
         await ref.watch(authViewmodelProvider).setUserState(true);
         break;
       case AppLifecycleState.detached:
-      case AppLifecycleState.inactive:
+      // case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
         await ref.watch(authViewmodelProvider).setUserState(false);
         break;

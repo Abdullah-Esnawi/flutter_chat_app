@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/chat_app/domain/entities/user_entity.dart';
 import 'package:whatsapp/chat_app/presentation/view/call/calling_pickup_screen.dart';
 import 'package:whatsapp/chat_app/presentation/view/chat/widgets/bottom_chat_filed.dart';
+import 'package:whatsapp/chat_app/presentation/viewmodel/auth_viewmodel.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/calling_viewmodel.dart';
 import 'package:whatsapp/core/resources/widgets/app_images.dart';
 import 'package:whatsapp/generated/l10n.dart';
@@ -36,7 +37,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
     return Scaffold(
       appBar: AppBar(
         title: StreamBuilder<UserInfoEntity>(
-            stream: ref.watch(userInfoViewmodelProvider).getUserById(widget.uid),
+            stream: ref.watch(authViewmodelProvider).getUserById(widget.uid),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Loader();

@@ -4,18 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp/chat_app/domain/entities/user_entity.dart';
-import 'package:whatsapp/chat_app/presentation/viewmodel/user_info_viewmodel.dart';
+import 'package:whatsapp/chat_app/presentation/viewmodel/auth_viewmodel.dart';
 import 'package:whatsapp/core/resources/colors_manager.dart';
 import 'package:whatsapp/core/resources/routes_manager.dart';
 import 'package:whatsapp/core/resources/widgets/app_images.dart';
-import 'package:whatsapp/core/resources/widgets/error.dart';
-import 'package:whatsapp/core/resources/widgets/loader.dart';
-import 'package:whatsapp/core/resources/widgets/snackbar.dart';
 import 'package:whatsapp/generated/l10n.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
-  const SplashScreen({super.key, required this.userData});
+  const SplashScreen({super.key, this.userData,required this.hasLoading});
   final UserInfoEntity? userData;
+  final bool hasLoading;
   @override
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
@@ -25,10 +23,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   void _startDelay() async {
     _timer = Timer(const Duration(seconds: 1), () {
-      if (widget.userData == null) {
-        Navigator.pushNamedAndRemoveUntil(context, Routes.privacy, (_) => false);
-      } else {
+      if (ref.watch(userInfoProvider.notifier).state != null || widget.userData != null) {
         Navigator.pushNamedAndRemoveUntil(context, Routes.navigationMainScreen, (_) => false);
+      } else {
+        Navigator.pushNamedAndRemoveUntil(context, Routes.privacy, (_) => false);
       }
     });
   }
@@ -41,7 +39,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      _startDelay();
+      if (widget.hasLoading==false) {
+        _startDelay();
+      }
     });
   }
 

@@ -8,6 +8,7 @@ class UserInfoModel extends UserInfoEntity {
     required String profilePic,
     required String phoneNumber,
     required bool isOnline,
+    required String pushToken,
     required List<String> groupId,
     DateTime? lastSeen, // TODO: Remove this if not needed
     String status = 'offline',
@@ -19,6 +20,7 @@ class UserInfoModel extends UserInfoEntity {
           phoneNumber: phoneNumber,
           isOnline: isOnline,
           groupId: groupId,
+          pushToken: pushToken,
           lastSeen: lastSeen,
         );
 
@@ -31,6 +33,7 @@ class UserInfoModel extends UserInfoEntity {
       phoneNumber: map['phoneNumber'],
       isOnline: map['isOnline'],
       groupId: List<String>.from(map['groupId']),
+      pushToken: map['pushToken'],
       // lastSeen: DateTime.fromMillisecondsSinceEpoch(map['lastSeen']),
     );
   }
@@ -43,6 +46,7 @@ class UserInfoModel extends UserInfoEntity {
       'profilePic': profilePic,
       'phoneNumber': phoneNumber,
       'isOnline': isOnline,
+      'pushToken': pushToken,
       'groupId': groupId,
       'lastSeen': lastSeen!.millisecondsSinceEpoch,
     };

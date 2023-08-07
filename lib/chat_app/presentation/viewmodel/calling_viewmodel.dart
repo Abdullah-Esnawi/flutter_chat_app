@@ -7,6 +7,7 @@ import 'package:whatsapp/chat_app/di_module/module.dart';
 import 'package:whatsapp/chat_app/domain/entities/call_entity.dart';
 import 'package:whatsapp/chat_app/domain/usecases/call/end_call_usecase.dart';
 import 'package:whatsapp/chat_app/domain/usecases/call/make_call_usecase.dart';
+import 'package:whatsapp/chat_app/presentation/viewmodel/auth_viewmodel.dart';
 import 'package:whatsapp/chat_app/presentation/viewmodel/user_info_viewmodel.dart';
 import 'package:whatsapp/core/resources/widgets/snackbar.dart';
 import 'package:whatsapp/core/usecases/base_use_cases.dart';
@@ -32,7 +33,7 @@ class CallingViewmodel {
   }) async {
     RemoteObjectState<void> state = const RemoteObjectState.loading();
 
-    final user = await _ref.watch(userInfoProvider.future);
+    final user = await _ref.watch(getUserInfoFutureProvider.future);
 
     final callId = const Uuid().v1();
     final receiverData = CallEntity(

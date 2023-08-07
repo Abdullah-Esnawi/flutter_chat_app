@@ -28,7 +28,10 @@ class MessageWidget extends StatelessWidget {
         );
         break;
       case MessageType.image:
-        messageWidget = AppCachedImage(url: content, borderRadius: BorderRadius.circular(6));
+        messageWidget = AppCachedImage(
+          url: content,
+          borderRadius: BorderRadius.circular(6),
+        );
         break;
 
       case MessageType.gif:
@@ -76,20 +79,21 @@ class MessageWidget extends StatelessWidget {
               top: 4,
               bottom: 26,
             ),
-      child: Expanded(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (messageReplay != null)
-              MessageReplayWidget(
-                messageReplay: messageReplay!,
-                isPreviewMode: false, //
+      child: messageReplay != null
+          ? Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  MessageReplayWidget(
+                    messageReplay: messageReplay!,
+                    isPreviewMode: false, //
+                  ),
+                  messageWidget,
+                ],
               ),
-            messageWidget,
-          ],
-        ),
-      ),
+            )
+          : messageWidget,
     );
   }
 }
