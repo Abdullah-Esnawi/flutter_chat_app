@@ -15,7 +15,9 @@ It uses Firebase Cloud Firestore as well as the Firebase authentication package 
 
 [![IMAGE ALT TEXT](http://img.youtube.com/vi/c606WVVJyPQ/0.jpg)](http://www.youtube.com/watch?v=c606WVVJyPQ "Whatsapp Clone")
 
-<iframe width="500" height="300" src="https://www.youtube.com/embed/c606WVVJyPQ" frameborder="0" allowfullscreen></iframe>
+
+### Demo URL
+https://www.youtube.com/embed/c606WVVJyPQ
 
   
   
