@@ -13,7 +13,7 @@ It uses Firebase Cloud Firestore as well as the Firebase authentication package 
 
 ### Demo
 
-  <img src="https://github.com/Abdullah-Esnawi/flutter_chat_app/tree/master/blob/master/Screenshots/demo.gif?raw=false" width="30%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/Abdullah-Esnawi/flutter_chat_app/tree/master/blob/master/Screenshots/1.jpg?raw=false" width="30%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/Abdullah-Esnawi/flutter_chat_app/tree/master/blob/master/Screenshots/animate.gif?raw=false" width="30%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/Abdullah-Esnawi/flutter_chat_app/tree/master/blob/master/Screenshots/2.jpg?raw=false" width="30%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/Abdullah-Esnawi/flutter_chat_app/tree/master/blob/master/Screenshots/3.jpg?raw=false" width="30%">
+[![IMAGE ALT TEXT](http://img.youtube.com/vi/c606WVVJyPQ/0.jpg)](http://www.youtube.com/watch?v=c606WVVJyPQ "Whatsapp Clone")
   
   
 ### Core Dependencies
